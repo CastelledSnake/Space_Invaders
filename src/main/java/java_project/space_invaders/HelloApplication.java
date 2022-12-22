@@ -140,10 +140,10 @@ public class HelloApplication extends Application {
     public void checkCollision (Group lasers, Group aliens) {
         int lasers_size = lasers.getChildren().size();
         int aliens_size = aliens.getChildren().size();
-        int[][] eliminated = new int[Math.max(lasers_size,aliens_size)][2];
-        int target_laser_index=42069;
-        int target_alien_index=42069;
-        int k=0;
+        //int[][] eliminated = new int[Math.max(lasers_size,aliens_size)][2];
+        //int target_laser_index=42069;
+        //int target_alien_index=42069;
+        //int k=0;
         for (int i=0;i<lasers_size;i++) {
             for (int j=0;j<aliens_size;j++) {
                 double laser_i_x = lasers.getLayoutX() + lasers.getChildren().get(i).getLayoutX();
@@ -154,13 +154,13 @@ public class HelloApplication extends Application {
                 Node alien_j = aliens.getChildren().get(j);
                 if (((laser_i_y - alien_j_y) > 0 && (laser_i_y-alien_j_y)<100) &&
                         ((laser_i_x - alien_j_x) > 0 && (laser_i_x-alien_j_x)<150)) {
-                    eliminated[k][0] = i;
-                    eliminated[k][1] = j;
-                    k++;
-                    //System.out.println("The laser is at ("+laser_i_x+", "+laser_i_y+"). The alien is at ("+alien_j_x+", "+alien_j_y+").");
-                    //aliens.getChildren().remove(alien_j);
-                    //lasers.getChildren().remove(laser_i);
-                    //break;
+                    //eliminated[k][0] = i;
+                    //eliminated[k][1] = j;
+                    //k++;
+                    System.out.println("The laser is at ("+laser_i_x+", "+laser_i_y+"). The alien is at ("+alien_j_x+", "+alien_j_y+").");
+                    aliens.getChildren().remove(alien_j);
+                    lasers.getChildren().remove(laser_i);
+                    break;
                 }
                 /*
                 if (lasers.getChildren().get(i).getBoundsInParent().intersects(aliens.getChildren().get(j).getBoundsInParent())) {
@@ -170,10 +170,12 @@ public class HelloApplication extends Application {
                 }*/ //didn't work, but maybe there's something there
             }
         }
+        /*
         for (int t=0;t<k;t++){
             aliens.getChildren().remove(aliens.getChildren().get(eliminated[t][0]));
             lasers.getChildren().remove(lasers.getChildren().get(eliminated[t][1]));
-        }
+
+        }*/
     }
     public void checkOutOfBounds (Group lasers) {
         int lasers_size = lasers.getChildren().size();
