@@ -30,13 +30,16 @@ public class HelloApplication extends Application {
 
     public int pos_gr_alien=1;
 
-    double[] formalien= {0.0d,0.0d,10.0d,0.0d,10.0d,10.0d,
-            20.0d, 10.0d,20.0d,0.0d,30.0d,0.0d,30.0d,20.0d,0.0d,20.0d};
-    double[] formecanon= {0.0d,0.0d,20.0d,0.0d,20.0d,20.0d,
-            40.0d, 20.0d,40.0d,0.0d,60.0d,0.0d,60.0d,100.0d,0.0d,100.0d};
+    double[] formalien={0.0d,0.0d,40.0d,0.0d,40.0d,20.0d,0.0d,20.0d};
+    double[] formecanon= {0.0d,0.0d,60.0d,0.0d,60.0d,80.0d,0.0d,80.0d};
 
-    double[] formetir= {0.0d,0.0d,10.0d,0.0d,10.0d,10.0d,0.0d,10.0d};
+    double[] formetir= {0.0d,0.0d,20.0d,0.0d,20.0d,40.0d,0.0d,40.0d};
 
+    private static final String AlienURL="file:src\\main\\java\\Objet\\Image_alien.jpg";
+    private static final String VaisseauURL="file:src\\main\\java\\Objet\\Image_vaisseau.jpg";
+
+    private static final String TirAlienURL="file:src\\main\\java\\Objet\\Image_tir_1_d.png";
+    private static final String TirJoueurURL="file:src\\main\\java\\Objet\\Image_tir_1_u.png";
     public void depjoueur(KeyEvent e,Objet Player) {
         if (e.getCode() == KeyCode.LEFT && Player.getLayoutX()>0) {
             Player.setLayoutX(Player.getLayoutX()-6d);
@@ -139,7 +142,7 @@ public class HelloApplication extends Application {
         Group aliens = new Group();
         for (int i=0;i<alien_Xcapacity;i++){
             for (int j=0; j<alien_Ycapacity;j++) {
-                Objet alien = new Objet(10d + 50 * i, 10d+35*j, formalien, Color.LIMEGREEN);
+                Objet alien = new Objet(10d + 50 * i, 10d+35*j, formalien, Color.LIMEGREEN, AlienURL);
                 aliens.getChildren().add(alien);
             }
         }
@@ -147,7 +150,7 @@ public class HelloApplication extends Application {
         alien_path.getElements().add(new MoveTo(10d,10d));
 
 
-        Objet Player1= new Objet(screen_width/2,screen_height-110d,formecanon, Color.BLUE);
+        Objet Player1= new Objet(screen_width/2,screen_height-110d,formecanon, Color.LIMEGREEN,VaisseauURL);
 
 
         EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
@@ -163,7 +166,7 @@ public class HelloApplication extends Application {
                 depalien(aliens);
 
                 if (t==50) {
-                    Objet tirj = new Objet(Player1.getLayoutX()+25d,Player1.getLayoutY(),formetir,Color.RED);
+                    Objet tirj = new Objet(Player1.getLayoutX()+25d,Player1.getLayoutY(),formetir,Color.GREEN,TirJoueurURL);
                     tirs_joueurs.getChildren().add(tirj);
                     t=0;
                 }
@@ -171,7 +174,7 @@ public class HelloApplication extends Application {
 
                 if (getRandomNumber(0,60)==0) {
                     int a=getRandomNumber(0,aliens.getChildren().size());
-                    Objet tira = new Objet(aliens.getChildren().get(a).getLayoutX(),aliens.getChildren().get(a).getLayoutY(),formetir,Color.PURPLE);
+                    Objet tira = new Objet(aliens.getChildren().get(a).getLayoutX(),aliens.getChildren().get(a).getLayoutY(),formetir,Color.RED,TirAlienURL);
                     tirs_aliens.getChildren().add(tira);
                 }
 
