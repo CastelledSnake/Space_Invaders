@@ -7,12 +7,14 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.animation.SequentialTransition;
@@ -21,6 +23,7 @@ import javafx.animation.TranslateTransition;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Properties;
 import java.util.stream.DoubleStream;
 
 public class HelloApplication extends Application {
@@ -34,6 +37,8 @@ public class HelloApplication extends Application {
     double[] formecanon= {0.0d,0.0d,60.0d,0.0d,60.0d,80.0d,0.0d,80.0d};
 
     double[] formetir= {0.0d,0.0d,20.0d,0.0d,20.0d,40.0d,0.0d,40.0d};
+
+    double[] formebloc= {0.0d,0.0d,80.0d,0.0d,80.0d,20.0d,0.0d,20.0d};
 
     private static final String AlienURL="file:src\\main\\java\\Objet\\Image_alien.jpg";
     private static final String VaisseauURL="file:src\\main\\java\\Objet\\Image_vaisseau.jpg";
@@ -86,42 +91,46 @@ public class HelloApplication extends Application {
         }
     }
 
-    public Boolean memeposition(javafx.scene.Node g1, javafx.scene.Node g2,int m1, int m2, int m3, int m4) {
+    public Boolean memeposition(javafx.scene.Node g1, javafx.scene.Node g2,int xmin, int xmax, int ymin, int ymax) {
         double x1=g1.getLayoutX();
         double y1=g1.getLayoutY();
         double x2=g2.getLayoutX();
         double y2=g2.getLayoutY();
-        if (Math.abs(x1-x2+m1)<=m2 && Math.abs(y1-y2+m3)<=m4) return Boolean.TRUE;
+        if (x1-x2>xmin && x1-x2<xmax && y1-y2>ymin && y1-y2<ymax) return Boolean.TRUE;
         else return Boolean.FALSE;
     }
 
-    public void Collision(Group g1, Group g2, int m1, int m2, int m3, int m4) {
+    public void Collision(Group g1, Group g2, int xmin, int xmax, int ymin, int ymax) {
         int na=g1.getChildren().size();
         int nt=g2.getChildren().size();
-        int[][] a_supp=new int[Math.max(na,nt)][2];
-
-        for (int j=0; j<a_supp.length; j++) {
-            a_supp[j][0]=-1;
-            a_supp[j][1]=-1;
-        }
 
         int i=0;
         for (int a=0;a<na;a++) {
             for (int t=0; t<nt;t++) {
-                if (memeposition(g1.getChildren().get(a),g2.getChildren().get(t),m1,m2,m3,m4)){
-                    a_supp[i][0]=a;
-                    a_supp[i][1]=t;
-                    i++;
+                if (memeposition(g1.getChildren().get(a),g2.getChildren().get(t),xmin,xmax,ymin,ymax)){
+
+                    String vie1=g1.getChildren().get(a).getAccessibleText();
+                    String vie2=g2.getChildren().get(t).getAccessibleText();
+
+                    int nvie1=Integer.parseInt(vie1)-1;
+                    int nvie2=Integer.parseInt(vie2)-1;
+
+                    g1.getChildren().get(a).setAccessibleText(Integer.toString(nvie1));
+                    g2.getChildren().get(t).setAccessibleText(Integer.toString(nvie2));
+
                 }
             }
         }
+    }
 
-        for (int j=0; j<a_supp.length; j++) {
-            if (a_supp[j][0]!=-1){
-                g1.getChildren().remove(a_supp[j][0]);
-                g2.getChildren().remove(a_supp[j][1]);
-            }
+    public void supp(Group g) {
+        ArrayList<javafx.scene.Node> a_supp=new ArrayList<>();
+
+        for (javafx.scene.Node elem : g.getChildren()) {
+            if (elem.getAccessibleText().equals("0")) a_supp.add(elem);
         }
+
+        for (javafx.scene.Node elem : a_supp) g.getChildren().remove(elem);
     }
 
     public int getRandomNumber(int min, int max) {
@@ -137,21 +146,39 @@ public class HelloApplication extends Application {
         int alien_Ycapacity = (int) 3;
         BorderPane root = new BorderPane(); //investigate Group root
         Scene scene = new Scene(root, screen_width, screen_height, Color.BLACK);
+
         Group tirs_joueurs=new Group();
+
         Group tirs_aliens=new Group();
+
+
         Group aliens = new Group();
+
         for (int i=0;i<alien_Xcapacity;i++){
             for (int j=0; j<alien_Ycapacity;j++) {
-                Objet alien = new Objet(10d + 50 * i, 10d+35*j, formalien, Color.LIMEGREEN, AlienURL);
+                Objet alien = new Objet(10d + 50 * i, 10d+35*j, formalien, Color.LIMEGREEN, AlienURL,1);
                 aliens.getChildren().add(alien);
+
             }
         }
-        Path alien_path = new Path();
-        alien_path.getElements().add(new MoveTo(10d,10d));
+
+        Group blocks=new Group();
+        Group vie_blocks=new Group();
+        for (int i=0; i<4; i++) {
+            Objet block = new Objet(screen_width * (i) / 4 + 110d, screen_height - 200d, formebloc, Color.LIMEGREEN, "NULL", 10);
+            blocks.getChildren().add(block);
+            Text v = new Text(block.getAccessibleText());
+            v.setFill(Color.WHITE);
+            vie_blocks.getChildren().add(v);
+            v.setX(block.getLayoutX());
+            v.setY(block.getLayoutY());
+        }
 
 
-        Objet Player1= new Objet(screen_width/2,screen_height-110d,formecanon, Color.LIMEGREEN,VaisseauURL);
+        Objet Player1= new Objet(screen_width/2,screen_height-110d,formecanon, Color.LIMEGREEN,VaisseauURL,2);
 
+        Text vie_joueur= new Text(Player1.getAccessibleText());
+        vie_joueur.setFill(Color.WHITE);
 
         EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
             @Override
@@ -163,31 +190,59 @@ public class HelloApplication extends Application {
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
+                //pattern de déplacement des aliens
                 depalien(aliens);
 
+                //tir du joueur tous les 50 mouvements
                 if (t==50) {
-                    Objet tirj = new Objet(Player1.getLayoutX()+25d,Player1.getLayoutY(),formetir,Color.GREEN,TirJoueurURL);
+                    Objet tirj = new Objet(Player1.getLayoutX()+25d,Player1.getLayoutY(),formetir,Color.GREEN,TirJoueurURL,1);
                     tirs_joueurs.getChildren().add(tirj);
                     t=0;
                 }
                 else t++;
 
+                //tir des aliens
                 if (getRandomNumber(0,60)==0) {
                     int a=getRandomNumber(0,aliens.getChildren().size());
-                    Objet tira = new Objet(aliens.getChildren().get(a).getLayoutX(),aliens.getChildren().get(a).getLayoutY(),formetir,Color.RED,TirAlienURL);
+                    Objet tira = new Objet(aliens.getChildren().get(a).getLayoutX(),aliens.getChildren().get(a).getLayoutY(),formetir,Color.RED,TirAlienURL,1);
                     tirs_aliens.getChildren().add(tira);
                 }
 
+                //déplacement des tirs
                 Tirup(tirs_joueurs);
                 Tirdown(tirs_aliens);
+                //enlever les tirs en dehors
                 tirs_joueurs.getChildren().removeIf(elem -> elem.getLayoutY()<0);
                 tirs_aliens.getChildren().removeIf(elem -> elem.getLayoutY()>700);
-                Collision(aliens,tirs_joueurs,15,5,0,15);
-                Collision(tirs_aliens,tirs_joueurs,0,0,0,0);
+
+                //gestion des collisions
+                Collision(aliens,tirs_joueurs,-50,10,-15,5);
+                Collision(tirs_aliens,tirs_joueurs,-30,10,-10,0);
+                Collision(tirs_aliens,blocks,-10,80,-10,10);
+                Collision(tirs_joueurs,blocks,-10,80,-10,10);
+                //retirer si plus de vie
+                supp(aliens);
+                supp(tirs_joueurs);
+                supp(tirs_aliens);
+                supp(blocks);
+
+                //affichage des vies du joueur (collision avec joueur encore à faire), contenu à changer (voir blocks)
+                vie_joueur.setX(Player1.getLayoutX());
+                vie_joueur.setY(Player1.getLayoutY());
+
+                //affichage des vies des blocks
+                vie_blocks.getChildren().clear();
+                for (int i=0; i<blocks.getChildren().size(); i++) {
+                    Text v = new Text(blocks.getChildren().get(i).getAccessibleText());
+                    v.setFill(Color.WHITE);
+                    v.setX(blocks.getChildren().get(i).getLayoutX());
+                    v.setY(blocks.getChildren().get(i).getLayoutY());
+                    vie_blocks.getChildren().add(v);
+                }
             }
         };
         scene.addEventHandler(KeyEvent.KEY_PRESSED,keyListener);
-        root.getChildren().addAll(aliens,Player1,tirs_joueurs,tirs_aliens);
+        root.getChildren().addAll(aliens,Player1,tirs_joueurs,tirs_aliens,blocks,vie_joueur,vie_blocks);
         loop.start();
         stage.setTitle("Space Invaders");
         stage.setScene(scene);

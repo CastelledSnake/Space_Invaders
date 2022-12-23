@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public class Objet extends Polygon {
 
-    public Objet (double x, double y, double[] forme, Color color,String ImageURL) {
+    public Objet (double x, double y, double[] forme, Color color,String ImageURL, int vie) {
         for (double point : forme) {
             this.getPoints().add(point);
         }
@@ -21,6 +21,7 @@ public class Objet extends Polygon {
         }
         this.setLayoutX(x);
         this.setLayoutY(y);
+        this.setAccessibleText(Integer.toString(vie));
 
     }
 
