@@ -174,7 +174,7 @@ public class Game {
                         //Platform.exit();
                     }
                     else if (Player1.getAccessibleText().equals("0")
-                            || Objet.test_fin_alien(aliens,300)) {  // PERDU
+                            || Objet.test_fin_alien(aliens,300, "DOWN")) {  // PERDU
                         EndOfGame.endOfGame_1_joueur(stage, false,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
                                 aliens.getChildren().size());
