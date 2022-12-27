@@ -12,6 +12,8 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        //System.out.println(Screen.getPrimary().getBounds().getHeight());
+        //Game.game_1_joueur(stage,5,3);
         Menu.menu(stage);
     }
 
