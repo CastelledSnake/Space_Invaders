@@ -47,8 +47,8 @@ public class EndOfGame {
          * Gère l'affichage des informations en fin de partie.
          */
         Text score = new Text();
-        if (restants==0) score.setText(String.format("Aliens Killed !\nTime %f", temps));
-        else score.setText(String.format("Remaining %d\nTime %.2fs", restants, temps));
+        if (restants==0) score.setText(String.format("Aliens Killed !\nTime %.2fs", temps));
+        else score.setText(String.format("Remaining: %d\nTime %.2fs", restants, temps));
         score.setFont(Font.font("Impact", FontWeight.BOLD,30));
         score.setFill(Color.LIMEGREEN);
         score.setLayoutX(-100+screen0_width/2);
@@ -62,7 +62,7 @@ public class EndOfGame {
          * En fait, il s'agit des redirections vers le menu, ou pour quitter le jeu.
          */
         Text options = new Text();
-        options.setText("Main Menu\n\nQuit");
+        options.setText("Main Menu");
         options.setFont(Font.font("Impact", FontWeight.NORMAL,30));
         options.setFill(Color.LIMEGREEN);
         options.setLayoutX(-60+screen0_width/2);
