@@ -22,8 +22,8 @@ public class Menu {
 
 
     //Options de jeu, modifiables par l'utilisateur
-    static int numTirJoueur=1;
-    static int numTirAlien=2;
+    static int numTirJoueur=5;
+    static int numTirAlien=3;
 
 
 
@@ -70,9 +70,13 @@ public class Menu {
     }
 
     public static void mainMenuSelection(MouseEvent e, Stage stage) throws IOException {
-        if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>470 && e.getSceneY()<510) {
+        if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>420 && e.getSceneY()<450) {
             System.out.println(1);
             Game.game_1_joueur(stage,numTirJoueur,numTirAlien);
+        }
+        else if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>490 && e.getSceneY()<530) {
+            System.out.println(1);
+            Game.game_2_joueurs(stage,numTirJoueur,numTirJoueur,numTirAlien);
         }
     }
 
@@ -81,9 +85,9 @@ public class Menu {
 
         //scene 0 - Main Menu
         double screen0_width = 1200;
-        double screen0_height = 800;
+        double screen0_height = 700;
         BorderPane root0 = new BorderPane();
-        Image main_background = new Image(MainBackgroundURL,1200,800,false,false);
+        Image main_background = new Image(MainBackgroundURL,1200,700,false,false);
         root0.setBackground(new Background((new BackgroundImage(main_background,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
@@ -98,9 +102,9 @@ public class Menu {
 
         //scene2 - Options (inutilisé pour l'instant)
         double screen2_width = 1200;
-        double screen2_height = 800;
+        double screen2_height = 700;
         BorderPane root2 = new BorderPane();
-        Image options_background = new Image(MainBackgroundURL,1200,800,false,false);
+        Image options_background = new Image(MainBackgroundURL,1200,700,false,false);
         root2.setBackground(new Background((new BackgroundImage(main_background,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
