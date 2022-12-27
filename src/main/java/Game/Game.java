@@ -165,20 +165,18 @@ public class Game {
                     temps.setText(Float.toString((System.currentTimeMillis() - temps_debut-tempause) / 1000F));
 
 
-
-                    ////////////VINCENT CASTELLAN////////////////
-                    // créer des pages de fin sur le modèle des menus
-                    // selon victoire ou défaite, différencier lignes suivantes et remplacer Platform.exit()
-                    // par un appel aux fonctions correspondantes
-                    // important : transmettre Stage stage
                     if (aliens.getChildren().size()==0) {   // GAGNE
-                        EndOfGame.endOfGame_1_joueur(stage, true);
+                        EndOfGame.endOfGame_1_joueur(stage, true,
+                                (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
+                                0);
                         stop();
                         //Platform.exit();
                     }
                     else if (Player1.getAccessibleText().equals("0")
                             || Objet.test_fin_alien(aliens,300)) {  // PERDU
-                        EndOfGame.endOfGame_1_joueur(stage, false);
+                        EndOfGame.endOfGame_1_joueur(stage, false,
+                                (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
+                                aliens.getChildren().size());
                         stop();
                         //Platform.exit();
                     }

@@ -28,13 +28,32 @@ public class EndOfGame {
          */
         //https://docs.oracle.com/javafx/2/text/jfxpub-text.htm
         Text title = new Text();
-        if (victory) title.setText("VICTORY !");
-        else title.setText("EARTH HES BEEN DEFEATED");
+        if (victory) {
+            title.setText("VICTORY !");
+            title.setLayoutX(-200 + screen0_width/2);
+        }
+        else {
+            title.setText("EARTH HAS BEEN DEFEATED");
+            title.setLayoutX(-500 + screen0_width/2);
+        }
         title.setFont(Font.font("Impact", FontWeight.BOLD,100));
         title.setFill(Color.LIMEGREEN);
-        title.setLayoutX(-310+screen0_width/2);
-        title.setLayoutY(-100+screen0_height/2);
+        title.setLayoutY(-250 + screen0_height/2);
         return title;
+    }
+
+    public static Text endOfGameResults(double screen0_width, double screen0_height, float temps, int restants){
+        /**
+         * Gère l'affichage des informations en fin de partie.
+         */
+        Text score = new Text();
+        if (restants==0) score.setText(String.format("Aliens Killed !\nTime %f", temps));
+        else score.setText(String.format("Remaining %d\nTime %.2fs", restants, temps));
+        score.setFont(Font.font("Impact", FontWeight.BOLD,30));
+        score.setFill(Color.LIMEGREEN);
+        score.setLayoutX(-100+screen0_width/2);
+        score.setLayoutY(-100+screen0_height/2);
+        return score;
     }
 
     public static Text endOfGameOptions(double screen0_width, double screen0_height) {
@@ -58,7 +77,7 @@ public class EndOfGame {
         }
     }
 
-    public static void endOfGame_1_joueur(Stage stage, boolean victory) {
+    public static void endOfGame_1_joueur(Stage stage, boolean victory, float temps, int restants) {
         /**
          * Fonction principale de la partie Fin de Jeu.
          * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
@@ -74,8 +93,9 @@ public class EndOfGame {
                 BackgroundSize.DEFAULT))));
         Scene scene0 = new Scene(root0, screen0_width, screen0_height, Color.BLACK);
         Text title = endOfGameTitle(screen0_width, screen0_height, victory);
+        Text score = endOfGameResults(screen0_width, screen0_height, temps, restants);
         Text options = endOfGameOptions(screen0_width, screen0_height);
-        root0.getChildren().addAll(title, options);
+        root0.getChildren().addAll(title, score, options);
 
 
         EventHandler<MouseEvent> mouseListener = new EventHandler<MouseEvent>() {
