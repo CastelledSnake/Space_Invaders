@@ -1,6 +1,7 @@
 package Game;
 
 import Objet.Objet;
+import EndOfGame.EndOfGame;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -165,18 +166,23 @@ public class Game {
 
 
 
-                    ////////////VINCENT CASTELAN////////////////
+                    ////////////VINCENT CASTELLAN////////////////
                     // créer des pages de fin sur le modèle des menus
                     // selon victoire ou défaite, différencier lignes suivantes et remplacer Platform.exit()
                     // par un appel aux fonctions correspondantes
                     // important : transmettre Stage stage
-                    if (aliens.getChildren().size()==0
-                            || Player1.getAccessibleText().equals("0")
-                                || Objet.test_fin_alien(aliens,300)) {
-                        Platform.exit();
+                    if (aliens.getChildren().size()==0) {   // GAGNE
+                        EndOfGame.endOfGame_1_joueur(stage, true);
+                        stop();
+                        //Platform.exit();
+                    }
+                    else if (Player1.getAccessibleText().equals("0")
+                            || Objet.test_fin_alien(aliens,300)) {  // PERDU
+                        EndOfGame.endOfGame_1_joueur(stage, false);
+                        stop();
+                        //Platform.exit();
                     }
                 }
-
             }
         };
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
