@@ -24,8 +24,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
-
-
+import java.nio.file.Paths;
 
 
 public class Game {
@@ -40,16 +39,21 @@ public class Game {
     public static long tpa=0;
 
     private static final String FondURL = "file:src\\main\\resources\\Image_fond\\Image_fond_1.jpg";
-    private static final String MusiqueUrl="src\\main\\resources\\Musique\\Musique_1.mp3";
-
+    private static final String MusiqueUrl="src\\main\\resources\\Musique\\FinalCountdown.mp3";
+    static MediaPlayer player;
     public static int res;
 
 
-
-
+    // Nouveau joueur de musique :
+    public static void music(String URL) {
+        Media sound = new Media(Paths.get(URL).toUri().toString());
+        player = new MediaPlayer(sound);
+        player.setCycleCount(MediaPlayer.INDEFINITE);
+        player.getOnRepeat();
+        player.play();
+    }
 
     public static void game_1_joueur(Stage stage,int numTirJoueur, int numTirAlien) throws IOException {
-
 
         double screen_width = 1200;
         double screen_height = 700;
@@ -57,7 +61,8 @@ public class Game {
         BorderPane root = new BorderPane(); //investigate Group root
         Scene scene = new Scene(root, screen_width, screen_height, Color.BLACK);
 
-
+        // Ancien joueur de musique :
+        /*
         Media sound = new Media(new File(MusiqueUrl).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -66,6 +71,7 @@ public class Game {
             }
         });
         mediaPlayer.play();
+        */
 
         Image image_fond= new Image(FondURL);
         scene.setFill(new ImagePattern(image_fond, 0, 0, 1, 1, true));
@@ -95,6 +101,8 @@ public class Game {
         text_pause.setX(480);
         text_pause.setY(350);
 
+        music(MusiqueUrl);
+
         EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
@@ -121,7 +129,7 @@ public class Game {
             @Override
             public void handle(long l) {
                 if (!pause) {
-                    //pattern de déplacement des aliens
+                    //Modèle de déplacement des aliens :
                     //pos_gr_alien : position sur l'écran, pour savoir quand faire demi-tour
                     //deplacement : sens de déplacement des aliens
                     int ret[];
@@ -167,6 +175,7 @@ public class Game {
 
 
                     if (aliens.getChildren().size()==0) {   // GAGNE
+                        player.stop();
                         EndOfGame.endOfGame_1_joueur(stage, true,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
                                 0);
@@ -175,6 +184,7 @@ public class Game {
                     }
                     else if (Player1.getAccessibleText().equals("0")
                             || Objet.test_fin_alien(aliens,300, "DOWN")) {  // PERDU
+                        player.stop();
                         EndOfGame.endOfGame_1_joueur(stage, false,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
                                 aliens.getChildren().size());
