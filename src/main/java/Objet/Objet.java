@@ -121,7 +121,7 @@ public class Objet extends Polygon {
     //gère les déplacements coordonnés du groupe d'alien
     public static int[] depalien(Group aliens, int pos_gr_alien, int deplacement, String direction) {
         int n_alien = aliens.getChildren().size();
-        if ((pos_gr_alien == 0 && deplacement == -1) || (pos_gr_alien == 800 && deplacement == 1)) {
+        if ((pos_gr_alien == 0 && deplacement == -1) || (pos_gr_alien == 1200 && deplacement == 1)) {
             deplacement = -deplacement;
             if (direction.equals("DOWN")) {
                 for (int i = 0; i < n_alien; i++) {

@@ -175,21 +175,25 @@ public class Game {
 
 
                     if (aliens.getChildren().size()==0) {   // GAGNE
-                        player.stop();
-                        EndOfGame.endOfGame_1_joueur(stage, true,
+                        EndOfGame.endOfGame_1_joueur(stage, 0,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
-                                0);
+                                0,
+                                player);
                         stop();
-                        //Platform.exit();
                     }
-                    else if (Player1.getAccessibleText().equals("0")
-                            || Objet.test_fin_alien(aliens,300, "DOWN")) {  // PERDU
-                        player.stop();
-                        EndOfGame.endOfGame_1_joueur(stage, false,
+                    else if (Player1.getAccessibleText().equals("0")) {  // PERDU : le joueur est mort.
+                        EndOfGame.endOfGame_1_joueur(stage, 1,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
-                                aliens.getChildren().size());
+                                aliens.getChildren().size(),
+                                player);
                         stop();
-                        //Platform.exit();
+                    }
+                    else if (Objet.test_fin_alien(aliens,300, "DOWN")) {    // PERDU : les aliens ont atteint la Terre.
+                        EndOfGame.endOfGame_1_joueur(stage, 1,
+                                (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
+                                aliens.getChildren().size(),
+                                player);
+                        stop();
                     }
                 }
             }
@@ -211,16 +215,6 @@ public class Game {
         long temps_debut=System.currentTimeMillis();
         BorderPane root = new BorderPane(); //investigate Group root
         Scene scene = new Scene(root, screen_width, screen_height, Color.BLACK);
-
-
-        Media sound = new Media(new File(MusiqueUrl).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                mediaPlayer.seek(Duration.ZERO);
-            }
-        });
-        mediaPlayer.play();
 
         Image image_fond= new Image(FondURL);
         scene.setFill(new ImagePattern(image_fond, 0, 0, 1, 1, true));
@@ -258,6 +252,8 @@ public class Game {
         text_pause.setFill(Color.WHITE);
         text_pause.setX(480);
         text_pause.setY(350);
+
+        music(MusiqueUrl);
 
         EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
             @Override
