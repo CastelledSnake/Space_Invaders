@@ -2,16 +2,16 @@ package Objet;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Random;
 
 public class Objet extends Polygon {
 
@@ -22,13 +22,15 @@ public class Objet extends Polygon {
     static double[] formetir = {0.0d, 0.0d, 20.0d, 0.0d, 20.0d, 40.0d, 0.0d, 40.0d};
     static double[] formebloc = {0.0d, 0.0d, 80.0d, 0.0d, 80.0d, 20.0d, 0.0d, 20.0d};
 
-    private static final String AlienURL = "file:src\\main\\resources\\Image_alien\\Image_alien.png";
-    private static final String VaisseauURL = "file:src\\main\\resources\\Image_vaisseau\\Image_vaisseau.png";
+    public static final String AlienURL = "file:src\\main\\resources\\Image_alien\\Image_alien.png";
+    public static final String AlienURL_r = "file:src\\main\\resources\\Image_alien\\Image_alien_r.png";
+    public static final String VaisseauURL = "file:src\\main\\resources\\Image_vaisseau\\Image_vaisseau.png";
+    public static final String VaisseauURL_r = "file:src\\main\\resources\\Image_vaisseau\\Image_vaisseau_r.png";
 
 
-    private static final String Tir="file:src\\main\\resources\\Image_tir\\Image_tir_";
-    private static final String Tir_down="_d.png";
-    private static final String Tir_up="_u.png";
+    public static final String Tir="file:src\\main\\resources\\Image_tir\\Image_tir_";
+    public static final String Tir_down="_d.png";
+    public static final String Tir_up="_u.png";
 
 
     //initialise un objet
@@ -36,10 +38,12 @@ public class Objet extends Polygon {
         for (double point : forme) {
             this.getPoints().add(point);
         }
+
         if (ImageURL.equals("NULL")) this.setFill(color);
         else {
             Image image = new Image(ImageURL);
-            this.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
+            if (image.isError()) this.setFill(color);
+            else this.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
         }
         this.setLayoutX(x);
         this.setLayoutY(y);
@@ -51,7 +55,8 @@ public class Objet extends Polygon {
 
     //donne un nombre aléatoire entre min et max
     public static int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+        Random r = new Random();
+        return (int) ((r.nextDouble() * (max - min)) + min);
     }
 
     //renvoie si deux éléments sont en collision
@@ -65,51 +70,43 @@ public class Objet extends Polygon {
     }
     //-----------------INITIALISATION-------------------
 
-    public static Objet init_Player() {
-        return(new Objet(600, 490, formecanon, Color.LIMEGREEN, VaisseauURL, 2));
-    }
+    //voir classes filles (position)
 
-    public static void init_aliens(Group aliens) {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 3; j++) {
-                Objet alien = new Objet(10d + 50 * i, 10d + 35 * j, formalien, Color.LIMEGREEN, AlienURL, 1);
-                aliens.getChildren().add(alien);
-            }
-        }
-    }
-
-    public static void init_blocks(Group blocks, Group vie_blocks) {
-        for (int i = 0; i < 4; i++) {
-            Objet block = new Objet(300 * i + 110d, 400, formebloc, Color.LIMEGREEN, "NULL", 10);
-            blocks.getChildren().add(block);
-            Text v = new Text(block.getAccessibleText());
-            v.setFill(Color.WHITE);
-            vie_blocks.getChildren().add(v);
-            v.setX(block.getLayoutX());
-            v.setY(block.getLayoutY());
-        }
-    }
-
-    //-----------------------TIRS
+    //-----------------------TIRS-------------------
 
     //crée un tir du joueur
-    public static int tir_joueur(int n,Objet Player1, Group tirs_joueurs, int t, int numtir) {
+    public static int tir_joueur(int n,Objet Player1, Group tirs_joueurs, int t, int numtir, String direction) {
         if (t == n) {
-            String TirJoueurURL=Tir+numtir+Tir_up;
-            Objet tirj = new Objet(Player1.getLayoutX() + 25d, Player1.getLayoutY(), formetir, Color.GREEN, TirJoueurURL, 1);
-            tirs_joueurs.getChildren().add(tirj);
+            if (direction.equals("UP")) {
+                String TirJoueurURL = Tir + numtir + Tir_up;
+                Objet tirj = new Objet(Player1.getLayoutX() + 25d, Player1.getLayoutY(), formetir, Color.GREEN, TirJoueurURL, 1);
+                tirs_joueurs.getChildren().add(tirj);
+            } else if (direction.equals("DOWN")) {
+                String TirJoueurURL = Tir + numtir + Tir_down;
+                Objet tirj = new Objet(Player1.getLayoutX() + 25d, Player1.getLayoutY(), formetir, Color.GREEN, TirJoueurURL, 1);
+                tirs_joueurs.getChildren().add(tirj);
+            }
             t = 0;
         } else t++;
         return(t);
     }
 
     //crée un tir d'alien
-    public static void tir_alien(Group aliens, Group tirs_aliens, int numtir) {
-        if (Objet.getRandomNumber(0, 60) == 0) {
-            String TirAlienURL=Tir+numtir+Tir_down;
-            int a = Objet.getRandomNumber(0, aliens.getChildren().size());
-            Objet tira = new Objet(aliens.getChildren().get(a).getLayoutX(), aliens.getChildren().get(a).getLayoutY(), formetir, Color.RED, TirAlienURL, 1);
-            tirs_aliens.getChildren().add(tira);
+    public static void tir_alien(Group aliens, Group tirs_aliens, int numtir, String direction, int proba) {
+        if (proba>0) {
+            if (Objet.getRandomNumber(0, proba) == 0) {
+                if (direction.equals("DOWN")) {
+                    String TirAlienURL = Tir + numtir + Tir_down;
+                    int a = Objet.getRandomNumber(0, aliens.getChildren().size());
+                    Objet tira = new Objet(aliens.getChildren().get(a).getLayoutX(), aliens.getChildren().get(a).getLayoutY(), formetir, Color.RED, TirAlienURL, 1);
+                    tirs_aliens.getChildren().add(tira);
+                } else if (direction.equals("UP")) {
+                    String TirAlienURL = Tir + numtir + Tir_up;
+                    int a = Objet.getRandomNumber(0, aliens.getChildren().size());
+                    Objet tira = new Objet(aliens.getChildren().get(a).getLayoutX(), aliens.getChildren().get(a).getLayoutY(), formetir, Color.RED, TirAlienURL, 1);
+                    tirs_aliens.getChildren().add(tira);
+                }
+            }
         }
     }
 
@@ -118,33 +115,39 @@ public class Objet extends Polygon {
     //-----------------DEPLACEMENTS---------------------
 
     //gère les déplacements du joueur
-    public static void depjoueur(KeyEvent e, Objet Player) {
-        if (e.getCode() == KeyCode.LEFT && Player.getLayoutX() > 0) {
-            Player.setLayoutX(Player.getLayoutX() - 6d);
+    public static void depjoueur(KeyEvent e, Objet Player, int niveau) {
+        if ((e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.Q) && Player.getLayoutX() > 0) {
+            Player.setLayoutX(Player.getLayoutX() - 6d - niveau);
         }
-        if (e.getCode() == KeyCode.RIGHT && Player.getLayoutX() < 1140) {
-            Player.setLayoutX(Player.getLayoutX() + 6d);
+        if ((e.getCode() == KeyCode.RIGHT || e.getCode() == KeyCode.D) && Player.getLayoutX() < 1140) {
+            Player.setLayoutX(Player.getLayoutX() + 6d + niveau);
         }
     }
 
     //gère les déplacements coordonnés du groupe d'alien
-    public static int[] depalien(Group aliens, int pos_gr_alien, int deplacement) {
+    public static int[] depalien(Group aliens, int pos_gr_alien, int deplacement, String direction, int difficulté) {
         int n_alien = aliens.getChildren().size();
-        if ((pos_gr_alien == 0 && deplacement == -1) || (pos_gr_alien == 800 && deplacement == 1)) {
+        if ((pos_gr_alien < 0 && deplacement == -1) || (pos_gr_alien > 800 && deplacement == 1)) {
             deplacement = -deplacement;
-            for (int i = 0; i < n_alien; i++) {
-                aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() + 10d);
+            if (direction.equals("DOWN")) {
+                for (int i = 0; i < n_alien; i++) {
+                    aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() + 20d);
+                }
+            } else if (direction.equals("UP")) {
+                for (int i = 0; i < n_alien; i++) {
+                    aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() - 20d);
+                }
             }
         } else if (deplacement == 1) {
             for (int i = 0; i < n_alien; i++) {
-                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 1d);
+                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 2d + difficulté/5);
             }
-            pos_gr_alien++;
+            pos_gr_alien=pos_gr_alien+2+difficulté/5;
         } else if (deplacement == -1) {
             for (int i = 0; i < n_alien; i++) {
-                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 1d);
+                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 2d -difficulté/5);
             }
-            pos_gr_alien--;
+            pos_gr_alien=pos_gr_alien-2-difficulté/5;
         }
         int ret[]=new int[2];
         ret[0]=pos_gr_alien;
@@ -152,20 +155,35 @@ public class Objet extends Polygon {
         return(ret);
     }
 
-    //fait descendre les éléments  d'un groupe de tirs
-    public static void Tirup(Group tirs) {
+
+    public static void Tir(Group tirs, String direction, int niveau) {
         int n = tirs.getChildren().size();
-        for (int i = 0; i < n; i++) {
-            tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() - 3d);
+        if (direction.equals("UP")) {
+            for (int i = 0; i < n; i++) {
+                tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() - 2d - niveau/2);
+            }
+        } else if (direction.equals("DOWN")) {
+            for (int i = 0; i < n; i++) {
+                tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() + 2d + niveau/2);
+            }
+
         }
     }
 
-    //fait monter les éléments d'un groupe de tirs
-    public static void Tirdown(Group tirs) {
-        int n = tirs.getChildren().size();
-        for (int i = 0; i < n; i++) {
-            tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() + 3d);
+
+    //teste si les aliens sont dans le domaine du joueur -> fin de jeu
+    public static boolean test_fin_alien(Group aliens,int limite,String direction) {
+        int n=aliens.getChildren().size();
+        double min=aliens.getChildren().get(0).getLayoutY();
+        double max=aliens.getChildren().get(0).getLayoutY();
+        for (int i=0; i<n;i++) {
+            if (aliens.getChildren().get(i).getLayoutY()>min) min=aliens.getChildren().get(i).getLayoutY();
+            if (aliens.getChildren().get(i).getLayoutY()<max) max=aliens.getChildren().get(i).getLayoutY();
         }
+        if ((direction.equals("DOWN") && max > limite)||(direction.equals("UP")&& min < limite)) {
+                return (true);
+        }
+        return(false);
     }
 
     //----------------------GESTION DES VIES
@@ -207,12 +225,29 @@ public class Objet extends Polygon {
         }
     }
 
+    public static void Collision_joueur(Objet Player, Group tir,int xmin, int xmax, int ymin, int ymax) {
+        int n=tir.getChildren().size();
+
+        for (int i=0; i<n; i++) {
+            if (memeposition(Player,tir.getChildren().get(i),xmin,xmax,ymin,ymax)) {
+                String vie_joueur = Player.getAccessibleText();
+                String vie_tir = tir.getChildren().get(i).getAccessibleText();
+
+                int int_j = Integer.parseInt(vie_joueur) - 1;
+                int int_t = Integer.parseInt(vie_tir) - 1;
+
+                Player.setAccessibleText(Integer.toString(int_j));
+                tir.getChildren().get(i).setAccessibleText(Integer.toString(int_t));
+            }
+        }
+    }
+
     //supprime les éléments en collision
     public static void supp(Group g) {
         ArrayList<Node> a_supp = new ArrayList<>();
 
         for (javafx.scene.Node elem : g.getChildren()) {
-            if (elem.getAccessibleText().equals("0")) a_supp.add(elem);
+            if (Integer.valueOf(elem.getAccessibleText())<=0) a_supp.add(elem);
         }
 
         for (javafx.scene.Node elem : a_supp) g.getChildren().remove(elem);
