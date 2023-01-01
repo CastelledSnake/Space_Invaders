@@ -5,25 +5,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
- * Classe Objet spécifiques au jeu 2 Joueurs
+ * Classe Objet spécifique au jeu 2 Joueurs
  */
 public class Objet_2J extends Objet{
 
     /**
-     * Hérite directement de Objet
-     * @param x
-     * @param y
-     * @param forme
-     * @param color
-     * @param ImageURL
-     * @param vie
+     * Hérite directement d'Objet
+     * @param x coordonnées : abcisse
+     * @param y coordonnées : ordonnées
+     * @param forme polygone affiché si l'image liée à l'objet n'est pas disponible
+     * @param color couleur du polygone du cas précédent
+     * @param ImageURL adresse relative du fichier image de l'objet
+     * @param vie nombre de vies de l'objet
      */
     public Objet_2J(double x, double y, double[] forme, Color color, String ImageURL, int vie) {
         super(x, y,forme,color,ImageURL, vie);
     }
 
     /**
-     * Initialise les joueur dans le cas du jeu 2 Joueurs
+     * Initialise les joueurs dans le cas du jeu 2 Joueurs
      * @param side donne le côté de l'écran du joueur à initialiser
      * @param vie nombre de vies du joueur à initialiser
      * @return le nouveau joueur
@@ -94,10 +94,10 @@ public class Objet_2J extends Objet{
      * @param difficulté indice de difficulté : plus haut -> joueurs se déplacent plus vite
      */
     public static void dep_2_joueurs(Objet Player1, Objet Player2, int dep1, int dep2, int difficulté) {
-        if (((dep1==1)&&(Player1.getLayoutX()<1140))||(dep1==-1&&Player1.getLayoutX()>0)) {
+        if (((dep1==1) && (Player1.getLayoutX()<1140)) || (dep1==-1 && Player1.getLayoutX()>0)) {
             Player1.setLayoutX(Player1.getLayoutX() + dep1 * (2d+difficulté/5));
         }
-        if (((dep2==1)&&(Player2.getLayoutX()<1140))||((dep2==-1)&&(Player2.getLayoutX()>0))) {
+        if (((dep2==1) && (Player2.getLayoutX()<1140)) || ((dep2==-1) && (Player2.getLayoutX()>0))) {
             Player2.setLayoutX(Player2.getLayoutX() + dep2 * (2d+difficulté/5));
         }
     }

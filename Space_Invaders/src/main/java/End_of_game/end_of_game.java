@@ -21,12 +21,15 @@ public class end_of_game {
 
     private static final String MainBackgroundURL="file:src\\main\\resources\\Image_menu\\Image_menu_1.jpg";    // Le fond d'écran
     static double screen0_width = 1200;
-    static double screen0_height = 800;
+    static double screen0_height = 700;
 
+    /**
+     * Définit le titre de l'écran de fin du jeu.
+     * @param reason Entier donnant la raison de la fin de partie
+     * @return Un texte
+     */
     public static Text endOfGameTitle(int reason){
-        /**
-         * Définit le titre de l'écran de fin du jeu.
-         */
+
         //https://docs.oracle.com/javafx/2/text/jfxpub-text.htm
         Text title = new Text();
         if (reason == 0) {  // reason = 0 <=> Victoire des joueurs
@@ -55,10 +58,13 @@ public class end_of_game {
         return title;
     }
 
+    /**
+     * Gère l'affichage des informations en fin de partie.
+     * @param temps Le temps écoulé durant la partie
+     * @param restants Nombre d'aliens restants (potentiellement nul)
+     * @return Un texte
+     */
     public static Text endOfGameResults(float temps, int restants){
-        /**
-         * Gère l'affichage des informations en fin de partie.
-         */
         Text score = new Text();
         if (restants==0) score.setText(String.format("Aliens Killed !\nTime %.2fs", temps));
         else score.setText(String.format("Remaining: %d\nTime %.2fs", restants, temps));
@@ -69,10 +75,10 @@ public class end_of_game {
         return score;
     }
 
+    /**
+     * Définit l'affichage d'une redirection vers le menu.
+     */
     public static Text endOfGameMenu() {
-        /**
-         * Définit l'affichage d'une redirection vers le menu.
-         */
         Text options = new Text();
         options.setText("Main Menu");
         options.setFont(Font.font("Impact", FontWeight.NORMAL,50));
@@ -83,10 +89,11 @@ public class end_of_game {
         return options;
     }
 
+    /**
+     * Définit l'affichage d'une redirection vers le niveau suivant.
+     */
     public static Text endOfGamelvl_suivant() {
-        /**
-         * Définit l'affichage d'une redirection vers le niveau suivant.
-         */
+
         Text lvl_suivant = new Text();
         lvl_suivant.setText("Niveau suivant");
         lvl_suivant.setFont(Font.font("Impact", FontWeight.NORMAL,50));
@@ -97,27 +104,44 @@ public class end_of_game {
         return lvl_suivant;
     }
 
-    public static void endOfGameSelection(MouseEvent e, Stage stage, MediaPlayer player, int niveau,int numTirJoueur1, int numTirJoueur2, int numTirAlien, int reason,int nbjoueurs, boolean musique) throws IOException {
-        /**
-         * Méthode redirigeant le joueur vers le niveau suivant, où le menu.
-         * En fonction de l'endroit où il a cliqué.
-         */
-        if (e.getSceneX()>400 && e.getSceneX()<625 && e.getSceneY()>460 && e.getSceneY()<510) {
-            if (musique) player.stop();
+    /**
+     * Méthode redirigeant le joueur vers le niveau suivant, où le menu. En fonction de l'endroit où il a cliqué.
+     * @param e Le clic du joueur
+     * @param stage Le Stage du précédent jeu
+     * @param player Le lecteur de musique
+     * @param niveau Le niveau de difficulté précédent
+     * @param numTirJoueur1 ID du cosmétique des tirs du J1
+     * @param numTirJoueur2 ID du cosmétique des tirs du J2
+     * @param numTirAlien ID du cosmétique des tirs des aliens
+     * @param reason ID de la raison de la fin de partie
+     * @param nbjoueurs Nombre de joueurs (1 ou 2)
+     * @throws IOException Exception
+     */
+    public static void endOfGameSelection(MouseEvent e, Stage stage, MediaPlayer player, int niveau,int numTirJoueur1, int numTirJoueur2, int numTirAlien, int reason,int nbjoueurs) throws IOException {
+        if (e.getSceneX()>400 && e.getSceneX()<625 && e.getSceneY()>400 && e.getSceneY()<450) {
+            if (player != null) player.stop();
             menu.menu_home(stage);
         }
-        if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneX()>510 && e.getSceneY()<550 && reason==0) {
-            if (musique) player.stop();
-            if (nbjoueurs == 1) game.game_1_joueur(stage,numTirJoueur1,numTirAlien,niveau+1, musique);
-            if (nbjoueurs == 2) game.game_2_joueurs(stage,numTirJoueur1,numTirJoueur2,numTirAlien,niveau+1, musique);
+        if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneY()>460 && e.getSceneY()<500 && reason==0) {
+            if (player != null) player.stop();
+            if (nbjoueurs == 1) game.game_1_joueur(stage,numTirJoueur1,numTirAlien,niveau+1);
+            if (nbjoueurs == 2) game.game_2_joueurs(stage,numTirJoueur1,numTirJoueur2,numTirAlien,niveau+1);
         }
     }
 
-    public static void endOfGame_1_joueur(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur, int numTirAlien, boolean musique) {
-        /**
-         * Fonction principale de la partie Fin de Jeu pour les parties à 1 joueur.
-         * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
-         */
+    /**
+     * Fonction principale de la partie Fin de Jeu pour les parties à 1 joueur.
+     * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
+     * @param stage Le Stage du précédent jeu
+     * @param reason ID de la raison de la fin de partie
+     * @param temps Le temps écoulé durant la partie
+     * @param restants Nombre d'aliens restants (potentiellement nul)
+     * @param player Le lecteur de musique
+     * @param niveau Le niveau de difficulté précédent
+     * @param numTirJoueur ID du cosmétique des tirs du joueur
+     * @param numTirAlien ID du cosmétique des tirs des aliens
+     */
+    public static void endOfGame_1_joueur(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur, int numTirAlien) {
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
         root0.setBackground(new Background((new BackgroundImage(main_background,
@@ -143,7 +167,7 @@ public class end_of_game {
             public void handle(MouseEvent e) {
                 System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
                 try{
-                    endOfGameSelection(e, stage, player, niveau, numTirJoueur, numTirJoueur, numTirAlien, reason, 1, musique);
+                    endOfGameSelection(e, stage, player, niveau, numTirJoueur, numTirJoueur, numTirAlien, reason, 1);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();
@@ -158,11 +182,20 @@ public class end_of_game {
         stage.show();
     }
 
-    public static void endOfGame_2_joueurs(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur1, int numTirJoueur2, int numTirAlien, boolean musique) {
-        /**
-         * Fonction principale de la partie Fin de Jeu pour les parties à 2 joueurs.
-         * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
-         */
+    /**
+     * Fonction principale de la partie Fin de Jeu pour les parties à 2 joueurs.
+     * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
+     * @param stage Le Stage du précédent jeu
+     * @param reason ID de la raison de la fin de partie
+     * @param temps Le temps écoulé durant la partie
+     * @param restants Nombre d'aliens restants (potentiellement nul)
+     * @param player Le lecteur de musique
+     * @param niveau Le niveau de difficulté précédent
+     * @param numTirJoueur1 ID du cosmétique des tirs du J1
+     * @param numTirJoueur2 ID du cosmétique des tirs du J2
+     * @param numTirAlien ID du cosmétique des tirs des aliens
+     */
+    public static void endOfGame_2_joueurs(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur1, int numTirJoueur2, int numTirAlien) {
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
         root0.setBackground(new Background((new BackgroundImage(main_background,
@@ -187,7 +220,7 @@ public class end_of_game {
             public void handle(MouseEvent e) {
                 System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
                 try{
-                    endOfGameSelection(e, stage, player, niveau, numTirJoueur1, numTirJoueur2, numTirAlien, reason, 2, musique);
+                    endOfGameSelection(e, stage, player, niveau, numTirJoueur1, numTirJoueur2, numTirAlien, reason, 2);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();

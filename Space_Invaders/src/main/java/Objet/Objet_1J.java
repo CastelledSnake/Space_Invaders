@@ -10,12 +10,12 @@ import javafx.scene.text.Text;
 public class Objet_1J extends Objet{
     /**
      * Hérite directement de Objet
-     * @param x
-     * @param y
-     * @param forme
-     * @param color
-     * @param ImageURL
-     * @param vie
+     * @param x coordonnées : abcisse
+     * @param y coordonnées : ordonnées
+     * @param forme polygone affiché si l'image liée à l'objet n'est pas disponible
+     * @param color couleur du polygone du cas précédent
+     * @param ImageURL adresse relative du fichier image de l'objet
+     * @param vie nombre de vies de l'objet
      */
     public Objet_1J(double x, double y, double[] forme, Color color, String ImageURL, int vie) {
         super(x, y,forme,color,ImageURL, vie);

@@ -63,7 +63,7 @@ public class game{
         player.play();
     }
 
-    public static void game_1_joueur(Stage stage, int numTirJoueur, int numTirAlien, int difficulté, boolean musique) {
+    public static void game_1_joueur(Stage stage, int numTirJoueur, int numTirAlien, int difficulté) {
 
         //Initialisation du jeu
 
@@ -89,7 +89,6 @@ public class game{
         }
         catch (Exception e) {
             System.out.println("Impossible de lancer la musique");
-            musique = false;
             //On choisit de ne pas utiliser de musique
         }
 
@@ -117,7 +116,7 @@ public class game{
         Objet_1J.init_blocks(blocks, vie_blocks);
         Objet Player1 = Objet_1J.init_Player(3);
 
-        //vie du joueur, affiché sur lui même
+        //vie du joueur, affiché sur lui-même
         Text vie_joueur = new Text(Player1.getAccessibleText());
         vie_joueur.setFill(Color.WHITE);
 
@@ -176,7 +175,6 @@ public class game{
         };
 
         //action à réaliser périodiquement dans le jeu
-        boolean finalMusique = musique;
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -193,8 +191,8 @@ public class game{
                     deplacement = ret[1];
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    t = Objet_1J.tir_joueur(Math.max(30,100-5*difficulté), t,Player1, tirs_joueurs, numTirJoueur, "UP");
-
+                    t = Objet_1J.tir_joueur(Math.max(5, 5), t,Player1, tirs_joueurs, numTirJoueur, "UP");
+//30,100-5*difficulté
 
                     //tir des aliens
                     Objet_1J.tir_alien(aliens, tirs_aliens, numTirAlien, "DOWN",Math.max(10,50-5*difficulté));
@@ -240,8 +238,7 @@ public class game{
                                 player,
                                 difficulté,
                                 numTirJoueur,
-                                numTirAlien,
-                                finalMusique);
+                                numTirAlien);
                         stop();
                     }
                     else if (Integer.valueOf(Player1.getAccessibleText())<=0) {  // PERDU : le joueur est mort.
@@ -251,8 +248,7 @@ public class game{
                                 player,
                                 difficulté,
                                 numTirJoueur,
-                                numTirAlien,
-                                finalMusique);
+                                numTirAlien);
                         stop();
                     }
                     else if (Objet.test_fin_alien(aliens,500, "DOWN")) {    // PERDU : les aliens ont atteint la Terre.
@@ -262,8 +258,7 @@ public class game{
                                 player,
                                 difficulté,
                                 numTirJoueur,
-                                numTirAlien,
-                                finalMusique);
+                                numTirAlien);
                         stop();
                     }
                 }
@@ -283,7 +278,7 @@ public class game{
 
     //-------------------------------------------------------------------------------------------------------------------------//
 
-    public static void game_2_joueurs(Stage stage, int numTirJoueur1, int numTirJoueur2, int numTirAlien, int difficulté, boolean musique) {
+    public static void game_2_joueurs(Stage stage, int numTirJoueur1, int numTirJoueur2, int numTirAlien, int difficulté) {
 
         //Initialisation du jeu
 
@@ -311,7 +306,6 @@ public class game{
         }
         catch (Exception e) {
             System.out.println("Impossible de lancer la musique");
-            musique = false;
             //On choisit de ne pas utiliser de musique
         }
 
@@ -410,7 +404,6 @@ public class game{
         };
 
         //Action à réaliser périodiquement
-        boolean finalMusique = musique;
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -512,8 +505,7 @@ public class game{
                                 difficulté,
                                 numTirJoueur1,
                                 numTirJoueur2,
-                                numTirAlien,
-                                finalMusique);
+                                numTirAlien);
                         stop();
                     } else if (Integer.valueOf(Player1.getAccessibleText()) <= 0) {  // PERDU : le joueur 1 est mort.
                         end_of_game.endOfGame_2_joueurs(stage, 1,
@@ -523,8 +515,7 @@ public class game{
                                 difficulté,
                                 numTirJoueur1,
                                 numTirJoueur2,
-                                numTirAlien,
-                                finalMusique);
+                                numTirAlien);
                         stop();
                     } else if (Integer.valueOf(Player2.getAccessibleText()) <= 0) {  // PERDU : le joueur 2 est mort.
                         end_of_game.endOfGame_2_joueurs(stage, 2,
@@ -534,8 +525,7 @@ public class game{
                                 difficulté,
                                 numTirJoueur1,
                                 numTirJoueur2,
-                                numTirAlien,
-                                finalMusique);
+                                numTirAlien);
                         stop();
                     }
                     if (!aliens_1.getChildren().isEmpty()) {
@@ -547,8 +537,7 @@ public class game{
                                     difficulté,
                                     numTirJoueur1,
                                     numTirJoueur2,
-                                    numTirAlien,
-                                    finalMusique);
+                                    numTirAlien);
                             stop();
                         }
                     }
@@ -561,8 +550,7 @@ public class game{
                                     difficulté,
                                     numTirJoueur1,
                                     numTirJoueur2,
-                                    numTirAlien,
-                                    finalMusique);
+                                    numTirAlien);
                             stop();
                         }
                     }

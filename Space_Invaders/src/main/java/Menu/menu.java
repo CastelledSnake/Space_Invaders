@@ -55,7 +55,7 @@ public class menu {
     public static void mainMenuSelection(MouseEvent e, Stage stage) throws IOException {
         if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>420 && e.getSceneY()<450) {
             try {
-                game.game_1_joueur(stage, numTirJoueur, numTirAlien,1, true);
+                game.game_1_joueur(stage, numTirJoueur, numTirAlien,1);
             }
             catch (Exception exception) {
                 exception.printStackTrace();
@@ -63,7 +63,7 @@ public class menu {
         }
         else if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>490 && e.getSceneY()<530) {
             try {
-                game.game_2_joueurs(stage, numTirJoueur, numTirJoueur, numTirAlien, 1, true);
+                game.game_2_joueurs(stage, numTirJoueur, numTirJoueur, numTirAlien, 1);
             }
             catch (Exception exception) {
                 exception.printStackTrace();

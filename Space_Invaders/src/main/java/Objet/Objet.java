@@ -63,9 +63,9 @@ public class Objet extends Polygon {
 
     /**
      * Donne un entier aléatoire compris entre min et max
-     * @param min
-     * @param max
-     * @return
+     * @param min un nombre entier
+     * @param max un nombre entier
+     * @return un entier entre min et max
      */
     public static int getRandomNumber(int min, int max) {
         Random r = new Random();
@@ -265,7 +265,7 @@ public class Objet extends Polygon {
     //------------------COLLISIONS------------
 
     /**
-     * gère les collisions entre deux groupes. Si collision, modifie les vies des Objets concernés
+     * Gère les collisions entre deux groupes. Si collision, modifie les vies des Objets concernés
      * @param g1 Premier groupe
      * @param g2 Deuxième groupe
      * @param xmin marge négative autorisée dans les abcisses
