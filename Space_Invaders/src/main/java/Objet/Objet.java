@@ -166,24 +166,30 @@ public class Objet extends Polygon {
     public static int[] depalien(Group aliens, int pos_gr_alien, int deplacement, String direction, int difficulté) {
         int n_alien = aliens.getChildren().size();
         if ((pos_gr_alien < 0 && deplacement == -1) || (pos_gr_alien > 800 && deplacement == 1)) {
+            // Si les aliens sont au bord de l'écran, on les fait changer de direction.
             deplacement = -deplacement;
             if (direction.equals("DOWN")) {
                 for (int i = 0; i < n_alien; i++) {
+                    // Pour cette itération, leur vitesse sera verticale : ils se rapprochent du J1.
                     aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() + 10d);
                 }
             } else if (direction.equals("UP")) {
                 for (int i = 0; i < n_alien; i++) {
+                    // Idem vers le J2
                     aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() - 10d);
                 }
             }
         } else if (deplacement == 1) {
+            // Cas normal : les aliens ne sont pas sur un bord.
             for (int i = 0; i < n_alien; i++) {
-                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 2d + difficulté/5);
+                // On les fait se déplacer vers la droite pour cette étape.
+                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 2d + difficulté/5.);
             }
             pos_gr_alien=pos_gr_alien+2+difficulté/5;
         } else if (deplacement == -1) {
+            // Idem vers la gauche.
             for (int i = 0; i < n_alien; i++) {
-                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 2d -difficulté/5);
+                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 2d -difficulté/5.);
             }
             pos_gr_alien=pos_gr_alien-2-difficulté/5;
         }

@@ -63,7 +63,7 @@ public class game{
         player.play();
     }
 
-    public static void game_1_joueur(Stage stage, int numTirJoueur, int numTirAlien, int difficulté) {
+    public static void game_1_joueur(Stage stage, int numTirJoueur, int numTirAlien, int difficulté, boolean musique) {
 
         //Initialisation du jeu
 
@@ -89,7 +89,8 @@ public class game{
         }
         catch (Exception e) {
             System.out.println("Impossible de lancer la musique");
-            //On choisit de ne pas utiliser la musique
+            musique = false;
+            //On choisit de ne pas utiliser de musique
         }
 
 
@@ -175,6 +176,7 @@ public class game{
         };
 
         //action à réaliser périodiquement dans le jeu
+        boolean finalMusique = musique;
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -229,7 +231,7 @@ public class game{
                     //MAJ du chrono
                     temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
 
-                    //si il n'y a plus d'aliens -> Victoire
+                    //s'il n'y a plus d'aliens -> Victoire
                     if (aliens.getChildren().isEmpty()) {   // GAGNE
                     //if (true) {
                         end_of_game.endOfGame_1_joueur(stage, 0,
@@ -239,7 +241,7 @@ public class game{
                                 difficulté,
                                 numTirJoueur,
                                 numTirAlien,
-                                1);
+                                finalMusique);
                         stop();
                     }
                     else if (Integer.valueOf(Player1.getAccessibleText())<=0) {  // PERDU : le joueur est mort.
@@ -248,20 +250,20 @@ public class game{
                                 aliens.getChildren().size(),
                                 player,
                                 difficulté,
-                                0,
-                                0,
-                                0);
+                                numTirJoueur,
+                                numTirAlien,
+                                finalMusique);
                         stop();
                     }
                     else if (Objet.test_fin_alien(aliens,500, "DOWN")) {    // PERDU : les aliens ont atteint la Terre.
-                        end_of_game.endOfGame_1_joueur(stage, 1,
+                        end_of_game.endOfGame_1_joueur(stage, 3,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
                                 aliens.getChildren().size(),
                                 player,
                                 difficulté,
-                                0,
-                                0,
-                                0);
+                                numTirJoueur,
+                                numTirAlien,
+                                finalMusique);
                         stop();
                     }
                 }
@@ -281,7 +283,7 @@ public class game{
 
     //-------------------------------------------------------------------------------------------------------------------------//
 
-    public static void game_2_joueurs(Stage stage, int numTirJoueur1, int numTirJoueur2, int numTirAlien, int difficulté) {
+    public static void game_2_joueurs(Stage stage, int numTirJoueur1, int numTirJoueur2, int numTirAlien, int difficulté, boolean musique) {
 
         //Initialisation du jeu
 
@@ -304,19 +306,19 @@ public class game{
         t2=0;
 
         //tente de mettre la musique de fond
-
         try {
             music(MusiqueUrl);
         }
         catch (Exception e) {
             System.out.println("Impossible de lancer la musique");
-            //On choisit de ne pas utiliser la musique
+            musique = false;
+            //On choisit de ne pas utiliser de musique
         }
 
 
         //tente de mettre le fond
         try {
-            //erreur capturé par JavaFX -> détection manuelle
+            //erreur capturée par JavaFX -> détection manuelle
             Image image_fond = new Image(fond_url);
             if (image_fond.isError()) throw new FileNotFoundException();
             scene.setFill(new ImagePattern(image_fond, 0, 0, 1, 1, true));
@@ -408,13 +410,14 @@ public class game{
         };
 
         //Action à réaliser périodiquement
+        boolean finalMusique = musique;
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 if (!pause) {
                     //pattern de déplacement des aliens
                     //pos_gr_alien : position sur l'écran, pour savoir quand faire demi-tour
-                    //deplacement : sens de déplacement des aliens
+                    //déplacement : sens de déplacement des aliens
                     int ret[];
                     int ret2[];
                     if (!aliens_1.getChildren().isEmpty()) {
@@ -497,50 +500,73 @@ public class game{
                     vie_joueur_2.setText(Player2.getAccessibleText());
                     Objet_2J.vie_blocks(blocks, vie_blocks);
 
-                    //Affichage du chrono
+                    // Affichage du chrono
                     temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
 
-                    //si il n'y a plus d'aliens -> Victoire
-                    if (aliens_1.getChildren().isEmpty() && aliens_2.getChildren().isEmpty()) {   // GAGNE
-                        end_of_game.endOfGame_1_joueur(stage, 0,
+                    // Conditions de victoire
+                    if (aliens_1.getChildren().isEmpty() && aliens_2.getChildren().isEmpty()) {   // GAGNE : Il n'y a plus d'aliens
+                        end_of_game.endOfGame_2_joueurs(stage, 0,
                                 (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                 0,
                                 player,
                                 difficulté,
-                                numTirJoueur1,numTirAlien,2);
+                                numTirJoueur1,
+                                numTirJoueur2,
+                                numTirAlien,
+                                finalMusique);
                         stop();
-                    } else if (Integer.valueOf(Player1.getAccessibleText()) <= 0 || Integer.valueOf(Player2.getAccessibleText()) <= 0) {  // PERDU : le joueur est mort.
-                        end_of_game.endOfGame_1_joueur(stage, 1,
+                    } else if (Integer.valueOf(Player1.getAccessibleText()) <= 0) {  // PERDU : le joueur 1 est mort.
+                        end_of_game.endOfGame_2_joueurs(stage, 1,
                                 (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                 aliens_1.getChildren().size() + aliens_2.getChildren().size(),
                                 player,
-                                0,0,0,0);
+                                difficulté,
+                                numTirJoueur1,
+                                numTirJoueur2,
+                                numTirAlien,
+                                finalMusique);
+                        stop();
+                    } else if (Integer.valueOf(Player2.getAccessibleText()) <= 0) {  // PERDU : le joueur 2 est mort.
+                        end_of_game.endOfGame_2_joueurs(stage, 2,
+                                (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
+                                aliens_1.getChildren().size() + aliens_2.getChildren().size(),
+                                player,
+                                difficulté,
+                                numTirJoueur1,
+                                numTirJoueur2,
+                                numTirAlien,
+                                finalMusique);
                         stop();
                     }
                     if (!aliens_1.getChildren().isEmpty()) {
-                        if (Objet.test_fin_alien(aliens_1, 500, "DOWN")) {    // PERDU : les aliens ont atteint la Terre.
-                            end_of_game.endOfGame_1_joueur(stage, 1,
+                        if (Objet.test_fin_alien(aliens_1, 500, "DOWN")) {    // PERDU : les aliens du J1 ont atteint la Terre.
+                            end_of_game.endOfGame_2_joueurs(stage, 3,
                                     (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                     aliens_1.getChildren().size()+aliens_2.getChildren().size(),
                                     player,
-                                    0,0,0,0);
+                                    difficulté,
+                                    numTirJoueur1,
+                                    numTirJoueur2,
+                                    numTirAlien,
+                                    finalMusique);
                             stop();
                         }
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        if (Objet.test_fin_alien(aliens_2, 180, "UP")) {    // PERDU : les aliens ont atteint la Terre.
-                            end_of_game.endOfGame_1_joueur(stage, 1,
+                        if (Objet.test_fin_alien(aliens_2, 180, "UP")) {    // PERDU : les aliens du J2 ont atteint la Terre.
+                            end_of_game.endOfGame_2_joueurs(stage, 4,
                                     (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                     aliens_1.getChildren().size()+aliens_2.getChildren().size(),
                                     player,
-                                    0,0,0,0);
+                                    difficulté,
+                                    numTirJoueur1,
+                                    numTirJoueur2,
+                                    numTirAlien,
+                                    finalMusique);
                             stop();
                         }
                     }
-
-
                 }
-
             }
         };
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);

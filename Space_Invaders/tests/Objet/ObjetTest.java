@@ -1,5 +1,6 @@
 package Objet;
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -39,13 +40,13 @@ public class ObjetTest extends ApplicationTest {
 
 
             // Création de quelques aliens et tirs.
-            //Bloque à la ligne suivante :
             Objet alien1 = new Objet(10d, 10d, formalien, Color.LIMEGREEN, AlienURL, 1);
             Objet alien2 = new Objet(1000d, 1000d, formalien, Color.LIMEGREEN, AlienURL, 1);
             Objet tirJoueu1 = new Objet(15d, 15d, formetir, Color.GREEN, TirJoueurURL, 1);
             Objet tirJoueu2 = new Objet(1005d, 1005d, formetir, Color.GREEN, TirJoueurURL, 1);
-            Objet tirAlien1 = new Objet(20d, 20d, formetir, Color.RED, TirAlienURL, 1);
-            Objet tirAlien2 = new Objet(1010d, 1010d, formetir, Color.RED, TirAlienURL, 1);
+            Objet tirAlien1 = new Objet(15d, 15d, formetir, Color.RED, TirAlienURL, 1);
+            Objet tirAlien2 = new Objet(1000d, 1000d, formetir, Color.RED, TirAlienURL, 1);
+            // Alien proche d'un alien ?
             assertEquals(false, Objet.memeposition(alien1, alien2, -50, 10, -15, 5));
             // Alien proche d'un tir de joueur ?
             assertEquals(true, Objet.memeposition(alien1, tirJoueu1, -50, 10, -15, 5));
@@ -53,15 +54,21 @@ public class ObjetTest extends ApplicationTest {
             assertEquals(false, Objet.memeposition(alien2, tirJoueu1, -50, 10, -15, 5));
             assertEquals(true, Objet.memeposition(alien2, tirJoueu2, -50, 10, -15, 5));
             // Tir d'alien proche d'un tir de joueur ?
-            //assertEquals(true, Objet.memeposition(tirAlien1, tirJoueu1, -30, 10, -10, 0));
-            assertEquals(false, Objet.memeposition(tirAlien1, tirJoueu2, -30, 10, -10, 0));
-            assertEquals(false, Objet.memeposition(tirAlien2, tirJoueu1, -30, 10, -10, 0));
-            //assertEquals(true, Objet.memeposition(tirAlien2, tirJoueu2, -30, 10, -10, 0));
-            assertEquals(true, true);   // Pour être sûr de renvoyer qqch durant le déboguage.
+            assertEquals(true, Objet.memeposition(tirAlien1, tirJoueu1, -30, 10, -10, 1));
+            assertEquals(false, Objet.memeposition(tirAlien1, tirJoueu2, -30, 10, -10, 1));
+            assertEquals(false, Objet.memeposition(tirAlien2, tirJoueu1, -30, 10, -10, 1));
+            assertEquals(true, Objet.memeposition(tirAlien2, tirJoueu2, -30, 10, -10, 1));
         }
 
     @Test
     public void depalien() {
+        Group aliens = new Group();
+        Objet_1J.init_aliens(aliens);
+        int[] ret1 = Objet.depalien(aliens, 42, 1, "DOWN", 5);
+        System.out.println(ret1[0]);
+        assertEquals(42+2+1, ret1[0]);
+        assertEquals(1, ret1[1]);
+
     }
 
     @Test

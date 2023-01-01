@@ -33,13 +33,21 @@ public class end_of_game {
             title.setText("VICTORY !");
             title.setLayoutX(-200 + screen0_width/2);   // L'ordonnée -200 est fixée pour centrer la boîte de texte.
         }
-        else if (reason == 1) { // reason = 1 <=> L'un des joueurs est mort.
-            title.setText("YOU DIED");
-            title.setLayoutX(-200 + screen0_width/2);
+        else if (reason == 1) { // reason = 1 <=> J1 est mort.
+            title.setText("PLAYER 1 DIED");
+            title.setLayoutX(-300 + screen0_width/2);
         }
-        else if (reason == 2) { // reason = 2 <=> Les aliens ont atteint le bas de l'écran.
-            title.setText("EARTH HAS BEEN INVADED");
-            title.setLayoutX(-500 + screen0_width/2);
+        else if (reason == 2) { // reason = 2 <=> J2 est mort.
+            title.setText("PLAYER 2 DIED");
+            title.setLayoutX(-300 + screen0_width/2);
+        }
+        else if (reason == 3) { // reason = 3 <=> Les aliens du J1 ont atteint le bas de l'écran.
+            title.setText("PLAYER 1 FAILED ITS MISSION");
+            title.setLayoutX(-600 + screen0_width/2);
+        }
+        else if (reason == 4) { // reason = 4 <=> Les aliens du J2 ont atteint le haut de l'écran.
+            title.setText("PLAYER 2 FAILED ITS MISSION");
+            title.setLayoutX(-600 + screen0_width/2);
         }
         title.setFont(Font.font("Impact", FontWeight.BOLD,100));
         title.setFill(Color.LIMEGREEN);
@@ -63,8 +71,7 @@ public class end_of_game {
 
     public static Text endOfGameMenu() {
         /**
-         * Définit l'affichage des options sur l'écran de fin du jeu.
-         * En fait, il s'agit des redirections vers le menu, ou pour quitter le jeu.
+         * Définit l'affichage d'une redirection vers le menu.
          */
         Text options = new Text();
         options.setText("Main Menu");
@@ -78,8 +85,7 @@ public class end_of_game {
 
     public static Text endOfGamelvl_suivant() {
         /**
-         * Définit l'affichage des options sur l'écran de fin du jeu.
-         * En fait, il s'agit des redirections vers le menu, ou pour quitter le jeu.
+         * Définit l'affichage d'une redirection vers le niveau suivant.
          */
         Text lvl_suivant = new Text();
         lvl_suivant.setText("Niveau suivant");
@@ -91,21 +97,25 @@ public class end_of_game {
         return lvl_suivant;
     }
 
-    public static void endOfGameSelection(MouseEvent e, Stage stage, MediaPlayer player, int niveau,int numTirJoueur, int numTirAlien, int reason,int nbjoueurs) throws IOException {
+    public static void endOfGameSelection(MouseEvent e, Stage stage, MediaPlayer player, int niveau,int numTirJoueur1, int numTirJoueur2, int numTirAlien, int reason,int nbjoueurs, boolean musique) throws IOException {
+        /**
+         * Méthode redirigeant le joueur vers le niveau suivant, où le menu.
+         * En fonction de l'endroit où il a cliqué.
+         */
         if (e.getSceneX()>400 && e.getSceneX()<625 && e.getSceneY()>460 && e.getSceneY()<510) {
-            player.stop();
+            if (musique) player.stop();
             menu.menu_home(stage);
         }
         if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneX()>510 && e.getSceneY()<550 && reason==0) {
-            player.stop();
-            if (nbjoueurs==1) game.game_1_joueur(stage,numTirJoueur,numTirAlien,niveau+1);
-            if (nbjoueurs==2) game.game_2_joueurs(stage,numTirJoueur,numTirJoueur,numTirAlien,niveau+1);
+            if (musique) player.stop();
+            if (nbjoueurs == 1) game.game_1_joueur(stage,numTirJoueur1,numTirAlien,niveau+1, musique);
+            if (nbjoueurs == 2) game.game_2_joueurs(stage,numTirJoueur1,numTirJoueur2,numTirAlien,niveau+1, musique);
         }
     }
 
-    public static void endOfGame_1_joueur(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur, int numTirAlien, int nbjoueurs) {
+    public static void endOfGame_1_joueur(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur, int numTirAlien, boolean musique) {
         /**
-         * Fonction principale de la partie Fin de Jeu.
+         * Fonction principale de la partie Fin de Jeu pour les parties à 1 joueur.
          * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
          */
         BorderPane root0 = new BorderPane();
@@ -118,13 +128,13 @@ public class end_of_game {
         Scene scene0 = new Scene(root0, screen0_width, screen0_height, Color.BLACK);
         Text title = endOfGameTitle(reason);
         Text score = endOfGameResults(temps, restants);
-        Text options = endOfGameMenu();
-        if (reason==0) {
+        Text menu = endOfGameMenu();
+        if (reason==0) {    // Si le joueur a gagné, on lui propose d'aller au niveau suivant, ou vers le menu.
             Text lvl_suivant = endOfGamelvl_suivant();
-            root0.getChildren().addAll(title, score, options, lvl_suivant);
+            root0.getChildren().addAll(title, score, menu, lvl_suivant);
         }
-        else {
-            root0.getChildren().addAll(title, score, options);
+        else {  // Si le joueur a perdu, on ne lui propose que le menu.
+            root0.getChildren().addAll(title, score, menu);
         }
 
 
@@ -133,7 +143,51 @@ public class end_of_game {
             public void handle(MouseEvent e) {
                 System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
                 try{
-                    endOfGameSelection(e,stage, player,niveau,numTirJoueur,numTirAlien,reason,nbjoueurs);
+                    endOfGameSelection(e, stage, player, niveau, numTirJoueur, numTirJoueur, numTirAlien, reason, 1, musique);
+                }
+                catch (IOException ie) {
+                    ie.printStackTrace();
+                }
+            }
+        };
+        scene0.addEventHandler(MouseEvent.MOUSE_CLICKED,mouseListener);
+
+        stage.setTitle("Space Invaders");
+        stage.setScene(scene0);
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public static void endOfGame_2_joueurs(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur1, int numTirJoueur2, int numTirAlien, boolean musique) {
+        /**
+         * Fonction principale de la partie Fin de Jeu pour les parties à 2 joueurs.
+         * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
+         */
+        BorderPane root0 = new BorderPane();
+        Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
+        root0.setBackground(new Background((new BackgroundImage(main_background,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT))));
+        Scene scene0 = new Scene(root0, screen0_width, screen0_height, Color.BLACK);
+        Text title = endOfGameTitle(reason);
+        Text score = endOfGameResults(temps, restants);
+        Text menu = endOfGameMenu();
+        if (reason == 0) {  // Si les joueurs ont gagné, on leur propose d'aller au niveau suivant, ou vers le menu.
+            Text lvl_suivant = endOfGamelvl_suivant();
+            root0.getChildren().addAll(title, score, menu, lvl_suivant);
+        }
+        else {  // Si les joueurs ont perdu, on ne leur propose que le menu.
+            root0.getChildren().addAll(title, score, menu);
+        }
+
+        EventHandler<MouseEvent> mouseListener = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
+                try{
+                    endOfGameSelection(e, stage, player, niveau, numTirJoueur1, numTirJoueur2, numTirAlien, reason, 2, musique);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();
