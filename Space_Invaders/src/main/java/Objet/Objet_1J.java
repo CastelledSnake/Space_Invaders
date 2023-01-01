@@ -4,15 +4,36 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**
+ * Classe Objet spécifiques au jeu 1 Joueur
+ */
 public class Objet_1J extends Objet{
+    /**
+     * Hérite directement de Objet
+     * @param x
+     * @param y
+     * @param forme
+     * @param color
+     * @param ImageURL
+     * @param vie
+     */
     public Objet_1J(double x, double y, double[] forme, Color color, String ImageURL, int vie) {
         super(x, y,forme,color,ImageURL, vie);
     }
 
+    /**
+     * Initialise un joueur dans le cas du jeu 1 Joueur
+     * @param nbvies Nombre de vies données au joueur
+     * @return le joueur
+     */
     public static Objet init_Player(int nbvies) {
         return(new Objet_1J(600, 590, formecanon, Color.LIMEGREEN, VaisseauURL, nbvies));
     }
 
+    /**
+     * Remplit d'aliens un groupe vide, avec les positions du jeu 1 Joueur
+     * @param aliens Groupe vide dans lequel mettre les aliens
+     */
     public static void init_aliens(Group aliens) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 3; j++) {
@@ -22,6 +43,11 @@ public class Objet_1J extends Objet{
         }
     }
 
+    /**
+     * Initialise les blocks avec les positions du jeu 1 Joueur
+     * @param blocks Groupe de blocks à remplir
+     * @param vie_blocks Group de Text affichant les vies de ces blocks
+     */
     public static void init_blocks(Group blocks, Group vie_blocks) {
         for (int i = 0; i < 4; i++) {
             Objet block = new Objet(300 * i + 110d, 550, formebloc, Color.LIMEGREEN, "NULL", 10);
@@ -31,6 +57,18 @@ public class Objet_1J extends Objet{
             vie_blocks.getChildren().add(v);
             v.setX(block.getLayoutX());
             v.setY(block.getLayoutY());
+        }
+    }
+
+    /**
+     * Gère les déplacements du Joueur dans le cadre du jeu 1 Joueur
+     * @param Player1 Joueur
+     * @param dep1 sens de déplacement
+     * @param difficulté indice de difficulté : plus haut -> joueur se déplace plus vite
+     */
+    public static void dep_1_joueur(Objet Player1, int dep1, int difficulté) {
+        if (((dep1==1)&&(Player1.getLayoutX()<1140))||(dep1==-1&&Player1.getLayoutX()>0)) {
+            Player1.setLayoutX(Player1.getLayoutX() + dep1 * (2d+difficulté/5));
         }
     }
 }

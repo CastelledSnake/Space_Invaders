@@ -32,8 +32,8 @@ public class game{
     public static int pos_gr_alien2;
 
     //utilisé pour mémoriser l'espacement entre les tirs des joueurs
-    public static int t = 0;
-    public static int t2= 0;
+    public static int t;
+    public static int t2;
 
     //variable d'état : pause ou jeu
     public static Boolean pause = false;
@@ -47,11 +47,14 @@ public class game{
     private static final String MusiqueUrl = "src\\main\\resources\\Musique\\Musique_1.mp3";
     //private static final String MusiqueUrl="src\\main\\resources\\Musique\\FinalCountdown.mp3";
     static MediaPlayer player;
-    //retient la direction des joueurs (inutilisé dans le jeu à 1 joueur)
-    public static int dir_p1 = 0;
-    public static int dir_p2 = 0;
+    //retient la direction des joueurs
+    public static int dir_p1;
+    public static int dir_p2;
 
-    // Nouveau joueur de musique :
+    /**
+     * Crée la musique
+     * @param URL adresse relative de la musique à jouer
+     */
     public static void music(String URL) {
         Media sound = new Media(Paths.get(URL).toUri().toString());
         player = new MediaPlayer(sound);
@@ -62,12 +65,22 @@ public class game{
 
     public static void game_1_joueur(Stage stage, int numTirJoueur, int numTirAlien, int difficulté) {
 
+        //Initialisation du jeu
 
         double screen_width = 1200;
         double screen_height = 700;
         long temps_debut = System.currentTimeMillis();
         BorderPane root = new BorderPane(); //investigate Group root
         Scene scene = new Scene(root, screen_width, screen_height, Color.BLACK);
+
+
+        //initialisation des variables
+        pos_gr_alien=1;
+        deplacement=1;
+        tempause = 0;
+        tpa = 0;
+        dir_p1=0;
+        t=0;
 
         //tente de mettre la musique de fond
 
@@ -128,22 +141,14 @@ public class game{
         niveau.setX(1080);
         niveau.setY(680);
 
-        //initialisation des variables décrivant le groupe d'aliens et le temps
-        pos_gr_alien=1;
-        deplacement=1;
-        tempause = 0;
-        tpa = 0;
-
-
-
-        EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
+        // action dans le cas d'une touche pressée
+        EventHandler<KeyEvent> keyListenerPressed = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
-                //déplacement du joueur
-                if ((e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.RIGHT) && !pause) {
-                    Objet_1J.depjoueur(e, Player1, difficulté);
-                }
-                //pause
+                //changer la direction du joueur
+                if ((e.getCode() == KeyCode.LEFT)) dir_p1 = -1;
+                else if (e.getCode() == KeyCode.RIGHT) dir_p1=1;
+                //activer/désactiver l'écran de pause
                 else if (e.getCode() == KeyCode.SPACE) {
                     if (pause == true) {
                         pause = false;
@@ -159,11 +164,24 @@ public class game{
                 }
             }
         };
+        // action dans le cas d'une touche lâchée
+        EventHandler<KeyEvent> keyListenerReleased = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                // mettre à jour le sens de déplacement du joueur
+                if ((e.getCode() == KeyCode.LEFT)) dir_p1 = 0;
+                else if (e.getCode() == KeyCode.RIGHT) dir_p1=0;
+            }
+        };
 
+        //action à réaliser périodiquement dans le jeu
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 if (!pause) {
+                    //déplacement du joueur
+                    Objet_1J.dep_1_joueur(Player1, dir_p1, difficulté);
+
                     //pattern de déplacement des aliens
                     //pos_gr_alien : position sur l'écran, pour savoir quand faire demi-tour
                     //deplacement : sens de déplacement des aliens
@@ -173,7 +191,7 @@ public class game{
                     deplacement = ret[1];
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    t = Objet_1J.tir_joueur(Math.max(30,100-5*difficulté), Player1, tirs_joueurs, t, numTirJoueur, "UP");
+                    t = Objet_1J.tir_joueur(Math.max(30,100-5*difficulté), t,Player1, tirs_joueurs, numTirJoueur, "UP");
 
 
                     //tir des aliens
@@ -186,6 +204,7 @@ public class game{
                     //enlever les tirs en dehors
                     tirs_joueurs.getChildren().removeIf(elem -> elem.getLayoutY() < 0);
                     tirs_aliens.getChildren().removeIf(elem -> elem.getLayoutY() > 900);
+
 
                     //gestion des collisions
                     Objet_1J.Collision(aliens, tirs_joueurs, -50, 10, -15, 5);
@@ -249,7 +268,9 @@ public class game{
 
             }
         };
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListenerPressed);
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, keyListenerReleased);
         root.getChildren().addAll(aliens, Player1, tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks, temps, niveau);
         loop.start();
         stage.setTitle("Space Invaders");
@@ -261,11 +282,26 @@ public class game{
     //-------------------------------------------------------------------------------------------------------------------------//
 
     public static void game_2_joueurs(Stage stage, int numTirJoueur1, int numTirJoueur2, int numTirAlien, int difficulté) {
+
+        //Initialisation du jeu
+
         double screen_width = 1200;
         double screen_height = 700;
         long temps_debut = System.currentTimeMillis();
         BorderPane root = new BorderPane(); //investigate Group root
         Scene scene = new Scene(root, screen_width, screen_height, Color.BLACK);
+
+        //Initialisation des variables
+        pos_gr_alien=0;
+        pos_gr_alien2=0;
+        deplacement=1;
+        deplacement2=1;
+        tempause = 0;
+        tpa = 0;
+        dir_p1=0;
+        dir_p2=0;
+        t=0;
+        t2=0;
 
         //tente de mettre la musique de fond
 
@@ -303,49 +339,47 @@ public class game{
         Objet_2J.init_aliens(aliens_1, "DOWN");
         Objet_2J.init_aliens(aliens_2, "UP");
         Objet_2J.init_blocks(blocks, vie_blocks);
-        Objet Player1 = Objet_2J.init_Player("UP");
-        Objet Player2 = Objet_2J.init_Player("DOWN");
+        Objet Player1 = Objet_2J.init_Player("UP",3);
+        Objet Player2 = Objet_2J.init_Player("DOWN",3);
 
 
+        //représente la vie des joueurs
         Text vie_joueur_1 = new Text(Player1.getAccessibleText());
         vie_joueur_1.setFill(Color.WHITE);
         Text vie_joueur_2 = new Text(Player2.getAccessibleText());
         vie_joueur_2.setFill(Color.WHITE);
 
+        //Chrono
         Text temps = new Text(Float.toString((System.currentTimeMillis() - temps_debut) / 1000F));
         temps.setFont(Font.font("Verdana", 20));
         temps.setFill(Color.WHITE);
         temps.setX(20);
         temps.setY(680);
 
+        //Ecran de pause
         Text text_pause = new Text("PAUSE");
         text_pause.setFont((Font.font("Verdana", 80)));
         text_pause.setFill(Color.WHITE);
         text_pause.setX(480);
         text_pause.setY(350);
 
+        //Niveau
         Text niveau = new Text("Niveau " +Integer.toString(difficulté));
         niveau.setFont(Font.font("Verdana", 20));
         niveau.setFill(Color.WHITE);
         niveau.setX(1080);
         niveau.setY(680);
 
-        pos_gr_alien=1;
-        pos_gr_alien2=1;
-        deplacement=1;
-        deplacement2=1;
-        tempause = 0;
-        tpa = 0;
-        dir_p1=0;
-        dir_p2=0;
-
+        //Si une touche est pressée
         EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
+                //Mettre à jour le déplacement des joueurs
                 if ((e.getCode() == KeyCode.LEFT)) dir_p1 = -1;
                 else if (e.getCode() == KeyCode.RIGHT) dir_p1=1;
                 else if (e.getCode() == KeyCode.Q) dir_p2=-1;
                 else if (e.getCode() == KeyCode.D) dir_p2=1;
+                //Activer / désactiver l'écran Pause
                 else if (e.getCode() == KeyCode.SPACE) {
                     if (pause) {
                         pause = false;
@@ -361,15 +395,19 @@ public class game{
                 }
             }
         };
+        //Si une touche est relâchée
         EventHandler<KeyEvent> keyListener2 = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
+                //Mise à jour du sens de déplacement
                 if ((e.getCode() == KeyCode.LEFT)) dir_p1 = 0;
                 else if (e.getCode() == KeyCode.RIGHT) dir_p1=0;
                 else if (e.getCode() == KeyCode.Q) dir_p2=0;
                 else if (e.getCode() == KeyCode.D) dir_p2=0;
             }
         };
+
+        //Action à réaliser périodiquement
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -391,8 +429,8 @@ public class game{
                     }
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    t = Objet_2J.tir_joueur(Math.max(20,60-5*difficulté), Player1, tirs_joueurs_1, t, numTirJoueur1, "DOWN");
-                    t2 = Objet_2J.tir_joueur(Math.max(20,60-5*difficulté), Player2, tirs_joueurs_2, t, numTirJoueur2, "UP");
+                    t = Objet_2J.tir_joueur(Math.max(20,60-5*difficulté), t, Player1, tirs_joueurs_1, numTirJoueur1, "DOWN");
+                    t2 = Objet_2J.tir_joueur(Math.max(20,60-5*difficulté), t, Player2, tirs_joueurs_2, numTirJoueur2, "UP");
 
 
                     //tir des aliens
@@ -416,7 +454,7 @@ public class game{
                     tirs_aliens_1.getChildren().removeIf(elem -> elem.getLayoutY() > 900);
                     tirs_aliens_2.getChildren().removeIf(elem -> elem.getLayoutY() < 0);
 
-
+                    //Déplacer les joueurs
                     Objet_2J.dep_2_joueurs(Player1, Player2, dir_p1, dir_p2,difficulté);
 
                     //gestion des collisions
@@ -435,8 +473,8 @@ public class game{
                     Objet_2J.Collision_joueur(Player1, tirs_aliens_2, -20, 20, -20, 20);
                     Objet_2J.Collision_joueur(Player1, tirs_joueurs_2, -20, 20, -20, 20);
                     Objet_2J.Collision_joueur(Player2, tirs_joueurs_1, -20, 20, -20, 20);
-                    //retirer si plus de vie
 
+                    //retirer si plus de vie
                     if (!aliens_1.getChildren().isEmpty()) {
                         Objet_2J.supp(aliens_1);
                     }
@@ -450,17 +488,16 @@ public class game{
                     Objet_2J.supp(blocks);
 
 
-                    //affichage des vies du joueur (collision avec joueur encore à faire), contenu à changer (voir blocks)
+                    //affichage des vies du joueur et des blocks
                     vie_joueur_1.setX(Player1.getLayoutX());
                     vie_joueur_1.setY(Player1.getLayoutY());
                     vie_joueur_1.setText(Player1.getAccessibleText());
-
                     vie_joueur_2.setX(Player2.getLayoutX());
                     vie_joueur_2.setY(Player2.getLayoutY());
                     vie_joueur_2.setText(Player2.getAccessibleText());
-
                     Objet_2J.vie_blocks(blocks, vie_blocks);
 
+                    //Affichage du chrono
                     temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
 
                     //si il n'y a plus d'aliens -> Victoire

@@ -3,8 +3,6 @@ package Objet;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
@@ -13,6 +11,9 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Répresente un élément (joueur, alien, tir, block)
+ */
 public class Objet extends Polygon {
 
 
@@ -32,8 +33,15 @@ public class Objet extends Polygon {
     public static final String Tir_down="_d.png";
     public static final String Tir_up="_u.png";
 
-
-    //initialise un objet
+    /**
+     * Permet de créer un objet
+     * @param x coordonnées : abcisse
+     * @param y coordonnées : ordonnées
+     * @param forme polygone affiché si l'image liée à l'objet n'est pas disponible
+     * @param color couleur du polygone du cas précédent
+     * @param ImageURL adresse relative du fichier image de l'objet
+     * @param vie nombre de vies de l'objet
+     */
     public Objet (double x, double y, double[] forme, Color color,String ImageURL, int vie) {
         for (double point : forme) {
             this.getPoints().add(point);
@@ -53,13 +61,27 @@ public class Objet extends Polygon {
 
     //----------------OUTILS MATHEMATIQUES-----------------
 
-    //donne un nombre aléatoire entre min et max
+    /**
+     * Donne un entier aléatoire compris entre min et max
+     * @param min
+     * @param max
+     * @return
+     */
     public static int getRandomNumber(int min, int max) {
         Random r = new Random();
         return (int) ((r.nextDouble() * (max - min)) + min);
     }
 
-    //renvoie si deux éléments sont en collision
+    /**
+     * renvoie si deux éléments sont en collision
+     * @param g1 Premier objet (impossible de le récupérer sous le type Objet)
+     * @param g2 Deuxième objet (idem)
+     * @param xmin marge négative autorisée dans les abcisses
+     * @param xmax marge positive autorisée dans les abcisses
+     * @param ymin marge négative autorisée dans les ordonnées
+     * @param ymax marge négative autorisée dans les ordonnées
+     * @return un booléen, true si les éléments sont en collision, false sinon
+     */
     public static Boolean memeposition(javafx.scene.Node g1, javafx.scene.Node g2, int xmin, int xmax, int ymin, int ymax) {
         double x1 = g1.getLayoutX();
         double y1 = g1.getLayoutY();
@@ -74,8 +96,18 @@ public class Objet extends Polygon {
 
     //-----------------------TIRS-------------------
 
+    /**
+     * Détermine si le joueur doit tirer : si oui, crée le tir
+     * @param n détermine la fréquence de tir du joueur
+     * @param t détermine l'état actuel de tir du joueur dans la fréquence n
+     * @param Player1 joueur concerné
+     * @param tirs_joueurs groupe dans lequel rajouter le nouveau tir
+     * @param numtir apparence du tir
+     * @param direction détermine si le tir doit se diriger vers le haut ou vers le bas
+     * @return la nouvelle valeur de l'état actuel de tir du joueur
+     */
     //crée un tir du joueur
-    public static int tir_joueur(int n,Objet Player1, Group tirs_joueurs, int t, int numtir, String direction) {
+    public static int tir_joueur(int n,int t,Objet Player1, Group tirs_joueurs, int numtir, String direction) {
         if (t == n) {
             if (direction.equals("UP")) {
                 String TirJoueurURL = Tir + numtir + Tir_up;
@@ -91,7 +123,14 @@ public class Objet extends Polygon {
         return(t);
     }
 
-    //crée un tir d'alien
+    /**
+     * //gère les tirs des aliens
+     * @param aliens Groupe d'aliens
+     * @param tirs_aliens Groupe dans lequel rajouter un éventuel tir
+     * @param numtir Apparence du tirs
+     * @param direction Direction du tir
+     * @param proba Probabilité (1/proba) que les aliens tirent
+     */
     public static void tir_alien(Group aliens, Group tirs_aliens, int numtir, String direction, int proba) {
         if (proba>0) {
             if (Objet.getRandomNumber(0, proba) == 0) {
@@ -114,17 +153,16 @@ public class Objet extends Polygon {
 
     //-----------------DEPLACEMENTS---------------------
 
-    //gère les déplacements du joueur
-    public static void depjoueur(KeyEvent e, Objet Player, int niveau) {
-        if ((e.getCode() == KeyCode.LEFT || e.getCode() == KeyCode.Q) && Player.getLayoutX() > 0) {
-            Player.setLayoutX(Player.getLayoutX() - 6d - niveau);
-        }
-        if ((e.getCode() == KeyCode.RIGHT || e.getCode() == KeyCode.D) && Player.getLayoutX() < 1140) {
-            Player.setLayoutX(Player.getLayoutX() + 6d + niveau);
-        }
-    }
 
-    //gère les déplacements coordonnés du groupe d'alien
+    /**
+     * gère les déplacements coordonnés du groupe d'alien
+     * @param aliens groupe d'aliens
+     * @param pos_gr_alien représente la position du groupe d'aliens
+     * @param deplacement détermine si le groupe se déplace de gauche -> droite ou droite -> gauche
+     * @param direction détermine si les aliens se dirigent vers le haut ou vers le bas
+     * @param difficulté indice de difficulté : plus haut -> aliens se déplacent plus vite
+     * @return un array avec la nouvelle valeur de pos_gr_alien et deplacement
+     */
     public static int[] depalien(Group aliens, int pos_gr_alien, int deplacement, String direction, int difficulté) {
         int n_alien = aliens.getChildren().size();
         if ((pos_gr_alien < 0 && deplacement == -1) || (pos_gr_alien > 800 && deplacement == 1)) {
@@ -156,22 +194,34 @@ public class Objet extends Polygon {
     }
 
 
-    public static void Tir(Group tirs, String direction, int niveau) {
+    /**
+     * Gère le déplacements des tirs
+     * @param tirs Groupe des tirs
+     * @param direction Direction dans lequel doivent se diriger les tirs
+     * @param difficulte indice de difficulté : plus haut -> tirs se déplacent plus vite
+     */
+    public static void Tir(Group tirs, String direction, int difficulte) {
         int n = tirs.getChildren().size();
         if (direction.equals("UP")) {
             for (int i = 0; i < n; i++) {
-                tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() - 2d - niveau/2);
+                tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() - 2d - difficulte/2);
             }
         } else if (direction.equals("DOWN")) {
             for (int i = 0; i < n; i++) {
-                tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() + 2d + niveau/2);
+                tirs.getChildren().get(i).setLayoutY(tirs.getChildren().get(i).getLayoutY() + 2d + difficulte/2);
             }
 
         }
     }
 
 
-    //teste si les aliens sont dans le domaine du joueur -> fin de jeu
+    /**
+     * teste si les aliens sont dans le domaine du joueur -> fin de jeu
+     * @param aliens groupes d'aliens
+     * @param limite valeur maximale autorisée
+     * @param direction direction dans lequel ce groupe d'aliens se déplace (haut ou bas)
+     * @return un booléan indiquant si les aliens ont dépassé la limite
+     */
     public static boolean test_fin_alien(Group aliens,int limite,String direction) {
         int n=aliens.getChildren().size();
         if (n==0) return(false);
@@ -189,6 +239,11 @@ public class Objet extends Polygon {
 
     //----------------------GESTION DES VIES
 
+    /**
+     * Met à jour l'affichage des vies des blocks
+     * @param blocks groupe des blocks
+     * @param vie_blocks groupe des Text des vies des blocks
+     */
     public static void vie_blocks(Group blocks,Group vie_blocks) {
         //affichage des vies des blocks
         vie_blocks.getChildren().clear();
@@ -203,7 +258,15 @@ public class Objet extends Polygon {
 
     //------------------COLLISIONS------------
 
-    //gère les collisions entre deux groupes
+    /**
+     * gère les collisions entre deux groupes. Si collision, modifie les vies des Objets concernés
+     * @param g1 Premier groupe
+     * @param g2 Deuxième groupe
+     * @param xmin marge négative autorisée dans les abcisses
+     * @param xmax marge positive autorisée dans les abcisses
+     * @param ymin marge négative autorisée dans les ordonnées
+     * @param ymax marge négative autorisée dans les ordonnées
+     */
     public static void Collision(Group g1, Group g2, int xmin, int xmax, int ymin, int ymax) {
         int na = g1.getChildren().size();
         int nt = g2.getChildren().size();
@@ -226,6 +289,15 @@ public class Objet extends Polygon {
         }
     }
 
+    /**
+     * Vérifie les collisions entre un joueur et un groupe. Si collision, modifie les vies des Objets concernés
+     * @param Player Joueur
+     * @param tir Groupe
+     * @param xmin marge négative autorisée dans les abcisses
+     * @param xmax marge positive autorisée dans les abcisses
+     * @param ymin marge négative autorisée dans les ordonnées
+     * @param ymax marge négative autorisée dans les ordonnées
+     */
     public static void Collision_joueur(Objet Player, Group tir,int xmin, int xmax, int ymin, int ymax) {
         int n=tir.getChildren().size();
 
@@ -243,7 +315,10 @@ public class Objet extends Polygon {
         }
     }
 
-    //supprime les éléments en collision
+    /**
+     * Supprime les éléments des groupes n'ayant plus de vie
+     * @param g Groupe
+     */
     public static void supp(Group g) {
         ArrayList<Node> a_supp = new ArrayList<>();
 

@@ -11,6 +11,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) {
         //System.out.println(System.getProperty("os.name"));
+        System.out.println(System.getProperty("user.dir"));
         menu.menu_home(stage);
     }
 
