@@ -9,13 +9,13 @@ Pour pouvoir exécuter ce projet, il suffit de télécharger par zip le contenu 
 le projet au niveau Space_Invaders.
 Il vous faudra par la suite télécharger les libraires suivantes en utilisant Maven (un copier-coller est fortement recommandé):
 
-org.openjfx:javafx-media:18.0.1 \n
-com.google.guava:guava:14.0.1 \n
-org.hamcrest:hamcrest-junit:2.0.0.0 \n
-junit:junit:4.12 \n
-org.loadui:testFx:3.1.2 \n
-org.testfx:testfx-core:4.0.6-alpha \n
-org.testfx:testfx-junit:4.0.6-alpha \n
+org.openjfx:javafx-media:18.0.1     
+com.google.guava:guava:14.0.1     
+org.hamcrest:hamcrest-junit:2.0.0.0     
+junit:junit:4.12      
+org.loadui:testFx:3.1.2     
+org.testfx:testfx-core:4.0.6-alpha      
+org.testfx:testfx-junit:4.0.6-alpha     
 
 Enfin, il peut être nécéssaire de cliquer sur le répertoire tests, "Mark repository as", "Tests root".
 
