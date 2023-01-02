@@ -21,9 +21,9 @@ Enfin, il peut être nécéssaire de cliquer sur le répertoire tests, "Mark rep
 
 Afin de lancer l'application, il faut lancer la classe HelloApplication situé : src/main/java/com/example/space_invaders/HelloApplication.java
 
-Une fois cela fait, on arrive à l'écran d'accueil du jeu.
-De là, il est possible:
--De personnaliser en cliquant sur les flèches, puis de jouer une partie à un joueur en utilisant les touches directionnelles du clavier.
+Une fois cela fait, on arrive à l'écran d'accueil du jeu.     
+De là, il est possible:     
+-De personnaliser en cliquant sur les flèches, puis de jouer une partie à un joueur en utilisant les touches directionnelles du clavier.      
 -De personnaliser en cliquant sur les flèches, puis de jouer une partie à deux joueurs en utilisant les touches directionnelles du clavier pour le premier joueur,
 et les touches "q" et "d" pour le deuxième joueur.
 
