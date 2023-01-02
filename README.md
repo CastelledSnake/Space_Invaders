@@ -30,3 +30,5 @@ et les touches "q" et "d" pour le deuxième joueur.
 Il est possible de mettre PAUSE en appuyant sur la barre d'espace, ainsi que de continuer à joueur en ré-appuyant sur la barre d'espace.
 Il est à noter que le jeu propose un fond sonore.
 Les parties s'enchaînent par niveau de difficulté croissantes tant que le/les joueur(s) gagnent, et il est possible de revenir à l'écran d'accueil à la fin de chaque niveau.
+
+Il est possible de tester les fonctions de manipulation des objets en lançant tests/Objet/objetTest.java
