@@ -189,7 +189,6 @@ public class end_of_game {
         EventHandler<MouseEvent> mouseListener = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-                System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
                 try{
                     endOfGameSelection(e, stage, player, niveau, URLvaisseau, null,
                             URL_tir_vaisseau, null, URL_alien, null, URL_tir_alien,null, reason, 1);
@@ -258,7 +257,6 @@ public class end_of_game {
         EventHandler<MouseEvent> mouseListener = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-                System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
                 try{
                     endOfGameSelection(e, stage, player, niveau,URL_vaisseau1,URL_vaisseau2,
                             URL_tir_vaisseau_1,URL_tir_vaisseau_2,URL_alien, URL_alien_r,
