@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Gère la fin des parties et la correcte redirection
+ */
 public class end_of_game {
 
     private static final String MainBackgroundURL="file:src\\main\\resources\\Image_menu\\Image_menu_1.jpg";    // Le fond d'écran
@@ -24,9 +27,9 @@ public class end_of_game {
     static double screen0_height = 700;
 
     /**
-     * Définit le titre de l'écran de fin du jeu.
-     * @param reason Entier donnant la raison de la fin de partie
-     * @return Un texte
+     * Définit le titre et l'écran de fin de jeu
+     * @param reason cas de fin de partie (victoire, ou cas de défaite)
+     * @return le Text associé
      */
     public static Text endOfGameTitle(int reason){
 
@@ -59,10 +62,10 @@ public class end_of_game {
     }
 
     /**
-     * Gère l'affichage des informations en fin de partie.
-     * @param temps Le temps écoulé durant la partie
-     * @param restants Nombre d'aliens restants (potentiellement nul)
-     * @return Un texte
+     * Affiche les résultats de fin de parties
+     * @param temps temps écoulé dans la partie
+     * @param restants Nombre d'aliens ayant survécu
+     * @return le Text correspondant
      */
     public static Text endOfGameResults(float temps, int restants){
         Text score = new Text();
@@ -76,7 +79,8 @@ public class end_of_game {
     }
 
     /**
-     * Définit l'affichage d'une redirection vers le menu.
+     * Crée le Text de la redirection vers le menu
+     * @return le Text correspondant
      */
     public static Text endOfGameMenu() {
         Text options = new Text();
@@ -90,10 +94,10 @@ public class end_of_game {
     }
 
     /**
-     * Définit l'affichage d'une redirection vers le niveau suivant.
+     * Crée le texte proposant d'aller au niveau suivant
+     * @return le Text correspondant
      */
     public static Text endOfGamelvl_suivant() {
-
         Text lvl_suivant = new Text();
         lvl_suivant.setText("Niveau suivant");
         lvl_suivant.setFont(Font.font("Impact", FontWeight.NORMAL,50));
@@ -105,43 +109,57 @@ public class end_of_game {
     }
 
     /**
-     * Méthode redirigeant le joueur vers le niveau suivant, où le menu. En fonction de l'endroit où il a cliqué.
-     * @param e Le clic du joueur
-     * @param stage Le Stage du précédent jeu
-     * @param player Le lecteur de musique
-     * @param niveau Le niveau de difficulté précédent
-     * @param numTirJoueur1 ID du cosmétique des tirs du J1
-     * @param numTirJoueur2 ID du cosmétique des tirs du J2
-     * @param numTirAlien ID du cosmétique des tirs des aliens
-     * @param reason ID de la raison de la fin de partie
-     * @param nbjoueurs Nombre de joueurs (1 ou 2)
-     * @throws IOException Exception
+     * Gère les redirections vers le menu suivant ou la page d'accueil
+     * @param e MouseEvent
+     * @param stage Stage
+     * @param player MediaPlayer
+     * @param niveau Niveau de difficulté
+     * @param URL_vaisseau1 adresse relative de l'image du vaisseau du joueur 1
+     * @param URL_vaisseau2 adresse relative de l'image du vaisseau du joueur 2 (null si inexistant)
+     * @param URL_tir_1 adresse relative de l'image des tirs du joueur 1
+     * @param URL_tir_2 adresse relative de l'image des tirs du joueur 1 (null si inexistant)
+     * @param URL_alien adresse relative de l'image des aliens
+     * @param URL_alien_r adresse relative de l'image des aliens renversés (null si inexistant)
+     * @param URL_tir_alien_up adresse relative de l'image des tirs des aliens
+     * @param URL_tir_alien_down adresse relative de l'image des tirs des aliens renversés (null si inexistant)
+     * @param reason cas de fin de partie (victoire ou défaite)
+     * @param nbjoueurs Donne si la partie était à 1 ou 2 joueurs
+     * @throws IOException
      */
-    public static void endOfGameSelection(MouseEvent e, Stage stage, MediaPlayer player, int niveau,int numTirJoueur1, int numTirJoueur2, int numTirAlien, int reason,int nbjoueurs) throws IOException {
+    public static void endOfGameSelection(MouseEvent e, Stage stage, MediaPlayer player,int niveau,String URL_vaisseau1, String URL_vaisseau2,
+                                          String URL_tir_1, String URL_tir_2, String URL_alien, String URL_alien_r, String URL_tir_alien_up,String URL_tir_alien_down,
+                                          int reason,int nbjoueurs) throws IOException {
+
         if (e.getSceneX()>400 && e.getSceneX()<625 && e.getSceneY()>400 && e.getSceneY()<450) {
-            if (player != null) player.stop();
-            menu.menu_home(stage);
+            if (player!=null) player.stop();
+            menu.menu(stage);
         }
-        if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneY()>460 && e.getSceneY()<500 && reason==0) {
-            if (player != null) player.stop();
-            if (nbjoueurs == 1) game.game_1_joueur(stage,numTirJoueur1,numTirAlien,niveau+1);
-            if (nbjoueurs == 2) game.game_2_joueurs(stage,numTirJoueur1,numTirJoueur2,numTirAlien,niveau+1);
+        if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneX()>460 && e.getSceneY()<500 && reason==0) {
+            if (player!=null) player.stop();
+            if (nbjoueurs == 1) game.game_1_joueur(stage,niveau+1,URL_vaisseau1,URL_alien,URL_tir_1,URL_tir_alien_up);
+            if (nbjoueurs == 2) game.game_2_joueurs(stage,niveau+1,URL_vaisseau1,URL_vaisseau2,
+                    URL_alien,URL_alien_r,URL_tir_alien_up,URL_tir_alien_down,URL_tir_1,URL_tir_2);
         }
     }
 
     /**
-     * Fonction principale de la partie Fin de Jeu pour les parties à 1 joueur.
-     * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
-     * @param stage Le Stage du précédent jeu
-     * @param reason ID de la raison de la fin de partie
-     * @param temps Le temps écoulé durant la partie
-     * @param restants Nombre d'aliens restants (potentiellement nul)
-     * @param player Le lecteur de musique
-     * @param niveau Le niveau de difficulté précédent
-     * @param numTirJoueur ID du cosmétique des tirs du joueur
-     * @param numTirAlien ID du cosmétique des tirs des aliens
+     * Gère les fins de parties à 1 Joueur
+     * @param stage Stage
+     * @param reason Cas de fin de partie (Victoire ou cas de défaite)
+     * @param temps Temps passé dans la partie
+     * @param restants Nombre d'aliens restants
+     * @param player MediaPlayer
+     * @param niveau Niveau de difficulté
+     * @param URLvaisseau Adresse relative de l'image du vaisseau
+     * @param URL_alien Adresse relative de l'image de l'alien
+     * @param URL_tir_vaisseau Adresse relative de l'image des tirs du vaisseau
+     * @param URL_tir_alien Adresse relative de l'image des tirs des aliens
      */
-    public static void endOfGame_1_joueur(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur, int numTirAlien) {
+    public static void endOfGame_1_joueur(Stage stage, int reason, float temps, int restants, MediaPlayer player,
+                                          int niveau,
+                                          String URLvaisseau, String URL_alien,
+                                          String URL_tir_vaisseau, String URL_tir_alien) {
+
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
         root0.setBackground(new Background((new BackgroundImage(main_background,
@@ -167,7 +185,8 @@ public class end_of_game {
             public void handle(MouseEvent e) {
                 System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
                 try{
-                    endOfGameSelection(e, stage, player, niveau, numTirJoueur, numTirJoueur, numTirAlien, reason, 1);
+                    endOfGameSelection(e, stage, player, niveau, URLvaisseau, null,
+                            URL_tir_vaisseau, null, URL_alien, null, URL_tir_alien,null, reason, 1);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();
@@ -183,19 +202,28 @@ public class end_of_game {
     }
 
     /**
-     * Fonction principale de la partie Fin de Jeu pour les parties à 2 joueurs.
-     * On y définit les paramètres globaux de la vue, et on appelle les fonctions annexes.
-     * @param stage Le Stage du précédent jeu
-     * @param reason ID de la raison de la fin de partie
-     * @param temps Le temps écoulé durant la partie
-     * @param restants Nombre d'aliens restants (potentiellement nul)
-     * @param player Le lecteur de musique
-     * @param niveau Le niveau de difficulté précédent
-     * @param numTirJoueur1 ID du cosmétique des tirs du J1
-     * @param numTirJoueur2 ID du cosmétique des tirs du J2
-     * @param numTirAlien ID du cosmétique des tirs des aliens
+     * Gère les fins de partie à 2 Joueurs
+     * @param stage Stage
+     * @param reason Cas de fin de partie (victoire ou cas de défaite)
+     * @param temps temps passé dans la partie
+     * @param restants Nombre d'aliens restants
+     * @param player MediaPlayer
+     * @param niveau Niveau de difficulté
+     * @param URL_vaisseau1 adresse relative de l'image du vaisseau du joueur 1
+     * @param URL_vaisseau2 adresse relative de l'image du vaisseau du joueur 2
+     * @param URL_alien adresse relative de l'image des aliens
+     * @param URL_alien_r adresse relative de l'image des aliens retournés
+     * @param URL_tir_vaisseau_1 adresse relative de l'image des tirs du joueur 1
+     * @param URL_tir_vaisseau_2 adresse relative de l'image des tirs du joueur 2
+     * @param URL_tir_alien_up adresse relative de l'image des tirs des aliens
+     * @param URL_tir_alien_down adresse relative de l'image des tirs des aliens retournés
      */
-    public static void endOfGame_2_joueurs(Stage stage, int reason, float temps, int restants, MediaPlayer player, int niveau, int numTirJoueur1, int numTirJoueur2, int numTirAlien) {
+    public static void endOfGame_2_joueurs(Stage stage, int reason, float temps, int restants, MediaPlayer player,
+                                           int niveau,
+                                           String URL_vaisseau1, String URL_vaisseau2, String URL_alien, String URL_alien_r,
+                                           String URL_tir_vaisseau_1, String URL_tir_vaisseau_2,
+                                           String URL_tir_alien_up, String URL_tir_alien_down) {
+
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
         root0.setBackground(new Background((new BackgroundImage(main_background,
@@ -220,7 +248,9 @@ public class end_of_game {
             public void handle(MouseEvent e) {
                 System.out.println("My click at ("+e.getSceneX()+", "+e.getSceneY()+")");
                 try{
-                    endOfGameSelection(e, stage, player, niveau, numTirJoueur1, numTirJoueur2, numTirAlien, reason, 2);
+                    endOfGameSelection(e, stage, player, niveau,URL_vaisseau1,URL_vaisseau2,
+                            URL_tir_vaisseau_1,URL_tir_vaisseau_2,URL_alien, URL_alien_r,
+                            URL_tir_alien_up,URL_tir_alien_down,reason,2);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();

@@ -1,9 +1,9 @@
 package Game;
 
 import End_of_game.end_of_game;
-import Objet.Objet;
-import Objet.Objet_1J;
-import Objet.Objet_2J;
+import Objet.objet;
+import Objet.objet_1J;
+import Objet.objet_2J;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -23,7 +23,9 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-
+/**
+ * Gère les parties de jeu
+ */
 public class game{
     //utilisé pour connaître la position et le sens de déplacement du/des groupe(s) d'aliens
     public static int deplacement;
@@ -45,7 +47,7 @@ public class game{
     //adresses relatives du fond et de la musique
     private static final String fond_url = "file:src\\main\\resources\\Image_fond\\Image_fond_1.jpg";
     private static final String MusiqueUrl = "src\\main\\resources\\Musique\\Musique_1.mp3";
-    //private static final String MusiqueUrl="src\\main\\resources\\Musique\\FinalCountdown.mp3";
+
     static MediaPlayer player;
     //retient la direction des joueurs
     public static int dir_p1;
@@ -63,7 +65,18 @@ public class game{
         player.play();
     }
 
-    public static void game_1_joueur(Stage stage, int numTirJoueur, int numTirAlien, int difficulté) {
+    /**
+     * Gère les parties à 1 Joueur
+     * @param stage Stage
+     * @param difficulté niveau de difficulté
+     * @param URL_vaisseau adresse relative de l'image du vaisseau du joueur
+     * @param URL_alien adresse relative de l'image des aliens
+     * @param URL_tir_vaisseau adresse relative de l'image des tirs du vaisseau
+     * @param URL_tir_alien adresse relative de l'image des tirs des aliens
+     */
+    public static void game_1_joueur(Stage stage,int difficulté,
+                                     String URL_vaisseau, String URL_alien,
+                                     String URL_tir_vaisseau, String URL_tir_alien) {
 
         //Initialisation du jeu
 
@@ -75,7 +88,7 @@ public class game{
 
 
         //initialisation des variables
-        pos_gr_alien=1;
+        pos_gr_alien=0;
         deplacement=1;
         tempause = 0;
         tpa = 0;
@@ -112,11 +125,11 @@ public class game{
         Group blocks = new Group();
         Group vie_blocks = new Group();
 
-        Objet_1J.init_aliens(aliens);
-        Objet_1J.init_blocks(blocks, vie_blocks);
-        Objet Player1 = Objet_1J.init_Player(3);
+        objet_1J.init_aliens(aliens,URL_alien);
+        objet_1J.init_blocks(blocks, vie_blocks);
+        objet Player1 = objet_1J.init_Player(3,URL_vaisseau);
 
-        //vie du joueur, affiché sur lui-même
+        //vie du joueur, affiché sur lui même
         Text vie_joueur = new Text(Player1.getAccessibleText());
         vie_joueur.setFill(Color.WHITE);
 
@@ -148,7 +161,7 @@ public class game{
                 //changer la direction du joueur
                 if ((e.getCode() == KeyCode.LEFT)) dir_p1 = -1;
                 else if (e.getCode() == KeyCode.RIGHT) dir_p1=1;
-                //activer/désactiver l'écran de pause
+                    //activer/désactiver l'écran de pause
                 else if (e.getCode() == KeyCode.SPACE) {
                     if (pause == true) {
                         pause = false;
@@ -179,27 +192,28 @@ public class game{
             @Override
             public void handle(long l) {
                 if (!pause) {
+
                     //déplacement du joueur
-                    Objet_1J.dep_1_joueur(Player1, dir_p1, difficulté);
+                    objet_1J.dep_1_joueur(Player1, dir_p1, difficulté);
 
                     //pattern de déplacement des aliens
                     //pos_gr_alien : position sur l'écran, pour savoir quand faire demi-tour
                     //deplacement : sens de déplacement des aliens
                     int ret[];
-                    ret = Objet_1J.depalien(aliens, pos_gr_alien, deplacement, "DOWN",difficulté);
+                    ret = objet_1J.depalien(aliens, pos_gr_alien, deplacement, "DOWN",difficulté);
                     pos_gr_alien = ret[0];
                     deplacement = ret[1];
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    t = Objet_1J.tir_joueur(Math.max(5, 5), t,Player1, tirs_joueurs, numTirJoueur, "UP");
-//30,100-5*difficulté
+                    t = objet_1J.tir_joueur(Math.max(30,100-5*difficulté), t,Player1, tirs_joueurs, URL_tir_vaisseau);
+
 
                     //tir des aliens
-                    Objet_1J.tir_alien(aliens, tirs_aliens, numTirAlien, "DOWN",Math.max(10,50-5*difficulté));
+                    objet_1J.tir_alien(aliens, tirs_aliens, URL_tir_alien,Math.max(10,50-5*difficulté));
 
                     //déplacement des tirs
-                    Objet_1J.Tir(tirs_joueurs, "UP",difficulté);
-                    Objet_1J.Tir(tirs_aliens, "DOWN",difficulté);
+                    objet_1J.Tir(tirs_joueurs, "UP",difficulté);
+                    objet_1J.Tir(tirs_aliens, "DOWN",difficulté);
 
                     //enlever les tirs en dehors
                     tirs_joueurs.getChildren().removeIf(elem -> elem.getLayoutY() < 0);
@@ -207,16 +221,16 @@ public class game{
 
 
                     //gestion des collisions
-                    Objet_1J.Collision(aliens, tirs_joueurs, -50, 10, -15, 5);
-                    Objet_1J.Collision(tirs_aliens, tirs_joueurs, -30, 10, -10, 0);
-                    Objet_1J.Collision(tirs_aliens, blocks, -10, 80, -10, 10);
-                    Objet_1J.Collision(tirs_joueurs, blocks, -10, 80, -10, 10);
-                    Objet_1J.Collision_joueur(Player1, tirs_aliens, -20, 20, -20, 20);
+                    objet_1J.Collision(aliens, tirs_joueurs, -50, 10, -15, 5);
+                    objet_1J.Collision(tirs_aliens, tirs_joueurs, -30, 10, -10, 0);
+                    objet_1J.Collision(tirs_aliens, blocks, -10, 80, -10, 10);
+                    objet_1J.Collision(tirs_joueurs, blocks, -10, 80, -10, 10);
+                    objet_1J.Collision_joueur(Player1, tirs_aliens, -20, 20, -20, 20);
                     //retirer si plus de vie
-                    Objet_1J.supp(aliens);
-                    Objet_1J.supp(tirs_joueurs);
-                    Objet_1J.supp(tirs_aliens);
-                    Objet_1J.supp(blocks);
+                    objet_1J.supp(aliens);
+                    objet_1J.supp(tirs_joueurs);
+                    objet_1J.supp(tirs_aliens);
+                    objet_1J.supp(blocks);
 
                     //affichage des vies du joueur
                     vie_joueur.setX(Player1.getLayoutX());
@@ -224,21 +238,23 @@ public class game{
                     vie_joueur.setText(Player1.getAccessibleText());
 
                     //MAJ de la vie des blocks
-                    Objet_1J.vie_blocks(blocks, vie_blocks);
+                    objet_1J.vie_blocks(blocks, vie_blocks);
 
                     //MAJ du chrono
                     temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
 
                     //s'il n'y a plus d'aliens -> Victoire
                     if (aliens.getChildren().isEmpty()) {   // GAGNE
-                    //if (true) {
+                        //if (true) {
                         end_of_game.endOfGame_1_joueur(stage, 0,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
                                 0,
                                 player,
                                 difficulté,
-                                numTirJoueur,
-                                numTirAlien);
+                                URL_vaisseau,
+                                URL_alien,
+                                URL_tir_vaisseau,
+                                URL_tir_alien);
                         stop();
                     }
                     else if (Integer.valueOf(Player1.getAccessibleText())<=0) {  // PERDU : le joueur est mort.
@@ -247,18 +263,22 @@ public class game{
                                 aliens.getChildren().size(),
                                 player,
                                 difficulté,
-                                numTirJoueur,
-                                numTirAlien);
+                                URL_vaisseau,
+                                URL_alien,
+                                URL_tir_vaisseau,
+                                URL_tir_alien);
                         stop();
                     }
-                    else if (Objet.test_fin_alien(aliens,500, "DOWN")) {    // PERDU : les aliens ont atteint la Terre.
+                    else if (objet.test_fin_alien(aliens,500, "DOWN")) {    // PERDU : les aliens ont atteint la Terre.
                         end_of_game.endOfGame_1_joueur(stage, 3,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
                                 aliens.getChildren().size(),
                                 player,
                                 difficulté,
-                                numTirJoueur,
-                                numTirAlien);
+                                URL_vaisseau,
+                                URL_alien,
+                                URL_tir_vaisseau,
+                                URL_tir_alien);
                         stop();
                     }
                 }
@@ -278,7 +298,22 @@ public class game{
 
     //-------------------------------------------------------------------------------------------------------------------------//
 
-    public static void game_2_joueurs(Stage stage, int numTirJoueur1, int numTirJoueur2, int numTirAlien, int difficulté) {
+    /**
+     * Gère les parties à 2 joueurs
+     * @param stage Stage
+     * @param difficulté Niveau de difficulté
+     * @param URL_vaisseau1 adresse relative de l'image du vaisseau du joueur 1
+     * @param URL_vaisseau2 adresse relative de l'image du vaisseau du joueur 2
+     * @param URL_alien adresse relative de l'image des aliens
+     * @param URL_alien_r adresse relative de l'image des aliens retournés
+     * @param URL_tir_alien_up adresse relative de l'image des tirs des aliens vers le haut
+     * @param URL_tir_alien_down adresse relative de l'image des tirs des aliens vers le bas
+     * @param URL_tir1 adresse relative de l'image des tirs du joueur 1
+     * @param URL_tir2 adresse relative de l'image des tirs du joueur 2
+     */
+    public static void game_2_joueurs(Stage stage, int difficulté, String URL_vaisseau1, String URL_vaisseau2,
+                                      String URL_alien, String URL_alien_r, String URL_tir_alien_up,
+                                      String URL_tir_alien_down, String URL_tir1, String URL_tir2) {
 
         //Initialisation du jeu
 
@@ -332,11 +367,11 @@ public class game{
         Group vie_blocks = new Group();
 
 
-        Objet_2J.init_aliens(aliens_1, "DOWN");
-        Objet_2J.init_aliens(aliens_2, "UP");
-        Objet_2J.init_blocks(blocks, vie_blocks);
-        Objet Player1 = Objet_2J.init_Player("UP",3);
-        Objet Player2 = Objet_2J.init_Player("DOWN",3);
+        objet_2J.init_aliens(aliens_1, "DOWN",URL_alien);
+        objet_2J.init_aliens(aliens_2, "UP",URL_alien_r);
+        objet_2J.init_blocks(blocks, vie_blocks);
+        objet Player1 = objet_2J.init_Player("UP",3,URL_vaisseau2);
+        objet Player2 = objet_2J.init_Player("DOWN",3,URL_vaisseau1);
 
 
         //représente la vie des joueurs
@@ -375,7 +410,7 @@ public class game{
                 else if (e.getCode() == KeyCode.RIGHT) dir_p1=1;
                 else if (e.getCode() == KeyCode.Q) dir_p2=-1;
                 else if (e.getCode() == KeyCode.D) dir_p2=1;
-                //Activer / désactiver l'écran Pause
+                    //Activer / désactiver l'écran Pause
                 else if (e.getCode() == KeyCode.SPACE) {
                     if (pause) {
                         pause = false;
@@ -414,34 +449,34 @@ public class game{
                     int ret[];
                     int ret2[];
                     if (!aliens_1.getChildren().isEmpty()) {
-                        ret = Objet_2J.depalien(aliens_1, pos_gr_alien, deplacement, "DOWN", difficulté);
+                        ret = objet_2J.depalien(aliens_1, pos_gr_alien, deplacement, "DOWN", difficulté);
                         pos_gr_alien = ret[0];
                         deplacement = ret[1];
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        ret2 = Objet_2J.depalien(aliens_2, pos_gr_alien2, deplacement2, "UP", difficulté);
+                        ret2 = objet_2J.depalien(aliens_2, pos_gr_alien2, deplacement2, "UP", difficulté);
                         pos_gr_alien2 = ret2[0];
                         deplacement2 = ret2[1];
                     }
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    t = Objet_2J.tir_joueur(Math.max(20,60-5*difficulté), t, Player1, tirs_joueurs_1, numTirJoueur1, "DOWN");
-                    t2 = Objet_2J.tir_joueur(Math.max(20,60-5*difficulté), t, Player2, tirs_joueurs_2, numTirJoueur2, "UP");
+                    t = objet_2J.tir_joueur(Math.max(20,60-5*difficulté), t, Player1, tirs_joueurs_1, URL_tir2);
+                    t2 = objet_2J.tir_joueur(Math.max(20,60-5*difficulté), t, Player2, tirs_joueurs_2, URL_tir1);
 
 
                     //tir des aliens
                     if (!aliens_1.getChildren().isEmpty()) {
-                        Objet_2J.tir_alien(aliens_1, tirs_aliens_1, numTirAlien, "DOWN", Math.max(10,50-5*difficulté));
+                        objet_2J.tir_alien(aliens_1, tirs_aliens_1, URL_tir_alien_down, Math.max(10,50-5*difficulté));
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        Objet_2J.tir_alien(aliens_2, tirs_aliens_2, numTirAlien, "UP", Math.max(10,50-5*difficulté));
+                        objet_2J.tir_alien(aliens_2, tirs_aliens_2, URL_tir_alien_up, Math.max(10,50-5*difficulté));
                     }
 
                     //déplacement des tirs
-                    Objet_2J.Tir(tirs_joueurs_1, "DOWN", difficulté);
-                    Objet_2J.Tir(tirs_joueurs_2, "UP", difficulté);
-                    Objet_2J.Tir(tirs_aliens_1, "DOWN", difficulté);
-                    Objet_2J.Tir(tirs_aliens_2, "UP", difficulté);
+                    objet_2J.Tir(tirs_joueurs_1, "DOWN", difficulté);
+                    objet_2J.Tir(tirs_joueurs_2, "UP", difficulté);
+                    objet_2J.Tir(tirs_aliens_1, "DOWN", difficulté);
+                    objet_2J.Tir(tirs_aliens_2, "UP", difficulté);
 
 
                     //enlever les tirs en dehors
@@ -451,37 +486,37 @@ public class game{
                     tirs_aliens_2.getChildren().removeIf(elem -> elem.getLayoutY() < 0);
 
                     //Déplacer les joueurs
-                    Objet_2J.dep_2_joueurs(Player1, Player2, dir_p1, dir_p2,difficulté);
+                    objet_2J.dep_2_joueurs(Player1, Player2, dir_p1, dir_p2,difficulté);
 
                     //gestion des collisions
-                    Objet_2J.Collision(aliens_1, tirs_joueurs_2, -50, 10, -15, 5);
-                    Objet_2J.Collision(aliens_1, tirs_joueurs_1, -30, 30, 0, 20);
-                    Objet_2J.Collision(aliens_2, tirs_joueurs_2, -30, 30, 0, 20);
-                    Objet_2J.Collision(aliens_2, tirs_joueurs_1, -30, 30, 0, 20);
-                    Objet_2J.Collision(tirs_aliens_2, tirs_joueurs_1, -30, 30, -10, 10);
-                    Objet_2J.Collision(tirs_aliens_1, tirs_joueurs_2, -30, 30, -10, 10);
-                    Objet_2J.Collision(tirs_aliens_1, blocks, -10, 80, -10, 10);
-                    Objet_2J.Collision(tirs_aliens_2, blocks, -10, 80, -10, 10);
-                    Objet_2J.Collision(tirs_joueurs_1, blocks, -10, 80, -10, 10);
-                    Objet_2J.Collision(tirs_joueurs_2, blocks, -10, 80, -10, 10);
-                    Objet_2J.Collision(tirs_joueurs_1, tirs_joueurs_2, -20, 20, -20, 20);
-                    Objet_2J.Collision_joueur(Player2, tirs_aliens_1, -20, 20, -20, 20);
-                    Objet_2J.Collision_joueur(Player1, tirs_aliens_2, -20, 20, -20, 20);
-                    Objet_2J.Collision_joueur(Player1, tirs_joueurs_2, -20, 20, -20, 20);
-                    Objet_2J.Collision_joueur(Player2, tirs_joueurs_1, -20, 20, -20, 20);
+                    objet_2J.Collision(aliens_1, tirs_joueurs_2, -50, 10, -15, 5);
+                    objet_2J.Collision(aliens_1, tirs_joueurs_1, -30, 30, 0, 20);
+                    objet_2J.Collision(aliens_2, tirs_joueurs_2, -30, 30, 0, 20);
+                    objet_2J.Collision(aliens_2, tirs_joueurs_1, -30, 30, 0, 20);
+                    objet_2J.Collision(tirs_aliens_2, tirs_joueurs_1, -30, 30, -10, 10);
+                    objet_2J.Collision(tirs_aliens_1, tirs_joueurs_2, -30, 30, -10, 10);
+                    objet_2J.Collision(tirs_aliens_1, blocks, -10, 80, -10, 10);
+                    objet_2J.Collision(tirs_aliens_2, blocks, -10, 80, -10, 10);
+                    objet_2J.Collision(tirs_joueurs_1, blocks, -10, 80, -10, 10);
+                    objet_2J.Collision(tirs_joueurs_2, blocks, -10, 80, -10, 10);
+                    objet_2J.Collision(tirs_joueurs_1, tirs_joueurs_2, -20, 20, -20, 20);
+                    objet_2J.Collision_joueur(Player2, tirs_aliens_1, -20, 20, -20, 20);
+                    objet_2J.Collision_joueur(Player1, tirs_aliens_2, -20, 20, -20, 20);
+                    objet_2J.Collision_joueur(Player1, tirs_joueurs_2, -20, 20, -20, 20);
+                    objet_2J.Collision_joueur(Player2, tirs_joueurs_1, -20, 20, -20, 20);
 
                     //retirer si plus de vie
                     if (!aliens_1.getChildren().isEmpty()) {
-                        Objet_2J.supp(aliens_1);
+                        objet_2J.supp(aliens_1);
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        Objet_2J.supp(aliens_2);
+                        objet_2J.supp(aliens_2);
                     }
-                    Objet_2J.supp(tirs_joueurs_1);
-                    Objet_2J.supp(tirs_joueurs_2);
-                    Objet_2J.supp(tirs_aliens_1);
-                    Objet_2J.supp(tirs_aliens_2);
-                    Objet_2J.supp(blocks);
+                    objet_2J.supp(tirs_joueurs_1);
+                    objet_2J.supp(tirs_joueurs_2);
+                    objet_2J.supp(tirs_aliens_1);
+                    objet_2J.supp(tirs_aliens_2);
+                    objet_2J.supp(blocks);
 
 
                     //affichage des vies du joueur et des blocks
@@ -491,7 +526,7 @@ public class game{
                     vie_joueur_2.setX(Player2.getLayoutX());
                     vie_joueur_2.setY(Player2.getLayoutY());
                     vie_joueur_2.setText(Player2.getAccessibleText());
-                    Objet_2J.vie_blocks(blocks, vie_blocks);
+                    objet_2J.vie_blocks(blocks, vie_blocks);
 
                     // Affichage du chrono
                     temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
@@ -503,9 +538,14 @@ public class game{
                                 0,
                                 player,
                                 difficulté,
-                                numTirJoueur1,
-                                numTirJoueur2,
-                                numTirAlien);
+                                URL_vaisseau1,
+                                URL_vaisseau2,
+                                URL_alien,
+                                URL_alien_r,
+                                URL_tir1,
+                                URL_tir2,
+                                URL_tir_alien_up,
+                                URL_tir_alien_down);
                         stop();
                     } else if (Integer.valueOf(Player1.getAccessibleText()) <= 0) {  // PERDU : le joueur 1 est mort.
                         end_of_game.endOfGame_2_joueurs(stage, 1,
@@ -513,9 +553,14 @@ public class game{
                                 aliens_1.getChildren().size() + aliens_2.getChildren().size(),
                                 player,
                                 difficulté,
-                                numTirJoueur1,
-                                numTirJoueur2,
-                                numTirAlien);
+                                URL_vaisseau1,
+                                URL_vaisseau2,
+                                URL_alien,
+                                URL_alien_r,
+                                URL_tir1,
+                                URL_tir2,
+                                URL_tir_alien_up,
+                                URL_tir_alien_down);
                         stop();
                     } else if (Integer.valueOf(Player2.getAccessibleText()) <= 0) {  // PERDU : le joueur 2 est mort.
                         end_of_game.endOfGame_2_joueurs(stage, 2,
@@ -523,34 +568,49 @@ public class game{
                                 aliens_1.getChildren().size() + aliens_2.getChildren().size(),
                                 player,
                                 difficulté,
-                                numTirJoueur1,
-                                numTirJoueur2,
-                                numTirAlien);
+                                URL_vaisseau1,
+                                URL_vaisseau2,
+                                URL_alien,
+                                URL_alien_r,
+                                URL_tir1,
+                                URL_tir2,
+                                URL_tir_alien_up,
+                                URL_tir_alien_down);
                         stop();
                     }
                     if (!aliens_1.getChildren().isEmpty()) {
-                        if (Objet.test_fin_alien(aliens_1, 500, "DOWN")) {    // PERDU : les aliens du J1 ont atteint la Terre.
+                        if (objet.test_fin_alien(aliens_1, 500, "DOWN")) {    // PERDU : les aliens du J1 ont atteint la Terre.
                             end_of_game.endOfGame_2_joueurs(stage, 3,
                                     (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                     aliens_1.getChildren().size()+aliens_2.getChildren().size(),
                                     player,
                                     difficulté,
-                                    numTirJoueur1,
-                                    numTirJoueur2,
-                                    numTirAlien);
+                                    URL_vaisseau1,
+                                    URL_vaisseau2,
+                                    URL_alien,
+                                    URL_alien_r,
+                                    URL_tir1,
+                                    URL_tir2,
+                                    URL_tir_alien_up,
+                                    URL_tir_alien_down);
                             stop();
                         }
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        if (Objet.test_fin_alien(aliens_2, 180, "UP")) {    // PERDU : les aliens du J2 ont atteint la Terre.
+                        if (objet.test_fin_alien(aliens_2, 180, "UP")) {    // PERDU : les aliens du J2 ont atteint la Terre.
                             end_of_game.endOfGame_2_joueurs(stage, 4,
                                     (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                     aliens_1.getChildren().size()+aliens_2.getChildren().size(),
                                     player,
                                     difficulté,
-                                    numTirJoueur1,
-                                    numTirJoueur2,
-                                    numTirAlien);
+                                    URL_vaisseau1,
+                                    URL_vaisseau2,
+                                    URL_alien,
+                                    URL_alien_r,
+                                    URL_tir1,
+                                    URL_tir2,
+                                    URL_tir_alien_up,
+                                    URL_tir_alien_down);
                             stop();
                         }
                     }
@@ -567,4 +627,3 @@ public class game{
         stage.show(); // everything happens everywhere at once
     }
 }
-
