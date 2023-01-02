@@ -162,11 +162,17 @@ public class end_of_game {
 
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
-        root0.setBackground(new Background((new BackgroundImage(main_background,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT))));
+        try {
+            root0.setBackground(new Background((new BackgroundImage(main_background,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT))));
+        }
+        catch ( Exception e) {
+            System.out.println("Impossible d'afficher le fond");
+            //On n'affiche pas de fond
+        }
         Scene scene0 = new Scene(root0, screen0_width, screen0_height, Color.BLACK);
         Text title = endOfGameTitle(reason);
         Text score = endOfGameResults(temps, restants);
@@ -226,11 +232,17 @@ public class end_of_game {
 
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
-        root0.setBackground(new Background((new BackgroundImage(main_background,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT))));
+        try {
+            root0.setBackground(new Background((new BackgroundImage(main_background,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT))));
+        }
+        catch ( Exception e) {
+            System.out.println("Impossible d'afficher le fond");
+            //On n'affiche pas de fond
+        }
         Scene scene0 = new Scene(root0, screen0_width, screen0_height, Color.BLACK);
         Text title = endOfGameTitle(reason);
         Text score = endOfGameResults(temps, restants);

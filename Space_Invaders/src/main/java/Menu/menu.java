@@ -114,12 +114,14 @@ public class menu {
             if (Selector!=1) {
                 String URL = deb_adresse+(Selector-1)+fin_adresse;
                 Image newImage = new Image(URL);
+                if (newImage.isError()) System.out.println("erreur dans le chargement de l'image : "+ URL);
                 disp.setImage(newImage);
                 Selector--;
             }
             else {
                 String URL = deb_adresse+Integer.toString(nb_images)+fin_adresse;
                 Image newImage = new Image(URL);
+                if (newImage.isError()) System.out.println("erreur dans le chargement de l'image : "+ URL);
                 disp.setImage(newImage);
                 Selector=nb_images;
             }
@@ -130,12 +132,14 @@ public class menu {
             if (Selector!=nb_images) {
                 String URL = deb_adresse+(Selector+1)+fin_adresse;
                 Image newImage = new Image(URL);
+                if (newImage.isError()) System.out.println("erreur dans le chargement de l'image : "+ URL);
                 disp.setImage(newImage);
                 Selector++;
             }
             else {
                 String URL = deb_adresse+"1"+fin_adresse;
                 Image newImage = new Image(URL);
+                if (newImage.isError()) System.out.println("erreur dans le chargement de l'image : "+ URL);
                 disp.setImage(newImage);
                 Selector=1;
             }
@@ -319,11 +323,17 @@ public class menu {
 
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,1200,700,false,false);
-        root0.setBackground(new Background((new BackgroundImage(main_background,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT))));
+        try {
+            root0.setBackground(new Background((new BackgroundImage(main_background,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT))));
+        }
+        catch ( Exception e) {
+            System.out.println("Impossible d'afficher le fond");
+            //On n'affiche pas de fond
+        }
         Scene scene0 = new Scene(root0,screen_width,screen_height,Color.BLACK);
 
         Text title = text_func(screen_width,
@@ -388,11 +398,17 @@ public class menu {
         disp_ship_1J.setFitWidth(100);
         disp_ship_1J.setPreserveRatio(true);
 
-        root1.setBackground(new Background((new BackgroundImage(main_background,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT))));
+        try {
+            root1.setBackground(new Background((new BackgroundImage(main_background,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT))));
+        }
+        catch ( Exception e) {
+            System.out.println("Impossible d'afficher le fond");
+            //On n'affiche pas de fond
+        }
         Scene scene1 = new Scene(root1,screen_width,screen_height,Color.BLACK);
         Text options_title_1J = text_func(screen_width,
                 screen_height,
@@ -499,12 +515,17 @@ public class menu {
         disp_ship_2J_2.setFitWidth(80);
         disp_ship_2J_2.setPreserveRatio(true);
 
-        //idea: mouseEvent to detect arrows, have a list of images, disp_alien_img.setImage()
-        root2.setBackground(new Background((new BackgroundImage(main_background,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT))));
+        try {
+            root2.setBackground(new Background((new BackgroundImage(main_background,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT))));
+        }
+        catch ( Exception e) {
+            System.out.println("Impossible d'afficher le fond");
+            //On n'affiche pas de fond
+        }
         Scene scene2 = new Scene(root2,screen_width,screen_height,Color.BLACK);
         Text options_title_2J = text_func(screen_width,
                 screen_height,
@@ -568,11 +589,17 @@ public class menu {
         //------------------------------------scene3 - Credits
         BorderPane root3 = new BorderPane();
         Image credits_background = new Image(MainBackgroundURL,1200,700,false,false);
-        root3.setBackground(new Background((new BackgroundImage(credits_background,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT))));
+        try {
+            root3.setBackground(new Background((new BackgroundImage(credits_background,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT))));
+        }
+        catch ( Exception e) {
+            System.out.println("Impossible d'afficher le fond");
+            //On n'affiche pas de fond
+        }
         Scene scene3 = new Scene(root3,screen_width,screen_height,Color.BLACK);
         Text credits_title = text_func(screen_width,
                 screen_height,
