@@ -18,6 +18,8 @@ org.testfx:testfx-core:4.0.6-alpha
 org.testfx:testfx-junit:4.0.6-alpha     
 
 Enfin, il peut être nécéssaire de cliquer sur le répertoire tests, "Mark repository as", "Tests root".
+Les adresses relatives des fichiers suivent la convention Windows : si vous êtes détenteur d'un système non-compatible, le jeu fonctionnera toujours, mais en
+mode dégradé (pas d'images, de fond et de musique).
 
 Afin de lancer l'application, il faut lancer la classe HelloApplication situé : src/main/java/com/example/space_invaders/HelloApplication.java
 
