@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * Répresente un élément (joueur, alien, tir, block)
  */
-public class objet extends Polygon {
+public class objet {
 
 
     //forme des différents objets
@@ -22,6 +22,7 @@ public class objet extends Polygon {
     static double[] formecanon = {0.0d, 0.0d, 60.0d, 0.0d, 60.0d, 80.0d, 0.0d, 80.0d};
     static double[] formetir = {0.0d, 0.0d, 20.0d, 0.0d, 20.0d, 40.0d, 0.0d, 40.0d};
     static double[] formebloc = {0.0d, 0.0d, 80.0d, 0.0d, 80.0d, 20.0d, 0.0d, 20.0d};
+    private Polygon representation = new Polygon();
 
     public static final String AlienURL = "file:src\\main\\resources\\Image_alien\\Image_alien.png";
     public static final String AlienURL_r = "file:src\\main\\resources\\Image_alien\\Image_alien_r.png";
@@ -43,19 +44,20 @@ public class objet extends Polygon {
      * @param vie nombre de vies de l'objet
      */
     public objet(double x, double y, double[] forme, Color color, String ImageURL, int vie) {
+        this.representation = representation;
         for (double point : forme) {
-            this.getPoints().add(point);
+            this.representation.getPoints().add(point);
         }
 
-        if (ImageURL.equals("NULL")) this.setFill(color);
+        if (ImageURL.equals("NULL")) this.representation.setFill(color);
         else {
             Image image = new Image(ImageURL);
-            if (image.isError()) this.setFill(color);
-            else this.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
+            if (image.isError()) this.representation.setFill(color);
+            else this.representation.setFill(new ImagePattern(image, 0, 0, 1, 1, true));
         }
-        this.setLayoutX(x);
-        this.setLayoutY(y);
-        this.setAccessibleText(Integer.toString(vie));
+        this.representation.setLayoutX(x);
+        this.representation.setLayoutY(y);
+        this.representation.setAccessibleText(Integer.toString(vie));
     }
 
 
@@ -108,8 +110,8 @@ public class objet extends Polygon {
     //crée un tir du joueur
     public static int tir_joueur(int n, int t, objet Player1, Group tirs_joueurs, String URL) {
         if (t == n) {
-            objet tirj = new objet(Player1.getLayoutX() + 25d, Player1.getLayoutY(), formetir, Color.GREEN, URL, 1);
-            tirs_joueurs.getChildren().add(tirj);
+            objet tirj = new objet(Player1.representation.getLayoutX() + 25d, Player1.representation.getLayoutY(), formetir, Color.GREEN, URL, 1);
+            tirs_joueurs.getChildren().add(tirj.representation);
             t = 0;
         } else t++;
         return(t);
@@ -127,7 +129,7 @@ public class objet extends Polygon {
             if (objet.getRandomNumber(0, proba) == 0) {
                 int a = objet.getRandomNumber(0, aliens.getChildren().size());
                 objet tira = new objet(aliens.getChildren().get(a).getLayoutX(), aliens.getChildren().get(a).getLayoutY(), formetir, Color.RED, URL, 1);
-                tirs_aliens.getChildren().add(tira);
+                tirs_aliens.getChildren().add(tira.representation);
             }
         }
     }
@@ -285,14 +287,14 @@ public class objet extends Polygon {
         int n=tir.getChildren().size();
 
         for (int i=0; i<n; i++) {
-            if (memeposition(Player,tir.getChildren().get(i),xmin,xmax,ymin,ymax)) {
-                String vie_joueur = Player.getAccessibleText();
+            if (memeposition(Player.representation,tir.getChildren().get(i),xmin,xmax,ymin,ymax)) {
+                String vie_joueur = Player.representation.getAccessibleText();
                 String vie_tir = tir.getChildren().get(i).getAccessibleText();
 
                 int int_j = Integer.parseInt(vie_joueur) - 1;
                 int int_t = Integer.parseInt(vie_tir) - 1;
 
-                Player.setAccessibleText(Integer.toString(int_j));
+                Player.representation.setAccessibleText(Integer.toString(int_j));
                 tir.getChildren().get(i).setAccessibleText(Integer.toString(int_t));
             }
         }
@@ -310,6 +312,10 @@ public class objet extends Polygon {
         }
 
         for (javafx.scene.Node elem : a_supp) g.getChildren().remove(elem);
+    }
+
+    public Polygon getRepresentation() {
+        return representation;
     }
 }
 

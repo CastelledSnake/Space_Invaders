@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 /**
  * Gère les parties de jeu
  */
-public class game{
+public class game {
     //utilisé pour connaître la position et le sens de déplacement du/des groupe(s) d'aliens
     public static int deplacement;
     public static int deplacement2;
@@ -130,7 +130,7 @@ public class game{
         objet Player1 = objet_1J.init_Player(3,URL_vaisseau);
 
         //vie du joueur, affiché sur lui même
-        Text vie_joueur = new Text(Player1.getAccessibleText());
+        Text vie_joueur = new Text(Player1.getRepresentation().getAccessibleText());
         vie_joueur.setFill(Color.WHITE);
 
         //chrono
@@ -167,7 +167,7 @@ public class game{
                         pause = false;
                         tempause = tempause + (System.currentTimeMillis() - tpa);
                         root.getChildren().remove(text_pause);
-                        root.getChildren().addAll(aliens, Player1, tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks, temps, niveau);
+                        root.getChildren().addAll(aliens, Player1.getRepresentation(), tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks, temps, niveau);
                     } else if (pause == false) {
                         pause = true;
                         tpa = System.currentTimeMillis();
@@ -233,9 +233,9 @@ public class game{
                     objet_1J.supp(blocks);
 
                     //affichage des vies du joueur
-                    vie_joueur.setX(Player1.getLayoutX());
-                    vie_joueur.setY(Player1.getLayoutY());
-                    vie_joueur.setText(Player1.getAccessibleText());
+                    vie_joueur.setX(Player1.getRepresentation().getLayoutX());
+                    vie_joueur.setY(Player1.getRepresentation().getLayoutY());
+                    vie_joueur.setText(Player1.getRepresentation().getAccessibleText());
 
                     //MAJ de la vie des blocks
                     objet_1J.vie_blocks(blocks, vie_blocks);
@@ -257,7 +257,7 @@ public class game{
                                 URL_tir_alien);
                         stop();
                     }
-                    else if (Integer.valueOf(Player1.getAccessibleText())<=0) {  // PERDU : le joueur est mort.
+                    else if (Integer.valueOf(Player1.getRepresentation().getAccessibleText())<=0) {  // PERDU : le joueur est mort.
                         end_of_game.endOfGame_1_joueur(stage, 1,
                                 (System.currentTimeMillis() - temps_debut-tempause) / 1000F,
                                 aliens.getChildren().size(),
@@ -288,7 +288,7 @@ public class game{
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListenerPressed);
         scene.addEventHandler(KeyEvent.KEY_RELEASED, keyListenerReleased);
-        root.getChildren().addAll(aliens, Player1, tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks, temps, niveau);
+        root.getChildren().addAll(aliens, Player1.getRepresentation(), tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks, temps, niveau);
         loop.start();
         stage.setTitle("Space Invaders");
         stage.setResizable(false);
@@ -375,9 +375,9 @@ public class game{
 
 
         //représente la vie des joueurs
-        Text vie_joueur_1 = new Text(Player1.getAccessibleText());
+        Text vie_joueur_1 = new Text(Player1.getRepresentation().getAccessibleText());
         vie_joueur_1.setFill(Color.WHITE);
-        Text vie_joueur_2 = new Text(Player2.getAccessibleText());
+        Text vie_joueur_2 = new Text(Player2.getRepresentation().getAccessibleText());
         vie_joueur_2.setFill(Color.WHITE);
 
         //Chrono
@@ -416,7 +416,7 @@ public class game{
                         pause = false;
                         tempause = tempause + (System.currentTimeMillis() - tpa);
                         root.getChildren().remove(text_pause);
-                        root.getChildren().addAll(Player1, Player2, tirs_joueurs_1, tirs_joueurs_2, tirs_aliens_1, tirs_aliens_2, aliens_1, aliens_2, blocks, vie_blocks,temps,vie_joueur_1,vie_joueur_2, niveau);
+                        root.getChildren().addAll(Player1.getRepresentation(), Player2.getRepresentation(), tirs_joueurs_1, tirs_joueurs_2, tirs_aliens_1, tirs_aliens_2, aliens_1, aliens_2, blocks, vie_blocks,temps,vie_joueur_1,vie_joueur_2, niveau);
                     } else if (!pause) {
                         pause = true;
                         tpa = System.currentTimeMillis();
@@ -520,12 +520,12 @@ public class game{
 
 
                     //affichage des vies du joueur et des blocks
-                    vie_joueur_1.setX(Player1.getLayoutX());
-                    vie_joueur_1.setY(Player1.getLayoutY());
-                    vie_joueur_1.setText(Player1.getAccessibleText());
-                    vie_joueur_2.setX(Player2.getLayoutX());
-                    vie_joueur_2.setY(Player2.getLayoutY());
-                    vie_joueur_2.setText(Player2.getAccessibleText());
+                    vie_joueur_1.setX(Player1.getRepresentation().getLayoutX());
+                    vie_joueur_1.setY(Player1.getRepresentation().getLayoutY());
+                    vie_joueur_1.setText(Player1.getRepresentation().getAccessibleText());
+                    vie_joueur_2.setX(Player2.getRepresentation().getLayoutX());
+                    vie_joueur_2.setY(Player2.getRepresentation().getLayoutY());
+                    vie_joueur_2.setText(Player2.getRepresentation().getAccessibleText());
                     objet_2J.vie_blocks(blocks, vie_blocks);
 
                     // Affichage du chrono
@@ -547,7 +547,7 @@ public class game{
                                 URL_tir_alien_up,
                                 URL_tir_alien_down);
                         stop();
-                    } else if (Integer.valueOf(Player1.getAccessibleText()) <= 0) {  // PERDU : le joueur 1 est mort.
+                    } else if (Integer.valueOf(Player1.getRepresentation().getAccessibleText()) <= 0) {  // PERDU : le joueur 1 est mort.
                         end_of_game.endOfGame_2_joueurs(stage, 1,
                                 (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                 aliens_1.getChildren().size() + aliens_2.getChildren().size(),
@@ -562,7 +562,7 @@ public class game{
                                 URL_tir_alien_up,
                                 URL_tir_alien_down);
                         stop();
-                    } else if (Integer.valueOf(Player2.getAccessibleText()) <= 0) {  // PERDU : le joueur 2 est mort.
+                    } else if (Integer.valueOf(Player2.getRepresentation().getAccessibleText()) <= 0) {  // PERDU : le joueur 2 est mort.
                         end_of_game.endOfGame_2_joueurs(stage, 2,
                                 (System.currentTimeMillis() - temps_debut - tempause) / 1000F,
                                 aliens_1.getChildren().size() + aliens_2.getChildren().size(),
@@ -619,7 +619,7 @@ public class game{
         };
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
         scene.addEventHandler(KeyEvent.KEY_RELEASED, keyListener2);
-        root.getChildren().addAll(Player1, Player2, tirs_joueurs_1, tirs_joueurs_2, tirs_aliens_1, tirs_aliens_2, aliens_1, aliens_2, blocks, vie_blocks,temps,vie_joueur_1,vie_joueur_2, niveau);
+        root.getChildren().addAll(Player1.getRepresentation(), Player2.getRepresentation(), tirs_joueurs_1, tirs_joueurs_2, tirs_aliens_1, tirs_aliens_2, aliens_1, aliens_2, blocks, vie_blocks,temps,vie_joueur_1,vie_joueur_2, niveau);
         loop.start();
         stage.setTitle("Space Invaders");
         stage.setResizable(false);

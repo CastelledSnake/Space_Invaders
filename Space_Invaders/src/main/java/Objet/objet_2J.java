@@ -57,7 +57,7 @@ public class objet_2J extends objet {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 3; j++) {
                 objet alien = new objet(10d + 50 * i, a + b * j, formalien, Color.LIMEGREEN, URL, 1);
-                aliens.getChildren().add(alien);
+                aliens.getChildren().add(alien.getRepresentation());
             }
         }
     }
@@ -71,14 +71,14 @@ public class objet_2J extends objet {
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 4; i++) {
                 objet block1 = new objet(300 * i + 110d, 90+510*j, formebloc, Color.LIMEGREEN, "NULL", 10);
-                blocks.getChildren().add(block1);
+                blocks.getChildren().add(block1.getRepresentation());
 
 
-                Text v1 = new Text(block1.getAccessibleText());
+                Text v1 = new Text(block1.getRepresentation().getAccessibleText());
                 v1.setFill(Color.WHITE);
                 vie_blocks.getChildren().add(v1);
-                v1.setX(block1.getLayoutX());
-                v1.setY(block1.getLayoutY());
+                v1.setX(block1.getRepresentation().getLayoutX());
+                v1.setY(block1.getRepresentation().getLayoutY());
 
             }
         }
@@ -93,11 +93,11 @@ public class objet_2J extends objet {
      * @param difficulté indice de difficulté : plus haut -> joueurs se déplacent plus vite
      */
     public static void dep_2_joueurs(objet Player1, objet Player2, int dep1, int dep2, int difficulté) {
-        if (((dep1==1)&&(Player1.getLayoutX()<1140))||(dep1==-1&&Player1.getLayoutX()>0)) {
-            Player1.setLayoutX(Player1.getLayoutX() + dep1 * (2d+difficulté/5));
+        if (((dep1==1)&&(Player1.getRepresentation().getLayoutX()<1140))||(dep1==-1&&Player1.getRepresentation().getLayoutX()>0)) {
+            Player1.getRepresentation().setLayoutX(Player1.getRepresentation().getLayoutX() + dep1 * (2d+difficulté/5));
         }
-        if (((dep2==1)&&(Player2.getLayoutX()<1140))||((dep2==-1)&&(Player2.getLayoutX()>0))) {
-            Player2.setLayoutX(Player2.getLayoutX() + dep2 * (2d+difficulté/5));
+        if (((dep2==1)&&(Player2.getRepresentation().getLayoutX()<1140))||((dep2==-1)&&(Player2.getRepresentation().getLayoutX()>0))) {
+            Player2.getRepresentation().setLayoutX(Player2.getRepresentation().getLayoutX() + dep2 * (2d+difficulté/5));
         }
     }
 

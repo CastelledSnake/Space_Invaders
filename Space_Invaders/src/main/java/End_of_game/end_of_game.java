@@ -134,7 +134,7 @@ public class end_of_game {
             if (player!=null) player.stop();
             menu.menu(stage);
         }
-        if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneX()>460 && e.getSceneY()<500 && reason==0) {
+        if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneY()>460 && e.getSceneY()<500 && reason==0) {
             if (player!=null) player.stop();
             if (nbjoueurs == 1) game.game_1_joueur(stage,niveau+1,URL_vaisseau1,URL_alien,URL_tir_1,URL_tir_alien_up);
             if (nbjoueurs == 2) game.game_2_joueurs(stage,niveau+1,URL_vaisseau1,URL_vaisseau2,

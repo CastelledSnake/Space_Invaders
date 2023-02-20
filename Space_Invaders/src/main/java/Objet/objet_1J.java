@@ -40,7 +40,7 @@ public class objet_1J extends objet {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 3; j++) {
                 objet alien = new objet(10d + 50 * i, 10d + 35 * j, formalien, Color.LIMEGREEN, URL, 1);
-                aliens.getChildren().add(alien);
+                aliens.getChildren().add(alien.getRepresentation());
             }
         }
     }
@@ -53,12 +53,12 @@ public class objet_1J extends objet {
     public static void init_blocks(Group blocks, Group vie_blocks) {
         for (int i = 0; i < 4; i++) {
             objet block = new objet(300 * i + 110d, 550, formebloc, Color.LIMEGREEN, "NULL", 10);
-            blocks.getChildren().add(block);
-            Text v = new Text(block.getAccessibleText());
+            blocks.getChildren().add(block.getRepresentation());
+            Text v = new Text(block.getRepresentation().getAccessibleText());
             v.setFill(Color.WHITE);
             vie_blocks.getChildren().add(v);
-            v.setX(block.getLayoutX());
-            v.setY(block.getLayoutY());
+            v.setX(block.getRepresentation().getLayoutX());
+            v.setY(block.getRepresentation().getLayoutY());
         }
     }
 
@@ -69,8 +69,8 @@ public class objet_1J extends objet {
      * @param difficulté indice de difficulté : plus haut -> joueur se déplace plus vite
      */
     public static void dep_1_joueur(objet Player1, int dep1, int difficulté) {
-        if (((dep1==1)&&(Player1.getLayoutX()<1140))||(dep1==-1&&Player1.getLayoutX()>0)) {
-            Player1.setLayoutX(Player1.getLayoutX() + dep1 * (2d+difficulté/5));
+        if (((dep1==1)&&(Player1.getRepresentation().getLayoutX()<1140))||(dep1==-1&&Player1.getRepresentation().getLayoutX()>0)) {
+            Player1.getRepresentation().setLayoutX(Player1.getRepresentation().getLayoutX() + dep1 * (2d+difficulté/5));
         }
     }
 }
