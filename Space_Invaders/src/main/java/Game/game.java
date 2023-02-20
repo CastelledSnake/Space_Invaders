@@ -1,6 +1,7 @@
 package Game;
 
 import End_of_game.end_of_game;
+import Objet_jeux.Alien;
 import Objet_jeux.objet_jeux;
 import Objet_jeux.objet_jeux_1J;
 import Objet_jeux.objet_jeux_2J;
@@ -125,7 +126,15 @@ public class game {
         Group blocks = new Group();
         Group vie_blocks = new Group();
 
-        objet_jeux_1J.init_aliens(aliens,URL_alien);
+        //remplissage de aliens
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 3; j++) {
+                Alien alien = new Alien(10d + 50 * i, 10d + 35 * j, Alien.formalien, Color.LIMEGREEN, URL_alien, 1);
+                aliens.getChildren().add(alien.getRepresentation());
+            }
+        }
+
+        //objet_jeux_1J.init_aliens(aliens,URL_alien);
         objet_jeux_1J.init_blocks(blocks, vie_blocks);
         objet_jeux Player1 = objet_jeux_1J.init_Player(3,URL_vaisseau);
 
