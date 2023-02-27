@@ -275,8 +275,8 @@ public class menu {
                 "file:src/main/resources/Image_tir/Image_tir_","_d.png",
                 PlayerTirSelector_2J_2);
 
-        ArrayList<Integer> alien_gauche=new ArrayList<>(List.of(-90,-70,20,55));
-        ArrayList<Integer> alien_droite=new ArrayList<>(List.of(120,140,20,55));
+        ArrayList<Integer> alien_gauche = new ArrayList<>(List.of(-90,-70,20,55));
+        ArrayList<Integer> alien_droite = new ArrayList<>(List.of(120,140,20,55));
         AlienSelector_2J=Affichage_choix(e,disp_alien,4,alien_gauche,alien_droite,
                 "file:src/main/resources/Image_alien/Image_alien_",".png",
                 AlienSelector_2J);
@@ -290,7 +290,7 @@ public class menu {
         ArrayList<Integer> ship_2_gauche=new ArrayList<>(List.of(-90,-70,160,175));
         ArrayList<Integer> ship_2_droite=new ArrayList<>(List.of(120,140,160,175));
         ShipSelector_2J_2=Affichage_choix(e,disp_ship2,3,ship_2_gauche,ship_2_droite,
-                "file:src/main/resources/Image_vaisseau/Image_vaisseau_",".png",
+                "file:src/main/resources/Image_vaisseau/Image_vaisseau_","_r.png",
                 ShipSelector_2J_2);
 
 
@@ -506,7 +506,7 @@ public class menu {
         disp_ship_2J_1.setFitWidth(80);
         disp_ship_2J_1.setPreserveRatio(true);
 
-        final String disp_ship_URL_2J_2 ="file:src/main/resources/Image_vaisseau/Image_vaisseau_1.png";
+        final String disp_ship_URL_2J_2 ="file:src/main/resources/Image_vaisseau/Image_vaisseau_1_r.png";
         ShipSelector_2J_2=1;
         Image disp_ship_img_2J_2 = new Image(disp_ship_URL_2J_2);
         ImageView disp_ship_2J_2= new ImageView(disp_ship_img_2J_2);
@@ -542,7 +542,7 @@ public class menu {
         Text selection_fields_2J = text_func(
                 screen_width,
                 screen_height,
-                "Alien shots\n\nShip 1 shots\n\nShip 2 shots\n\nAliens\n\nShip 1\n\n Ship 2\n\nStart",
+                "Alien shots\n\nShip 2 shots\n\nShip 1 shots\n\nAliens\n\nShip 2\n\n Ship 1\n\nStart",
                 "Impact",
                 FontWeight.NORMAL,
                 30,
