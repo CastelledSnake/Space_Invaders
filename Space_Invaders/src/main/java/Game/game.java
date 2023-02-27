@@ -25,29 +25,29 @@ import java.nio.file.Paths;
  * Gère les parties de jeu
  */
 public class game {
-    //utilisé pour connaître la position et le sens de déplacement du/des groupe(s) d'aliens
+    // Utilisé pour connaître la position et le sens de déplacement du/des groupe(s) d'aliens
     public static int deplacement;
     public static int deplacement2;
     public static int pos_gr_alien;
     public static int pos_gr_alien2;
 
-    //utilisé pour mémoriser l'espacement entre les tirs des joueurs
+    // Utilisé pour mémoriser l'espacement entre les tirs des joueurs
     public static int t;
     public static int t2;
 
-    //variable d'état : pause ou jeu
+    // Variable d'état : pause ou jeu
     public static Boolean pause = false;
 
-    //utilisés pour retenir le temps passé en pause (pause actuelle et somme des pauses)
+    // Utilisés pour retenir le temps passé en pause (pause actuelle et somme des pauses)
     public static long tempause = 0;
     public static long tpa = 0;
 
-    //adresses relatives du fond et de la musique
+    // Adresses relatives du fond et de la musique
     private static final String fond_url = "file:src\\main\\resources\\Image_fond\\Image_fond_1.jpg";
     private static final String MusiqueUrl = "src\\main\\resources\\Musique\\Musique_1.mp3";
 
     static MediaPlayer player;
-    //retient la direction des joueurs
+    // Retient la direction des joueurs
     public static int dir_p1;
     public static int dir_p2;
 
@@ -76,7 +76,7 @@ public class game {
                                      String URL_vaisseau, String URL_alien,
                                      String URL_tir_vaisseau, String URL_tir_alien) {
 
-        //Initialisation du jeu
+        // Initialisation du jeu
 
         double screen_width = 1200;
         double screen_height = 700;
@@ -85,7 +85,7 @@ public class game {
         Scene scene = new Scene(root, screen_width, screen_height, Color.BLACK);
 
 
-        //initialisation des variables
+        // Initialisation des variables
         pos_gr_alien=0;
         deplacement=1;
         tempause = 0;
@@ -93,37 +93,37 @@ public class game {
         dir_p1=0;
         t=0;
 
-        //tente de mettre la musique de fond
+        // Tente de mettre la musique de fond
 
         try {
             music(MusiqueUrl);
         }
         catch (Exception e) {
             System.out.println("Impossible de lancer la musique");
-            //On choisit de ne pas utiliser de musique
+            // On choisit de ne pas utiliser de musique
         }
 
 
-        //tente de mettre le fond
+        // Tente de mettre le fond
         try {
-            //erreur capturé par JavaFX -> détection manuelle
+            // Erreur capturé par JavaFX -> détection manuelle
             Image image_fond = new Image(fond_url);
             if (image_fond.isError()) throw new FileNotFoundException();
             scene.setFill(new ImagePattern(image_fond, 0, 0, 1, 1, true));
         }
         catch ( Exception e) {
             System.out.println("Impossible d'afficher le fond");
-            //On n'affiche pas de fond
+            // On n'affiche pas de fond
         }
 
-        //initialisation des différents Objets
+        // Initialisation des différents Objets
         Group tirs_joueurs = new Group();
         Group tirs_aliens = new Group();
         Group aliens = new Group();
         Group blocks = new Group();
         Group vie_blocks = new Group();
 
-        // remplissage de aliens
+        // Remplissage de aliens
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 3; j++) {
                 Alien alien = new Alien(10d + 50 * i, 10d + 35 * j, URL_alien);
@@ -131,7 +131,7 @@ public class game {
             }
         }
 
-        // remplissage de blocks
+        // Remplissage de blocks
         for (int i = 0; i < 4; i++) {
             Block block = new Block(300 * i + 110d, 550);
             blocks.getChildren().add(block.getRepresentation());
@@ -142,35 +142,35 @@ public class game {
             v.setY(block.getRepresentation().getLayoutY());
         }
 
-        // initialisation Player1
+        // Initialisation Player1
         Canon Player1 = new Canon(600, 590, URL_vaisseau);
 
-        //vie du joueur, affiché sur lui même
+        // Vie du joueur, affiché sur lui même
         Text vie_joueur = new Text(Player1.getRepresentation().getAccessibleText());
         vie_joueur.setFill(Color.WHITE);
 
-        //chrono
+        // Chrono
         Text temps = new Text(Float.toString((System.currentTimeMillis() - temps_debut) / 1000F));
         temps.setFont(Font.font("Verdana", 20));
         temps.setFill(Color.WHITE);
         temps.setX(20);
         temps.setY(680);
 
-        //texte de pause
+        // Texte de pause
         Text text_pause = new Text("PAUSE");
         text_pause.setFont((Font.font("Verdana", 80)));
         text_pause.setFill(Color.WHITE);
         text_pause.setX(480);
         text_pause.setY(350);
 
-        //texte de niveau
+        // Texte de niveau
         Text niveau = new Text("Niveau " +Integer.toString(difficulte));
         niveau.setFont(Font.font("Verdana", 20));
         niveau.setFill(Color.WHITE);
         niveau.setX(1080);
         niveau.setY(680);
 
-        // action dans le cas d'une touche pressée
+        // Action dans le cas d'une touche pressée
         EventHandler<KeyEvent> keyListenerPressed = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
@@ -193,7 +193,8 @@ public class game {
                 }
             }
         };
-        // action dans le cas d'une touche lâchée
+        //
+        // Action dans le cas d'une touche lâchée
         EventHandler<KeyEvent> keyListenerReleased = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
@@ -203,39 +204,39 @@ public class game {
             }
         };
 
-        //action à réaliser périodiquement dans le jeu
+        // Action à réaliser périodiquement dans le jeu
         AnimationTimer loop = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 if (!pause) {
 
-                    //déplacement du joueur
+                    // Déplacement du joueur
                     Player1.dep_joueur(dir_p1,difficulte);
 
-                    //pattern de déplacement des aliens
-                    //pos_gr_alien : position sur l'écran, pour savoir quand faire demi-tour
-                    //deplacement : sens de déplacement des aliens
+                    // Pattern de déplacement des aliens
+                    // pos_gr_alien : position sur l'écran, pour savoir quand faire demi-tour
+                    // deplacement : sens de déplacement des aliens
                     int ret[];
                     ret = Alien.depalien(aliens, pos_gr_alien, deplacement, "DOWN",difficulte);
                     pos_gr_alien = ret[0];
                     deplacement = ret[1];
 
-                    //tir du joueur tous les max(30,100-5*difficulté) mouvements
+                    // Tir du joueur tous les max(30,100-5*difficulté) mouvements
                     t = Player1.tir_joueur(Math.max(30,100-5*difficulte), t, tirs_joueurs, URL_tir_vaisseau);
 
-                    //tir des aliens
+                    // Tir des aliens
                     Alien.tir_alien(aliens, tirs_aliens, URL_tir_alien,Math.max(10,50-5*difficulte));
 
-                    //déplacement des tirs
+                    // Déplacement des tirs
                     Tir.dep(tirs_joueurs, "UP",difficulte);
                     Tir.dep(tirs_aliens, "DOWN",difficulte);
 
-                    //enlever les tirs en dehors
+                    // Enlever les tirs en dehors
                     tirs_joueurs.getChildren().removeIf(elem -> elem.getLayoutY() < 0);
                     tirs_aliens.getChildren().removeIf(elem -> elem.getLayoutY() > 900);
 
 
-                    //gestion des collisions
+                    // Gestion des collisions
                     Tir.Collision(aliens, tirs_joueurs, -50, 10, -15, 5);
                     Tir.Collision(tirs_aliens, tirs_joueurs, -30, 10, -10, 0);
                     Tir.Collision(tirs_aliens, blocks, -10, 80, -10, 10);
@@ -246,18 +247,18 @@ public class game {
                     Tir.supp(tirs_aliens);
                     Tir.supp(blocks);
 
-                    //affichage des vies du joueur
+                    // Affichage des vies du joueur
                     vie_joueur.setX(Player1.getRepresentation().getLayoutX());
                     vie_joueur.setY(Player1.getRepresentation().getLayoutY());
                     vie_joueur.setText(Player1.getRepresentation().getAccessibleText());
 
-                    //MAJ de la vie des blocks
+                    // MAJ de la vie des blocks
                     Block.vie_blocks(blocks, vie_blocks);
 
-                    //MAJ du chrono
+                    // MAJ du chrono
                     temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
 
-                    //s'il n'y a plus d'aliens -> Victoire
+                    // S'il n'y a plus d'aliens -> Victoire
                     if (aliens.getChildren().isEmpty()) {   // GAGNE
                         //if (true) {
                         end_of_game.endOfGame_1_joueur(stage, 0,
