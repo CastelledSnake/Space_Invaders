@@ -43,8 +43,8 @@ public class game {
     public static long tpa = 0;
 
     // Adresses relatives du fond et de la musique
-    private static final String fond_url = "file:src\\main\\resources\\Image_fond\\Image_fond_1.jpg";
-    private static final String MusiqueUrl = "src\\main\\resources\\Musique\\Musique_1.mp3";
+    private static final String fond_url = "file:Space_Invaders\\src\\main\\resources\\Image_fond\\Image_fond_1.jpg";
+    private static final String MusiqueUrl = "Space_Invaders\\src\\main\\resources\\Musique\\Musique_1.mp3";
 
     static MediaPlayer player;
     // Retient la direction des joueurs

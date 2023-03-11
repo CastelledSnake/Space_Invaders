@@ -15,10 +15,10 @@ public class Alien {
     int vie = 1;
     private Polygon representation = new Polygon();
 
-    public static final String AlienURL = "file:src\\main\\resources\\Image_alien\\Image_alien.png";
-    public static final String AlienURL_r = "file:src\\main\\resources\\Image_alien\\Image_alien_r.png";
+    public static final String AlienURL = "file:Space_Invaders\\src\\main\\resources\\Image_alien\\Image_alien.png";
+    public static final String AlienURL_r = "file:Space_Invaders\\src\\main\\resources\\Image_alien\\Image_alien_r.png";
 
-    public static final String Tir="file:src\\main\\resources\\Image_tir\\Image_tir_";
+    public static final String Tir="file:Space_Invaders\\src\\main\\resources\\Image_tir\\Image_tir_";
     public static final String Tir_down="_d.png";
 
     public Alien (double x, double y, String ImageURL) {

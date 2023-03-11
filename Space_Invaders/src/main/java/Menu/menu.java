@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class menu {
 
-    private static final String MainBackgroundURL="file:src/main/resources/Image_menu/Image_menu_1.jpg";
+    private static final String MainBackgroundURL="file:Space_Invaders/src/main/resources/Image_menu/Image_menu_1.jpg";
 
     //représente les "skins" des objets du jeu
     private static int AlienTirSelector_1J;
@@ -200,35 +200,35 @@ public class menu {
         ArrayList<Integer> alien_tir_gauche=new ArrayList<>(List.of(-80,-60,-20,0));
         ArrayList<Integer> alien_tir_droite=new ArrayList<>(List.of(110,130,-20,0));
         AlienTirSelector_1J=Affichage_choix(e,disp_alien_shot,6,alien_tir_gauche,alien_tir_droite,
-                "file:src/main/resources/Image_tir/Image_tir_","_d.png",
+                "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_","_d.png",
                 AlienTirSelector_1J);
 
         ArrayList<Integer> joueur_tir_gauche=new ArrayList<>(List.of(-80,-60,50,70));
         ArrayList<Integer> joueur_tir_droite=new ArrayList<>(List.of(110,130,50,70));
         PlayerTirSelector_1J=Affichage_choix(e,disp_player_shot,6,joueur_tir_gauche,joueur_tir_droite,
-                "file:src/main/resources/Image_tir/Image_tir_","_u.png",
+                "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_","_u.png",
                 PlayerTirSelector_1J);
 
         ArrayList<Integer> alien_gauche=new ArrayList<>(List.of(-80,-60,125,145));
         ArrayList<Integer> alien_droite=new ArrayList<>(List.of(110,130,125,145));
         AlienSelector_1J=Affichage_choix(e,disp_alien,4,alien_gauche,alien_droite,
-                "file:src/main/resources/Image_alien/Image_alien_",".png",
+                "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_",".png",
                 AlienSelector_1J);
 
         ArrayList<Integer> ship_gauche=new ArrayList<>(List.of(-80,-60,200,215));
         ArrayList<Integer> ship_droite=new ArrayList<>(List.of(110,130,200,215));
         ShipSelector_1J=Affichage_choix(e,disp_ship,3,ship_gauche,ship_droite,
-                "file:src/main/resources/Image_vaisseau/Image_vaisseau_",".png",
+                "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_",".png",
                 ShipSelector_1J);
 
         //Lancement du jeu 1 joueur
         if (e.getSceneX()>-5d+(screen_width/2) && e.getSceneX()<60d+(screen_width/2)
                 && e.getSceneY()>270d+screen_height/2 && e.getSceneY()<300d+screen_height/2) {
             game.game_1_joueur(stage,1,
-                    "file:src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(ShipSelector_1J)+".png",
-                    "file:src/main/resources/Image_alien/Image_alien_"+Integer.toString(AlienSelector_1J)+".png",
-                    "file:src/main/resources/Image_tir/Image_tir_"+Integer.toString(PlayerTirSelector_1J)+"_u.png",
-                    "file:src/main/resources/Image_tir/Image_tir_"+Integer.toString(AlienTirSelector_1J)+"_d.png"
+                    "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(ShipSelector_1J)+".png",
+                    "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+Integer.toString(AlienSelector_1J)+".png",
+                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(PlayerTirSelector_1J)+"_u.png",
+                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(AlienTirSelector_1J)+"_d.png"
             );
         }
 
@@ -260,37 +260,37 @@ public class menu {
         ArrayList<Integer> alien_tir_gauche=new ArrayList<>(List.of(-90,-70,-205,-190));
         ArrayList<Integer> alien_tir_droite=new ArrayList<>(List.of(120,140,-205,-190));
         AlienTirSelector_2J=Affichage_choix(e,disp_alien_shot,6,alien_tir_gauche,alien_tir_droite,
-                "file:src/main/resources/Image_tir/Image_tir_","_d.png",
+                "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_","_d.png",
                 AlienTirSelector_2J);
 
         ArrayList<Integer> player_tir_1_gauche=new ArrayList<>(List.of(-90,-70,-130,-115));
         ArrayList<Integer> player_tir_1_droite=new ArrayList<>(List.of(120,140,-130,-115));
         PlayerTirSelector_2J_1=Affichage_choix(e,disp_player_shot_1,6,player_tir_1_gauche,player_tir_1_droite,
-                "file:src/main/resources/Image_tir/Image_tir_","_u.png",
+                "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_","_u.png",
                 PlayerTirSelector_2J_1);
 
         ArrayList<Integer> player_tir_2_gauche=new ArrayList<>(List.of(-90,-70,-55,-40));
         ArrayList<Integer> player_tir_2_droite=new ArrayList<>(List.of(120,140,-55,-40));
         PlayerTirSelector_2J_2=Affichage_choix(e,disp_player_shot_2,6,player_tir_2_gauche,player_tir_2_droite,
-                "file:src/main/resources/Image_tir/Image_tir_","_d.png",
+                "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_","_d.png",
                 PlayerTirSelector_2J_2);
 
         ArrayList<Integer> alien_gauche = new ArrayList<>(List.of(-90,-70,20,55));
         ArrayList<Integer> alien_droite = new ArrayList<>(List.of(120,140,20,55));
         AlienSelector_2J=Affichage_choix(e,disp_alien,4,alien_gauche,alien_droite,
-                "file:src/main/resources/Image_alien/Image_alien_",".png",
+                "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_",".png",
                 AlienSelector_2J);
 
         ArrayList<Integer> ship_1_gauche=new ArrayList<>(List.of(-90,-70,90,105));
         ArrayList<Integer> ship_1_droite=new ArrayList<>(List.of(120,140,90,105));
         ShipSelector_2J_1=Affichage_choix(e,disp_ship1,3,ship_1_gauche,ship_1_droite,
-                "file:src/main/resources/Image_vaisseau/Image_vaisseau_",".png",
+                "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_",".png",
                 ShipSelector_2J_1);
 
         ArrayList<Integer> ship_2_gauche=new ArrayList<>(List.of(-90,-70,160,175));
         ArrayList<Integer> ship_2_droite=new ArrayList<>(List.of(120,140,160,175));
         ShipSelector_2J_2=Affichage_choix(e,disp_ship2,3,ship_2_gauche,ship_2_droite,
-                "file:src/main/resources/Image_vaisseau/Image_vaisseau_","_r.png",
+                "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_","_r.png",
                 ShipSelector_2J_2);
 
 
@@ -298,14 +298,14 @@ public class menu {
         if (e.getSceneX()>-5d+(screen_width/2) && e.getSceneX()<60d+(screen_width/2)
                 && e.getSceneY()>230d+screen_height/2 && e.getSceneY()<260d+screen_height/2) {
             game.game_2_joueurs(stage,1,
-                    "file:src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(ShipSelector_2J_1)+".png",
-                    "file:src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(ShipSelector_2J_2)+"_r.png",
-                    "file:src/main/resources/Image_alien/Image_alien_"+Integer.toString(AlienSelector_2J)+".png",
-                    "file:src/main/resources/Image_alien/Image_alien_"+Integer.toString(AlienSelector_2J)+"_r.png",
-                    "file:src/main/resources/Image_tir/Image_tir_"+Integer.toString(AlienTirSelector_2J)+"_u.png",
-                    "file:src/main/resources/Image_tir/Image_tir_"+Integer.toString(AlienTirSelector_2J)+"_d.png",
-                    "file:src/main/resources/Image_tir/Image_tir_"+Integer.toString(PlayerTirSelector_2J_1)+"_u.png",
-                    "file:src/main/resources/Image_tir/Image_tir_"+Integer.toString(PlayerTirSelector_2J_2)+"_d.png");
+                    "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(ShipSelector_2J_1)+".png",
+                    "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(ShipSelector_2J_2)+"_r.png",
+                    "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+Integer.toString(AlienSelector_2J)+".png",
+                    "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+Integer.toString(AlienSelector_2J)+"_r.png",
+                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(AlienTirSelector_2J)+"_u.png",
+                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(AlienTirSelector_2J)+"_d.png",
+                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(PlayerTirSelector_2J_1)+"_u.png",
+                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(PlayerTirSelector_2J_2)+"_d.png");
         }
 
         //retour à la page d'accueil
@@ -366,21 +366,21 @@ public class menu {
         BorderPane root1 = new BorderPane();
 
         //Initialisation des images
-        final String disp_alien_shot_URL_1J ="file:src/main/resources/Image_tir/Image_tir_1_d.png";
+        final String disp_alien_shot_URL_1J ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_d.png";
         AlienTirSelector_1J=1;
         Image disp_alien_shot_img_1J = new Image(disp_alien_shot_URL_1J);
         ImageView disp_alien_shot_1J = new ImageView(disp_alien_shot_img_1J);
         disp_alien_shot_1J.setLayoutX(400);
         disp_alien_shot_1J.setLayoutY(300);
 
-        final String disp_player_shot_URL_1J ="file:src/main/resources/Image_tir/Image_tir_1_u.png";
+        final String disp_player_shot_URL_1J ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_u.png";
         PlayerTirSelector_1J=1;
         Image disp_player_shot_img_1J = new Image(disp_player_shot_URL_1J);
         ImageView disp_player_shot_1J = new ImageView(disp_player_shot_img_1J);
         disp_player_shot_1J.setLayoutX(800);
         disp_player_shot_1J.setLayoutY(350);
 
-        final String disp_aliens_URL_1J ="file:src/main/resources/Image_alien/Image_alien_1.png";
+        final String disp_aliens_URL_1J ="file:Space_Invaders/src/main/resources/Image_alien/Image_alien_1.png";
         AlienSelector_1J=1;
         Image disp_aliens_img_1J = new Image(disp_aliens_URL_1J);
         ImageView disp_aliens_1J = new ImageView(disp_aliens_img_1J);
@@ -389,7 +389,7 @@ public class menu {
         disp_aliens_1J.setFitWidth(100);
         disp_aliens_1J.setPreserveRatio(true);
 
-        final String disp_ship_URL_1J ="file:src/main/resources/Image_vaisseau/Image_vaisseau_1.png";
+        final String disp_ship_URL_1J ="file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_1.png";
         ShipSelector_1J=1;
         Image disp_ship_img_1J = new Image(disp_ship_URL_1J);
         ImageView disp_ship_1J= new ImageView(disp_ship_img_1J);
@@ -467,28 +467,28 @@ public class menu {
         BorderPane root2 = new BorderPane();
 
         //Initialisation des images
-        final String disp_alien_shot_URL_2J ="file:src/main/resources/Image_tir/Image_tir_1_d.png";
+        final String disp_alien_shot_URL_2J ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_d.png";
         AlienTirSelector_2J=1;
         Image disp_alien_shot_img_2J = new Image(disp_alien_shot_URL_2J);
         ImageView disp_alien_shot_2J = new ImageView(disp_alien_shot_img_2J);
         disp_alien_shot_2J.setLayoutX(400);
         disp_alien_shot_2J.setLayoutY(90);
 
-        final String disp_player_shot_URL_2J_1 ="file:src/main/resources/Image_tir/Image_tir_1_u.png";
+        final String disp_player_shot_URL_2J_1 ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_u.png";
         PlayerTirSelector_2J_1=1;
         Image disp_player_shot_img_2J_1 = new Image(disp_player_shot_URL_2J_1);
         ImageView disp_player_shot_2J_1 = new ImageView(disp_player_shot_img_2J_1);
         disp_player_shot_2J_1.setLayoutX(800);
         disp_player_shot_2J_1.setLayoutY(170);
 
-        final String disp_player_shot_URL_2J_2 ="file:src/main/resources/Image_tir/Image_tir_1_d.png";
+        final String disp_player_shot_URL_2J_2 ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_d.png";
         PlayerTirSelector_2J_2=1;
         Image disp_player_shot_img_2J_2 = new Image(disp_player_shot_URL_2J_2);
         ImageView disp_player_shot_2J_2 = new ImageView(disp_player_shot_img_2J_2);
         disp_player_shot_2J_2.setLayoutX(400);
         disp_player_shot_2J_2.setLayoutY(240);
 
-        final String disp_aliens_URL_2J ="file:src/main/resources/Image_alien/Image_alien_1.png";
+        final String disp_aliens_URL_2J ="file:Space_Invaders/src/main/resources/Image_alien/Image_alien_1.png";
         AlienSelector_2J=1;
         Image disp_aliens_img_2J = new Image(disp_aliens_URL_2J);
         ImageView disp_aliens_2J = new ImageView(disp_aliens_img_2J);
@@ -497,7 +497,7 @@ public class menu {
         disp_aliens_2J.setFitWidth(100);
         disp_aliens_2J.setPreserveRatio(true);
 
-        final String disp_ship_URL_2J_1 ="file:src/main/resources/Image_vaisseau/Image_vaisseau_1.png";
+        final String disp_ship_URL_2J_1 ="file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_1.png";
         ShipSelector_2J_1=1;
         Image disp_ship_img_2J_1 = new Image(disp_ship_URL_2J_1);
         ImageView disp_ship_2J_1= new ImageView(disp_ship_img_2J_1);
@@ -506,7 +506,7 @@ public class menu {
         disp_ship_2J_1.setFitWidth(80);
         disp_ship_2J_1.setPreserveRatio(true);
 
-        final String disp_ship_URL_2J_2 ="file:src/main/resources/Image_vaisseau/Image_vaisseau_1_r.png";
+        final String disp_ship_URL_2J_2 ="file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_1_r.png";
         ShipSelector_2J_2=1;
         Image disp_ship_img_2J_2 = new Image(disp_ship_URL_2J_2);
         ImageView disp_ship_2J_2= new ImageView(disp_ship_img_2J_2);

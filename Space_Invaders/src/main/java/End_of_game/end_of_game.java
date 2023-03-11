@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 public class end_of_game {
 
-    private static final String MainBackgroundURL="file:src\\main\\resources\\Image_menu\\Image_menu_1.jpg";    // Le fond d'écran
+    private static final String MainBackgroundURL="file:Space_Invaders\\src\\main\\resources\\Image_menu\\Image_menu_1.jpg";    // Le fond d'écran
     static double screen0_width = 1200;
     static double screen0_height = 700;
 
