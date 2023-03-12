@@ -156,12 +156,12 @@ public class menu {
      * @param scene3 Credits
      * @throws IOException
      */
-    public static void mainMenuSelection(MouseEvent e, Stage stage, Scene scene1, Scene scene2, Scene scene3) throws IOException {
+    public static void mainMenuSelection(MouseEvent e, Stage stage, Scene scene1, Scene scene2, Scene scene3, Scene scene4) throws IOException {
         if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>420 && e.getSceneY()<450) {
             stage.setScene(scene1);
         }
         else if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>490 && e.getSceneY()<530) {
-            stage.setScene(scene2);
+            stage.setScene(scene4);
         }
         else if (e.getSceneX()>550 && e.getSceneX()<670 && e.getSceneY()>580 && e.getSceneY()<600) {
             stage.setScene(scene3);
@@ -312,6 +312,17 @@ public class menu {
         if (e.getSceneX()>-100d+screen_width && e.getSceneX()<-15d+screen_width
                 && e.getSceneY()>-40d+screen_height && e.getSceneY()<-20d+screen_height) {
             stage.setScene(scene0);
+        }
+    }
+
+    public static void multimodeSelection(MouseEvent e, Stage stage, Scene scene0, Scene scene2) throws IOException {
+        System.out.println("("+e.getSceneX()+", "+e.getSceneY()+")");
+        if (e.getSceneX()>-100d+screen_width && e.getSceneX()<-15d+screen_width
+                && e.getSceneY()>-40d+screen_height && e.getSceneY()<-20d+screen_height) {
+            stage.setScene(scene0);
+        }
+        if (e.getSceneX()>520d && e.getSceneX()<730d && e.getSceneY()>325d && e.getSceneY()<355d) {
+            stage.setScene(scene2);
         }
     }
 
@@ -638,6 +649,58 @@ public class menu {
 
         root3.getChildren().addAll(credits_title,credits_list,credits_return);
 
+        //------------------------------------scene4 - Multiplayer Mode Selection
+        BorderPane root4 = new BorderPane();
+        Image multi_mode_background = new Image(MainBackgroundURL,1200,700,false,false);
+        try {
+            root4.setBackground(new Background((new BackgroundImage(multi_mode_background,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT))));
+        }
+        catch ( Exception e) {
+            System.out.println("Impossible d'afficher le fond");
+            //On n'affiche pas de fond
+        }
+
+        Scene scene4 = new Scene(root4,screen_width,screen_height,Color.BLACK);
+        Text multi_mode_title = text_func(screen_width,
+                screen_height,
+                "Choose your mode",
+                "Impact",
+                FontWeight.BOLD,
+                100,
+                Color.LIMEGREEN,
+                true,
+                -375,
+                -100);
+
+
+        Text modes_list = text_func(screen_width,
+                screen_height,
+                "Shared keyboard\n\nNetwork",
+                "Impact",
+                FontWeight.BOLD,
+                30,
+                Color.LIMEGREEN,
+                true,
+                -80,
+                0);
+
+
+        Text multi_mode_return = text_func(screen_width,
+                screen_height,
+                "Return",
+                "Impact",
+                FontWeight.BOLD,
+                30,
+                Color.LIMEGREEN,
+                true,
+                500,
+                330);
+
+        root4.getChildren().addAll(multi_mode_title,modes_list,multi_mode_return);
 
         //Initialisation des MouseListener de toutes les pages
 
@@ -647,7 +710,7 @@ public class menu {
             public void handle(MouseEvent e) {
                 try
                 {
-                    mainMenuSelection(e,stage,scene1,scene2, scene3);
+                    mainMenuSelection(e,stage,scene1,scene2, scene3, scene4);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();
@@ -699,10 +762,25 @@ public class menu {
             }
         };
 
+        //Multiplayer Mode Selection
+        EventHandler<MouseEvent> multimodeMouse = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                try
+                {
+                    multimodeSelection(e,stage,scene0,scene2);
+                }
+                catch (IOException ie) {
+                    ie.printStackTrace();
+                }
+            }
+        };
+
         scene0.addEventHandler(MouseEvent.MOUSE_CLICKED,mouseListener);
         scene1.addEventHandler(MouseEvent.MOUSE_CLICKED,options_1J_Mouse);
         scene2.addEventHandler(MouseEvent.MOUSE_CLICKED,options_2J_Mouse);
         scene3.addEventHandler(MouseEvent.MOUSE_CLICKED,creditsMouse);
+        scene4.addEventHandler(MouseEvent.MOUSE_CLICKED,multimodeMouse);
 
 
         stage.setTitle("Space Invaders");
