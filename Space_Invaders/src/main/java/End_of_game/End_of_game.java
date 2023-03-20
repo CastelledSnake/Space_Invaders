@@ -1,7 +1,7 @@
 package End_of_game;
 
-import Game.game;
-import Menu.menu;
+import Game.GameC;
+import Menu.MenuC;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * Gère la fin des parties et la correcte redirection
  */
-public class end_of_game {
+public class End_of_game {
 
     private static final String MainBackgroundURL="file:Space_Invaders\\src\\main\\resources\\Image_menu\\Image_menu_1.jpg";    // Le fond d'écran
     static double screen0_width = 1200;
@@ -132,13 +132,13 @@ public class end_of_game {
 
         if (e.getSceneX()>400 && e.getSceneX()<625 && e.getSceneY()>400 && e.getSceneY()<450) {
             if (player!=null) player.stop();
-            menu.menu(stage);
+            MenuC.menu(stage);
         }
         if (e.getSceneX()>400 && e.getSceneX()<700 && e.getSceneY()>460 && e.getSceneY()<500 && reason==0) {
             if (player!=null) player.stop();
-            if (nbjoueurs == 1) game.game_1_joueur(stage,niveau+1,URL_vaisseau1,URL_alien,URL_tir_1,URL_tir_alien_up);
-            if (nbjoueurs == 2) game.game_2_joueurs(stage,niveau+1,URL_vaisseau1,URL_vaisseau2,
-                    URL_alien,URL_alien_r,URL_tir_alien_up,URL_tir_alien_down,URL_tir_1,URL_tir_2);
+            if (nbjoueurs == 1) GameC.game_1_joueur(stage,niveau+1,URL_vaisseau1,URL_alien,URL_tir_1,URL_tir_alien_up);
+            if (nbjoueurs == 2) GameC.game_2_joueurs(stage,niveau+1,URL_vaisseau1,URL_vaisseau2,
+                    URL_alien,URL_alien_r,URL_tir_alien_up,URL_tir_alien_down,URL_tir_1,URL_tir_2, false);
         }
     }
 
