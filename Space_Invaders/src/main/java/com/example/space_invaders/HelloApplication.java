@@ -11,9 +11,8 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        System.out.println(System.getProperty("os.name"));
+        //System.out.println(System.getProperty("os.name"));
         //System.out.println(System.getProperty("user.dir"));
-        //MenuC.menu(stage);
         Menu menu = new Menu();
         MenuGUI monMenuGUI = new MenuGUI(menu, stage);
         monMenuGUI.initGUI();

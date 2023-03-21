@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Alien {
@@ -21,7 +22,12 @@ public class Alien {
     public static final String Tir="file:Space_Invaders\\src\\main\\resources\\Image_tir\\Image_tir_";
     public static final String Tir_down="_d.png";
 
-    public Alien (double x, double y, String ImageURL) {
+    private double x;
+    private double y;
+
+    public Alien (double unX, double unY, String ImageURL) {
+        x=unX;
+        y=unY;
         this.representation = representation;
         for (double point : formalien) {
             this.representation.getPoints().add(point);
@@ -93,6 +99,40 @@ public class Alien {
         return(ret);
     }
 
+    public static int[] depalien2(ArrayList<Alien> aliens, int pos_gr_alien, int deplacement, String direction, int difficulte) {
+        int n_alien = aliens.size();
+        if ((pos_gr_alien < 0 && deplacement == -1) || (pos_gr_alien > 800 && deplacement == 1)) {
+            deplacement = -deplacement;
+            if (direction.equals("DOWN")) {
+                for (int i = 0; i < n_alien; i++) {
+                    aliens.get(i).setY(aliens.get(i).getY()+10d);
+                    //aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() + 10d);
+                }
+            } else if (direction.equals("UP")) {
+                for (int i = 0; i < n_alien; i++) {
+                    aliens.get(i).setY(aliens.get(i).getY()-10d);
+                    //aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() - 10d);
+                }
+            }
+        } else if (deplacement == 1) {
+            for (int i = 0; i < n_alien; i++) {
+                aliens.get(i).setX(aliens.get(i).getX()+ 2d + difficulte/5);
+                //aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 2d + difficulte/5);
+            }
+            pos_gr_alien=pos_gr_alien+2+difficulte/5;
+        } else if (deplacement == -1) {
+            for (int i = 0; i < n_alien; i++) {
+                aliens.get(i).setX(aliens.get(i).getX()- 2d - difficulte/5);
+                //aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 2d -difficulte/5);
+            }
+            pos_gr_alien=pos_gr_alien-2-difficulte/5;
+        }
+        int ret[]=new int[2];
+        ret[0]=pos_gr_alien;
+        ret[1]=deplacement;
+        return(ret);
+    }
+
     public static void tir_alien(Group aliens, Group tirs_aliens, String URL, int proba) {
         if (proba>0) {
             if (getRandomNumber(0, proba) == 0) {
@@ -117,4 +157,12 @@ public class Alien {
         }
         return(false);
     }
+
+    public double getX() {return x;}
+
+    public void setX(double x) {this.x = x;}
+
+    public double getY() {return y;}
+
+    public void setY(double y) {this.y = y;}
 }

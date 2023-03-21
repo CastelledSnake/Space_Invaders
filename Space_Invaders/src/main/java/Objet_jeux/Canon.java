@@ -12,8 +12,12 @@ public class Canon {
     Color color = Color.LIMEGREEN;
     int vie = 3;
     private Polygon representation = new Polygon();
+    private double x;
+    private double y;
 
-    public Canon(double x, double y, String ImageURL) {
+    public Canon(double unX, double unY, String ImageURL) {
+        x=unX;
+        y=unY;
         this.representation = representation;
         for (double point : formecanon) {
             this.representation.getPoints().add(point);
@@ -35,8 +39,8 @@ public class Canon {
     }
 
     public void dep_joueur(int dep1, int difficulte) {
-        if (((dep1==1)&&(this.representation.getLayoutX()<1140))||(dep1==-1&&this.representation.getLayoutX()>0)) {
-            this.representation.setLayoutX(this.representation.getLayoutX() + dep1 * (2d+difficulte/5));
+        if (((dep1==1)&&(this.x<1140))||(dep1==-1&&this.x>0)) {
+            setX(getX()+dep1 * (2d+difficulte/5));
         }
     }
 
@@ -48,4 +52,12 @@ public class Canon {
         } else t++;
         return(t);
     }
+
+    public double getX() {return x;}
+
+    public void setX(double x) {this.x = x;}
+
+    public double getY() {return y;}
+
+    public void setY(double y) {this.y = y;}
 }

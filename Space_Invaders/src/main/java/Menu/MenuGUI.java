@@ -1,6 +1,7 @@
 package Menu;
 
-import Game.GameC;
+import Game.GameGUI;
+import Game.Game;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -244,12 +245,17 @@ public class MenuGUI implements PropertyChangeListener {
         //Lancement du jeu 1 joueur
         if (e.getSceneX()>-5d+(screen_width/2) && e.getSceneX()<60d+(screen_width/2)
                 && e.getSceneY()>270d+screen_height/2 && e.getSceneY()<300d+screen_height/2) {
-            GameC.game_1_joueur(stage,1,
-                    "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(menu.getShipSelector_1J())+".png",
-                    "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+Integer.toString(menu.getAlienSelector_1J())+".png",
-                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(menu.getPlayerTirSelector_1J())+"_u.png",
-                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(menu.getAlienTirSelector_1J())+"_d.png"
-            );
+            Game game = new Game();
+            GameGUI gameGUI = new GameGUI(game);
+            game.setURL_vaisseau("file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"
+                    +menu.getShipSelector_1J()+".png");
+            game.setURL_alien("file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"
+                    +menu.getAlienSelector_1J()+".png");
+            game.setURL_tir_vaisseau("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"
+                    +menu.getPlayerTirSelector_1J()+"_u.png");
+            game.setURL_tir_alien("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"
+                    +menu.getAlienTirSelector_1J()+"_d.png");
+            gameGUI.game_1_joueur(stage);
         }
 
         //retour à l'écran d'accueil
@@ -305,15 +311,18 @@ public class MenuGUI implements PropertyChangeListener {
         //lancement du jeu 2 joueurs
         if (e.getSceneX()>-5d+(screen_width/2) && e.getSceneX()<60d+(screen_width/2)
                 && e.getSceneY()>230d+screen_height/2 && e.getSceneY()<260d+screen_height/2) {
-            GameC.game_2_joueurs(stage,1,
-                    "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(menu.getShipSelector_2J_1())+".png",
-                    "file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+Integer.toString(menu.getShipSelector_2J_2())+"_r.png",
-                    "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+Integer.toString(menu.getAlienSelector_2J())+".png",
-                    "file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+Integer.toString(menu.getAlienSelector_2J())+"_r.png",
-                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(menu.getAlienTirSelector_2J())+"_u.png",
-                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(menu.getAlienTirSelector_2J())+"_d.png",
-                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(menu.getPlayerTirSelector_2J_1())+"_u.png",
-                    "file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+Integer.toString(menu.getPlayerTirSelector_2J_2())+"_d.png", false);
+            Game game = new Game();
+            GameGUI gameGUI = new GameGUI(game);
+            game.setURL_vaisseau("file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+menu.getShipSelector_2J_1()+".png");
+            game.setURL_vaisseau_rev("file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+menu.getShipSelector_2J_2()+"_r.png");
+            game.setURL_alien("file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+menu.getAlienSelector_2J()+".png");
+            game.setURL_alien_r("file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+menu.getAlienSelector_2J()+"_r.png");
+            game.setURL_tir_alien_up("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getAlienTirSelector_2J()+"_u.png");
+            game.setURL_tir_alien_down("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getAlienTirSelector_2J()+"_d.png");
+            game.setURL_tir1("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getPlayerTirSelector_2J_1()+"_u.png");
+            game.setURL_tir2("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getPlayerTirSelector_2J_2()+"_d.png");
+            game.setNetwork(false);
+            gameGUI.game_2_joueurs(stage);
         }
 
         //retour à la page d'accueil
@@ -324,12 +333,26 @@ public class MenuGUI implements PropertyChangeListener {
     }
 
     public void multimodeSelection(MouseEvent e, Stage stage, Scene scene0, Scene scene2) throws IOException {
-        System.out.println("("+e.getSceneX()+", "+e.getSceneY()+")");
+        //System.out.println("("+e.getSceneX()+", "+e.getSceneY()+")");
         if (e.getSceneX()>-100d+screen_width && e.getSceneX()<-15d+screen_width
                 && e.getSceneY()>-40d+screen_height && e.getSceneY()<-20d+screen_height) {
             stage.setScene(scene0);
         }
         if (e.getSceneX()>520d && e.getSceneX()<730d && e.getSceneY()>325d && e.getSceneY()<355d) {
+            stage.setScene(scene2);
+        }
+        if (e.getSceneX()>545d && e.getSceneX()<705d && e.getSceneY()>400d && e.getSceneY()<425d) {
+            menu.getMonServeur().start();
+            menu.getMonClientTCP().connecterAuServeur();
+            menu.getMonClientTCP().transmettreChaine("OHHH");
+            menu.setNetwork(true);
+            menu.setHost(true);
+            stage.setScene(scene2);
+        }
+        if (e.getSceneX()>535d && e.getSceneX()<710d && e.getSceneY()>475d && e.getSceneY()<500d) {
+            menu.getMonServeur().start();
+            menu.getMonClientTCP().connecterAuServeur();
+            menu.setNetwork(true);
             stage.setScene(scene2);
         }
     }
@@ -385,21 +408,18 @@ public class MenuGUI implements PropertyChangeListener {
 
         //Initialisation des images
         disp_alien_shot_URL_1J ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_d.png";
-        //AlienTirSelector_1J=1;
         disp_alien_shot_img_1J = new Image(disp_alien_shot_URL_1J);
         disp_alien_shot_1J = new ImageView(disp_alien_shot_img_1J);
         disp_alien_shot_1J.setLayoutX(400);
         disp_alien_shot_1J.setLayoutY(300);
 
         disp_player_shot_URL_1J ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_u.png";
-        //PlayerTirSelector_1J=1;
         disp_player_shot_img_1J = new Image(disp_player_shot_URL_1J);
         disp_player_shot_1J = new ImageView(disp_player_shot_img_1J);
         disp_player_shot_1J.setLayoutX(800);
         disp_player_shot_1J.setLayoutY(350);
 
         disp_aliens_URL_1J ="file:Space_Invaders/src/main/resources/Image_alien/Image_alien_1.png";
-        //AlienSelector_1J=1;
         disp_aliens_img_1J = new Image(disp_aliens_URL_1J);
         disp_aliens_1J = new ImageView(disp_aliens_img_1J);
         disp_aliens_1J.setLayoutX(385);
@@ -408,7 +428,6 @@ public class MenuGUI implements PropertyChangeListener {
         disp_aliens_1J.setPreserveRatio(true);
 
         disp_ship_URL_1J ="file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_1.png";
-        //ShipSelector_1J=1;
         disp_ship_img_1J = new Image(disp_ship_URL_1J);
         disp_ship_1J= new ImageView(disp_ship_img_1J);
         disp_ship_1J.setLayoutX(775);
@@ -484,33 +503,26 @@ public class MenuGUI implements PropertyChangeListener {
         //--------------------------------scene2 - Options 2 joueurs
         BorderPane root2 = new BorderPane();
 
-        //Partage de clavier ou pas
-        Boolean network = false;
-
         //Initialisation des images
         disp_alien_shot_URL_2J ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_d.png";
-        //AlienTirSelector_2J=1;
         disp_alien_shot_img_2J = new Image(disp_alien_shot_URL_2J);
         disp_alien_shot_2J = new ImageView(disp_alien_shot_img_2J);
         disp_alien_shot_2J.setLayoutX(400);
         disp_alien_shot_2J.setLayoutY(90);
 
         disp_player_shot_URL_2J_1 ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_u.png";
-        //PlayerTirSelector_2J_1=1;
         disp_player_shot_img_2J_1 = new Image(disp_player_shot_URL_2J_1);
         disp_player_shot_2J_1 = new ImageView(disp_player_shot_img_2J_1);
         disp_player_shot_2J_1.setLayoutX(800);
         disp_player_shot_2J_1.setLayoutY(170);
 
         disp_player_shot_URL_2J_2 ="file:Space_Invaders/src/main/resources/Image_tir/Image_tir_1_d.png";
-        //PlayerTirSelector_2J_2=1;
         disp_player_shot_img_2J_2 = new Image(disp_player_shot_URL_2J_2);
         disp_player_shot_2J_2 = new ImageView(disp_player_shot_img_2J_2);
         disp_player_shot_2J_2.setLayoutX(400);
         disp_player_shot_2J_2.setLayoutY(240);
 
         disp_aliens_URL_2J ="file:Space_Invaders/src/main/resources/Image_alien/Image_alien_1.png";
-        //AlienSelector_2J=1;
         disp_aliens_img_2J = new Image(disp_aliens_URL_2J);
         disp_aliens_2J = new ImageView(disp_aliens_img_2J);
         disp_aliens_2J.setLayoutX(780);
@@ -519,7 +531,6 @@ public class MenuGUI implements PropertyChangeListener {
         disp_aliens_2J.setPreserveRatio(true);
 
         disp_ship_URL_2J_1 ="file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_1.png";
-        //ShipSelector_2J_1=1;
         disp_ship_img_2J_1 = new Image(disp_ship_URL_2J_1);
         disp_ship_2J_1= new ImageView(disp_ship_img_2J_1);
         disp_ship_2J_1.setLayoutX(395);
@@ -528,7 +539,6 @@ public class MenuGUI implements PropertyChangeListener {
         disp_ship_2J_1.setPreserveRatio(true);
 
         disp_ship_URL_2J_2 ="file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_1_r.png";
-        //ShipSelector_2J_2=1;
         disp_ship_img_2J_2 = new Image(disp_ship_URL_2J_2);
         disp_ship_2J_2= new ImageView(disp_ship_img_2J_2);
         disp_ship_2J_2.setLayoutX(780);
@@ -689,7 +699,7 @@ public class MenuGUI implements PropertyChangeListener {
 
         Text modes_list = text_func(screen_width,
                 screen_height,
-                "Shared keyboard\n\nNetwork",
+                "Shared keyboard\n\nNetwork Host\n\nNetwork Client",
                 "Impact",
                 FontWeight.BOLD,
                 30,

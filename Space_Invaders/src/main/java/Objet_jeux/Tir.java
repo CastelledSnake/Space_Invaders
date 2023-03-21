@@ -101,7 +101,9 @@ public class Tir {
             if (Integer.valueOf(elem.getAccessibleText())<=0) a_supp.add(elem);
         }
 
-        for (javafx.scene.Node elem : a_supp) g.getChildren().remove(elem);
+        for (javafx.scene.Node elem : a_supp) {
+            g.getChildren().remove(elem);
+        }
     }
 
     public Polygon getRepresentation() {
