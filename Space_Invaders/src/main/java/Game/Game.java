@@ -1,6 +1,8 @@
 package Game;
 
 import Objet_jeux.*;
+import Server.ClientTCP;
+import Server.ServeurTCP;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -43,7 +45,6 @@ public class Game {
     private String URL_tir1;
     private String URL_tir2;
     private Boolean network;
-
     private ArrayList<Alien> aliens1J= new ArrayList<Alien>();
     private ArrayList<Double> aliens1J_x= new ArrayList<Double>();
     private ArrayList<Double> aliens1J_y= new ArrayList<Double>();
@@ -55,6 +56,8 @@ public class Game {
     private double player1_x;
     private Canon player2;
     private double player2_x;
+    private ClientTCP monClientTCP;
+    private ServeurTCP monServeur;
 
     public Game() {
         pcSupport = new PropertyChangeSupport(this);
@@ -263,4 +266,12 @@ public class Game {
     public ArrayList<Double> getAliens1J_x() {return aliens1J_x;}
 
     public ArrayList<Double> getAliens1J_y() {return aliens1J_y;}
+
+    public ClientTCP getMonClientTCP() {return monClientTCP;}
+
+    public void setMonClientTCP(ClientTCP monClientTCP) {this.monClientTCP = monClientTCP;}
+
+    public ServeurTCP getMonServeur() {return monServeur;}
+
+    public void setMonServeur(ServeurTCP monServeur) {this.monServeur = monServeur;}
 }

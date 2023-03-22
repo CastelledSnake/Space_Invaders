@@ -124,7 +124,8 @@ public class MenuGUI implements PropertyChangeListener {
     public void Affichage_choix(MouseEvent e, int nb_images,
                                       ArrayList<Integer> gauche, ArrayList<Integer> droite, String identity) {
 
-
+        menu.getMonClientTCP().transmettreChaine("I clicked something");
+        menu.getMonClientTCP().deconnecterDuServeur();
         if (e.getSceneX()>gauche.get(0)+(screen_width/2) && e.getSceneX()<gauche.get(1)+(screen_width/2)
                 && e.getSceneY()>gauche.get(2)+screen_height/2 && e.getSceneY()<gauche.get(3)+screen_height/2) {
             if (identity.equals("alien_shot_1J")) {
@@ -323,6 +324,10 @@ public class MenuGUI implements PropertyChangeListener {
             game.setURL_tir2("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getPlayerTirSelector_2J_2()+"_d.png");
             game.setNetwork(false);
             gameGUI.game_2_joueurs(stage);
+            if (menu.getNetwork()==true){
+                game.setMonClientTCP(menu.getMonClientTCP());
+                game.setMonServeur(menu.getMonServeur());
+            }
         }
 
         //retour à la page d'accueil
@@ -342,9 +347,8 @@ public class MenuGUI implements PropertyChangeListener {
             stage.setScene(scene2);
         }
         if (e.getSceneX()>545d && e.getSceneX()<705d && e.getSceneY()>400d && e.getSceneY()<425d) {
-            menu.getMonServeur().start();
+            //menu.getMonServeur().start();
             menu.getMonClientTCP().connecterAuServeur();
-            menu.getMonClientTCP().transmettreChaine("OHHH");
             menu.setNetwork(true);
             menu.setHost(true);
             stage.setScene(scene2);
