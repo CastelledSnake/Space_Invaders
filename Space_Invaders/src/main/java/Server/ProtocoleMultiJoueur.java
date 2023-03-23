@@ -18,13 +18,13 @@ public class ProtocoleMultiJoueur implements IProtocole {
                     System.out.println(" Ordre Recu " + chaines[0]);
                     if (chaines[0].contentEquals("LEFT")) {
                         game.depPlayer2();
-                        //System.out.println("EUREKA!");
+                        System.out.println("We have attempted to move player 2");
                         //String outputString = "You are a PC";
                         //os.println(outputString);
                         //os.flush();
                     } else if (chaines[0].contentEquals("RIGHT")) {
                         game.depPlayer2();
-                        //String outputString = "You are a PC";
+                        System.out.println("We have attempted to move player 2");
                         //System.out.println("EUREKA!");
                         //os.println(outputString);
                         //os.flush();
