@@ -123,9 +123,6 @@ public class MenuGUI implements PropertyChangeListener {
      */
     public void Affichage_choix(MouseEvent e, int nb_images,
                                       ArrayList<Integer> gauche, ArrayList<Integer> droite, String identity) {
-
-        menu.getMonClientTCP().transmettreChaine("I clicked something");
-        menu.getMonClientTCP().deconnecterDuServeur();
         if (e.getSceneX()>gauche.get(0)+(screen_width/2) && e.getSceneX()<gauche.get(1)+(screen_width/2)
                 && e.getSceneY()>gauche.get(2)+screen_height/2 && e.getSceneY()<gauche.get(3)+screen_height/2) {
             if (identity.equals("alien_shot_1J")) {
@@ -327,6 +324,8 @@ public class MenuGUI implements PropertyChangeListener {
             if (menu.getNetwork()==true){
                 game.setMonClientTCP(menu.getMonClientTCP());
                 game.setMonServeur(menu.getMonServeur());
+                game.getMonClientTCP().connecterAuServeur();
+                game.getMonServeur().setGame(game);
             }
         }
 
@@ -347,14 +346,6 @@ public class MenuGUI implements PropertyChangeListener {
             stage.setScene(scene2);
         }
         if (e.getSceneX()>545d && e.getSceneX()<705d && e.getSceneY()>400d && e.getSceneY()<425d) {
-            //menu.getMonServeur().start();
-            menu.getMonClientTCP().connecterAuServeur();
-            menu.setNetwork(true);
-            menu.setHost(true);
-            stage.setScene(scene2);
-        }
-        if (e.getSceneX()>535d && e.getSceneX()<710d && e.getSceneY()>475d && e.getSceneY()<500d) {
-            menu.getMonServeur().start();
             menu.getMonClientTCP().connecterAuServeur();
             menu.setNetwork(true);
             stage.setScene(scene2);
@@ -703,7 +694,7 @@ public class MenuGUI implements PropertyChangeListener {
 
         Text modes_list = text_func(screen_width,
                 screen_height,
-                "Shared keyboard\n\nNetwork Host\n\nNetwork Client",
+                "Shared keyboard\n\nNetwork play",
                 "Impact",
                 FontWeight.BOLD,
                 30,

@@ -1,6 +1,8 @@
 package Server;
 
-import java.io.IOException;
+import Game.Game;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -23,9 +25,11 @@ public class ServeurTCP extends Thread {
 
     private int numeroPort;
 
+    private Game game = new Game();
+
     public ServeurTCP(int unNumeroPort) {
         numeroPort = unNumeroPort;
-        maxConnexions = 10;
+        maxConnexions = 1000000;
     }
 
     public ServeurTCP(IContext b, IProtocole p, int port) {
@@ -56,20 +60,20 @@ public class ServeurTCP extends Thread {
             try {
                 System.out.println(" Attente du serveur pour la communication d'un client ");
                 clientSocket = serverSocket.accept();
-                nbConnexions++;
-                System.out.println("Nb automates : " + nbConnexions);
+                //nbConnexions++;
+                //System.out.println("Nb automates : " + nbConnexions);
             } catch (IOException e) {
                 System.out.println("Accept failed: " + serverSocket.getLocalPort() + ", " + e);
                 System.exit(1);
             }
-            ProcessusTransaction st = new ProcessusTransaction(clientSocket, this);
+            ProcessusTransaction st = new ProcessusTransaction(clientSocket, this, game);
             st.start();
         }
-        System.out.println("Deja " + nbConnexions + " clients. Maximum autorisé atteint");
+        //System.out.println("Deja " + nbConnexions + " clients. Maximum autorisé atteint");
 
         try {
             serverSocket.close();
-            nbConnexions--;
+            //nbConnexions--;
         } catch (IOException e) {
             System.out.println("Could not close");
         }
@@ -84,4 +88,7 @@ public class ServeurTCP extends Thread {
         return contexte;
     }
 
+    public Game getGame() {return game;}
+
+    public void setGame(Game game) {this.game = game;}
 }

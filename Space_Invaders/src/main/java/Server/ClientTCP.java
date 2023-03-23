@@ -41,10 +41,7 @@ public class ClientTCP {
         boolean ok = false;
         try {
             System.out.println("Tentative : " + nomServeur + " -- " + numeroPort);
-// le numero IP conrrespond au numero
-            InetAddress adr = InetAddress.getByName("192.168.0.27");
-
-            socketServeur = new Socket(adr, numeroPort);
+            socketServeur = new Socket(nomServeur, numeroPort);
             socOut = new PrintStream(socketServeur.getOutputStream());
             socIn = new BufferedReader(new InputStreamReader(socketServeur.getInputStream()));
             ok = true;

@@ -426,10 +426,16 @@ public class GameGUI implements PropertyChangeListener {
                 if ((e.getCode() == KeyCode.LEFT)) {
                     //dir_p1 = -1;
                     game.setDir_p1(-1);
+                    //game.getMonClientTCP().connecterAuServeur();
+                    game.getMonClientTCP().transmettreChaine("LEFT");
+                    //game.getMonClientTCP().deconnecterDuServeur();
                 }
                 else if (e.getCode() == KeyCode.RIGHT) {
                     //dir_p1=1;
                     game.setDir_p1(1);
+                    //game.getMonClientTCP().connecterAuServeur();
+                    game.getMonClientTCP().transmettreChaine("RIGHT");
+                    //game.getMonClientTCP().deconnecterDuServeur();
                 }
                 else if (e.getCode() == KeyCode.Q) {
                     //dir_p2=-1;
@@ -469,16 +475,10 @@ public class GameGUI implements PropertyChangeListener {
                 if ((e.getCode() == KeyCode.LEFT)) {
                     //dir_p1 = 0;
                     game.setDir_p1(0);
-                    game.getMonClientTCP().connecterAuServeur();
-                    game.getMonClientTCP().transmettreChaine("LEFT");
-                    game.getMonClientTCP().deconnecterDuServeur();
                 }
                 else if (e.getCode() == KeyCode.RIGHT) {
                     //dir_p1=0;
                     game.setDir_p1(0);
-                    game.getMonClientTCP().connecterAuServeur();
-                    game.getMonClientTCP().transmettreChaine("RIGHT");
-                    game.getMonClientTCP().deconnecterDuServeur();
                 }
                 else if (e.getCode() == KeyCode.Q) {
                     //dir_p2=0;
