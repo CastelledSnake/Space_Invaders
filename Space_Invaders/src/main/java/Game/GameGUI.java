@@ -446,12 +446,12 @@ public class GameGUI implements PropertyChangeListener {
                     if (game.getPlayer1().getModeTir() instanceof ModeTirAuto) {
                         game.setT(0);
                         game.getPlayer1().setModeTir(new ModeTirManuel());
-                        System.out.println("Mode de tir manuel");
+                        System.out.println("Player1: Mode de tir manuel");
                     }
                     else {
                         game.setT(0);
                         game.getPlayer1().setModeTir(new ModeTirAuto());
-                        System.out.println("Mode de tir automatique");
+                        System.out.println("Player1: Mode de tir automatique");
                     }
                 }
                 if ((e.getCode() == KeyCode.UP)) {
@@ -461,12 +461,12 @@ public class GameGUI implements PropertyChangeListener {
                     if (game.getPlayer2().getModeTir() instanceof ModeTirAuto) {
                         game.setT2(0);
                         game.getPlayer2().setModeTir(new ModeTirManuel());
-                        System.out.println("Mode de tir manuel");
+                        System.out.println("Player2: Mode de tir manuel");
                     }
                     else {
                         game.setT2(0);
                         game.getPlayer2().setModeTir(new ModeTirAuto());
-                        System.out.println("Mode de tir automatique");
+                        System.out.println("Player2: Mode de tir automatique");
                     }
                 }
                 if ((e.getCode() == KeyCode.Z)) {
@@ -475,11 +475,13 @@ public class GameGUI implements PropertyChangeListener {
                 //Mettre à jour le déplacement des joueurs
                 if ((e.getCode() == KeyCode.LEFT)) {
                     game.setDir_p1(-1);
-                    game.getMonClientTCP().transmettreChaine("LEFT");
+                    if (game.getNetwork())
+                        game.getMonClientTCP().transmettreChaine("LEFT");
                 }
                 else if (e.getCode() == KeyCode.RIGHT) {
                     game.setDir_p1(1);
-                    game.getMonClientTCP().transmettreChaine("RIGHT");
+                    if (game.getNetwork())
+                        game.getMonClientTCP().transmettreChaine("RIGHT");
                 }
                 else if (e.getCode() == KeyCode.Q) {
                     //dir_p2=-1;
@@ -571,8 +573,9 @@ public class GameGUI implements PropertyChangeListener {
                     //t2 = player2.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_2, URL_tir1);
                     //game.setT2(game.getPlayer2().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
                             //tirs_joueurs_2, game.getURL_tir1()));
-                    game.setT(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
+                    game.setT2(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
                             tirs_joueurs_2, game.getURL_tir1(), game.getPlayer2()));
+
 
 
                     //tir des aliens
