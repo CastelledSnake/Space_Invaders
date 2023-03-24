@@ -27,7 +27,7 @@ public class Menu {
     private int portS = 2506;
     public Menu() {
         pcSupport = new PropertyChangeSupport(this);
-        monClientTCP =new ClientTCP("192.168.0.27", portC);
+        monClientTCP = new ClientTCP("192.168.0.27", portC);
         monServeur = new ServeurTCP(new Contexte(), new ProtocoleMultiJoueur(), portS);
         monServeur.start();
     }

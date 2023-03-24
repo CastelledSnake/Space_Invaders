@@ -155,6 +155,21 @@ public class GameGUI implements PropertyChangeListener {
         EventHandler<KeyEvent> keyListenerPressed = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
+                if ((e.getCode() == KeyCode.DOWN)) {
+                    if (game.getPlayer1().getModeTir() instanceof ModeTirAuto) {
+                        game.setT(0);
+                        game.getPlayer1().setModeTir(new ModeTirManuel());
+                        System.out.println("Mode de tir manuel");
+                    }
+                    else {
+                        game.setT(0);
+                        game.getPlayer1().setModeTir(new ModeTirAuto());
+                        System.out.println("Mode de tir automatique");
+                    }
+                }
+                if ((e.getCode() == KeyCode.UP)) {
+                    game.getPlayer1().setFire(true);
+                }
                 //changer la direction du joueur
                 if ((e.getCode() == KeyCode.LEFT)) {
                     //dir_p1 = -1;
@@ -221,7 +236,10 @@ public class GameGUI implements PropertyChangeListener {
 
                     // Tir du joueur tous les max(30,100-5*difficulté) mouvements
                     //t = Player1.tir_joueur(Math.max(30,100-5*difficulte), t, tirs_joueurs, URL_tir_vaisseau);
-                    game.setT(game.getPlayer1().tir_joueur(Math.max(30,100-5*game.getDifficulte()), game.getT(), tirs_joueurs, game.getURL_tir_vaisseau()));
+                    //game.setT(game.getPlayer1().tir_joueur(Math.max(30,100-5*game.getDifficulte()), game.getT(),
+                            //tirs_joueurs, game.getURL_tir_vaisseau()));
+                    game.setT(game.getPlayer1().getModeTir().tir_joueur(Math.max(30,100-5*game.getDifficulte()), game.getT(),
+                            tirs_joueurs, game.getURL_tir_vaisseau(), game.getPlayer1()));
 
                     // Tir des aliens
                     //Alien.tir_alien(aliens, tirs_aliens, URL_tir_alien,Math.max(10,50-5*difficulte));
@@ -424,18 +442,12 @@ public class GameGUI implements PropertyChangeListener {
             public void handle(KeyEvent e) {
                 //Mettre à jour le déplacement des joueurs
                 if ((e.getCode() == KeyCode.LEFT)) {
-                    //dir_p1 = -1;
                     game.setDir_p1(-1);
-                    //game.getMonClientTCP().connecterAuServeur();
                     game.getMonClientTCP().transmettreChaine("LEFT");
-                    //game.getMonClientTCP().deconnecterDuServeur();
                 }
                 else if (e.getCode() == KeyCode.RIGHT) {
-                    //dir_p1=1;
                     game.setDir_p1(1);
-                    //game.getMonClientTCP().connecterAuServeur();
                     game.getMonClientTCP().transmettreChaine("RIGHT");
-                    //game.getMonClientTCP().deconnecterDuServeur();
                 }
                 else if (e.getCode() == KeyCode.Q) {
                     //dir_p2=-1;
@@ -520,9 +532,15 @@ public class GameGUI implements PropertyChangeListener {
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
                     //t = player1.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_1, URL_tir2);
-                    game.setT(game.getPlayer1().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(), tirs_joueurs_1, game.getURL_tir2()));
+                    //game.setT(game.getPlayer1().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
+                            //tirs_joueurs_1, game.getURL_tir2()));
+                    game.setT(game.getPlayer1().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
+                            tirs_joueurs_1, game.getURL_tir2(), game.getPlayer1()));
                     //t2 = player2.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_2, URL_tir1);
-                    game.setT2(game.getPlayer2().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(), tirs_joueurs_2, game.getURL_tir1()));
+                    //game.setT2(game.getPlayer2().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
+                            //tirs_joueurs_2, game.getURL_tir1()));
+                    game.setT(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
+                            tirs_joueurs_2, game.getURL_tir2(), game.getPlayer2()));
 
 
                     //tir des aliens

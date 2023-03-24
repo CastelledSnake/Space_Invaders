@@ -25,11 +25,9 @@ public class ServeurTCP extends Thread {
 
     private int numeroPort;
 
-    private Game game = new Game();
-
     public ServeurTCP(int unNumeroPort) {
         numeroPort = unNumeroPort;
-        maxConnexions = 1000000;
+        maxConnexions = 10;
     }
 
     public ServeurTCP(IContext b, IProtocole p, int port) {
@@ -66,7 +64,7 @@ public class ServeurTCP extends Thread {
                 System.out.println("Accept failed: " + serverSocket.getLocalPort() + ", " + e);
                 System.exit(1);
             }
-            ProcessusTransaction st = new ProcessusTransaction(clientSocket, this, game);
+            ProcessusTransaction st = new ProcessusTransaction(clientSocket, this);
             st.start();
         }
         //System.out.println("Deja " + nbConnexions + " clients. Maximum autorisé atteint");
@@ -87,8 +85,4 @@ public class ServeurTCP extends Thread {
     public IContext getContexte() {
         return contexte;
     }
-
-    public Game getGame() {return game;}
-
-    public void setGame(Game game) {this.game = game;}
 }

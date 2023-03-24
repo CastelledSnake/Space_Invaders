@@ -14,6 +14,9 @@ public class Canon {
     private Polygon representation = new Polygon();
     private double x;
     private double y;
+    private IModeTir modeTir = new ModeTirAuto();
+
+    private Boolean fire=false;
 
     public Canon(double unX, double unY, String ImageURL) {
         x=unX;
@@ -43,7 +46,7 @@ public class Canon {
             setX(getX()+dep1 * (2d+difficulte/5));
         }
     }
-
+    /*
     public int tir_joueur(int n, int t, Group tirs_joueurs, String URL) {
         if (t == n) {
             Tir tirj = new Tir(this.representation.getLayoutX() + 25d, this.representation.getLayoutY(), Color.GREEN, URL);
@@ -51,13 +54,17 @@ public class Canon {
             t = 0;
         } else t++;
         return(t);
-    }
+    }*/
 
     public double getX() {return x;}
 
     public void setX(double x) {this.x = x;}
 
-    public double getY() {return y;}
+    public IModeTir getModeTir() {return modeTir;}
 
-    public void setY(double y) {this.y = y;}
+    public void setModeTir(IModeTir modeTir) {this.modeTir = modeTir;}
+
+    public Boolean getFire() {return fire;}
+
+    public void setFire(Boolean fire) {this.fire = fire;}
 }

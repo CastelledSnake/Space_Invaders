@@ -325,7 +325,6 @@ public class MenuGUI implements PropertyChangeListener {
                 game.setMonClientTCP(menu.getMonClientTCP());
                 game.setMonServeur(menu.getMonServeur());
                 game.getMonClientTCP().connecterAuServeur();
-                game.getMonServeur().setGame(game);
             }
         }
 

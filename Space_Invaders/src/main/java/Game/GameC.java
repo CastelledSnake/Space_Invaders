@@ -222,7 +222,7 @@ public class GameC {
                     deplacement = ret[1];
 
                     // Tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    t = Player1.tir_joueur(Math.max(30,100-5*difficulte), t, tirs_joueurs, URL_tir_vaisseau);
+                    t = Player1.getModeTir().tir_joueur(Math.max(30,100-5*difficulte), t, tirs_joueurs, URL_tir_vaisseau, Player1);
 
                     // Tir des aliens
                     Alien.tir_alien(aliens, tirs_aliens, URL_tir_alien,Math.max(10,50-5*difficulte));
@@ -500,8 +500,10 @@ public class GameC {
                     }
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    t = player1.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_1, URL_tir2);
-                    t2 = player2.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_2, URL_tir1);
+                    //t = player1.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_1, URL_tir2);
+                    //t2 = player2.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_2, URL_tir1);
+                    t = player1.getModeTir().tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_1, URL_tir2, player1);
+                    t2 = player2.getModeTir().tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_2, URL_tir1, player2);
 
 
                     //tir des aliens
