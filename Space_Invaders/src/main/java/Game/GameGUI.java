@@ -155,6 +155,7 @@ public class GameGUI implements PropertyChangeListener {
         EventHandler<KeyEvent> keyListenerPressed = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
+                //Mettre à jour le mode de tir des joueurs
                 if ((e.getCode() == KeyCode.DOWN)) {
                     if (game.getPlayer1().getModeTir() instanceof ModeTirAuto) {
                         game.setT(0);
@@ -440,6 +441,37 @@ public class GameGUI implements PropertyChangeListener {
         EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
+                //Mettre à jour le mode de tir des joueurs
+                if ((e.getCode() == KeyCode.DOWN)) {
+                    if (game.getPlayer1().getModeTir() instanceof ModeTirAuto) {
+                        game.setT(0);
+                        game.getPlayer1().setModeTir(new ModeTirManuel());
+                        System.out.println("Mode de tir manuel");
+                    }
+                    else {
+                        game.setT(0);
+                        game.getPlayer1().setModeTir(new ModeTirAuto());
+                        System.out.println("Mode de tir automatique");
+                    }
+                }
+                if ((e.getCode() == KeyCode.UP)) {
+                    game.getPlayer1().setFire(true);
+                }
+                if ((e.getCode() == KeyCode.S)) {
+                    if (game.getPlayer2().getModeTir() instanceof ModeTirAuto) {
+                        game.setT2(0);
+                        game.getPlayer2().setModeTir(new ModeTirManuel());
+                        System.out.println("Mode de tir manuel");
+                    }
+                    else {
+                        game.setT2(0);
+                        game.getPlayer2().setModeTir(new ModeTirAuto());
+                        System.out.println("Mode de tir automatique");
+                    }
+                }
+                if ((e.getCode() == KeyCode.Z)) {
+                    game.getPlayer2().setFire(true);
+                }
                 //Mettre à jour le déplacement des joueurs
                 if ((e.getCode() == KeyCode.LEFT)) {
                     game.setDir_p1(-1);
@@ -540,7 +572,7 @@ public class GameGUI implements PropertyChangeListener {
                     //game.setT2(game.getPlayer2().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
                             //tirs_joueurs_2, game.getURL_tir1()));
                     game.setT(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
-                            tirs_joueurs_2, game.getURL_tir2(), game.getPlayer2()));
+                            tirs_joueurs_2, game.getURL_tir1(), game.getPlayer2()));
 
 
                     //tir des aliens
