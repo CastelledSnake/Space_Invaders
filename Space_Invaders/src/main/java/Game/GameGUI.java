@@ -656,10 +656,7 @@ public class GameGUI implements PropertyChangeListener {
                                 game.getURL_tir1(),
                                 game.getURL_tir2(),
                                 game.getURL_tir_alien_up(),
-                                game.getURL_tir_alien_down(),
-                                game.getNetwork(),
-                                game.getMonClientTCP(),
-                                game.getMonServeur());
+                                game.getURL_tir_alien_down());
                         stop();
                     } else if (Integer.valueOf(player1.getAccessibleText()) <= 0) {  // PERDU : le joueur 1 est mort.
                         End_of_game.endOfGame_2_joueurs(stage, 1,
@@ -674,10 +671,7 @@ public class GameGUI implements PropertyChangeListener {
                                 game.getURL_tir1(),
                                 game.getURL_tir2(),
                                 game.getURL_tir_alien_up(),
-                                game.getURL_tir_alien_down(),
-                                game.getNetwork(),
-                                game.getMonClientTCP(),
-                                game.getMonServeur());
+                                game.getURL_tir_alien_down());
                         stop();
                     } else if (Integer.valueOf(player2.getAccessibleText()) <= 0) {  // PERDU : le joueur 2 est mort.
                         End_of_game.endOfGame_2_joueurs(stage, 2,
@@ -692,10 +686,7 @@ public class GameGUI implements PropertyChangeListener {
                                 game.getURL_tir1(),
                                 game.getURL_tir2(),
                                 game.getURL_tir_alien_up(),
-                                game.getURL_tir_alien_down(),
-                                game.getNetwork(),
-                                game.getMonClientTCP(),
-                                game.getMonServeur());
+                                game.getURL_tir_alien_down());
                         stop();
                     }
                     if (!aliens_1.getChildren().isEmpty()) {
@@ -712,10 +703,7 @@ public class GameGUI implements PropertyChangeListener {
                                     game.getURL_tir1(),
                                     game.getURL_tir2(),
                                     game.getURL_tir_alien_up(),
-                                    game.getURL_tir_alien_down(),
-                                    game.getNetwork(),
-                                    game.getMonClientTCP(),
-                                    game.getMonServeur());
+                                    game.getURL_tir_alien_down());
 
                             stop();
                         }
@@ -734,10 +722,7 @@ public class GameGUI implements PropertyChangeListener {
                                     game.getURL_tir1(),
                                     game.getURL_tir2(),
                                     game.getURL_tir_alien_up(),
-                                    game.getURL_tir_alien_down(),
-                                    game.getNetwork(),
-                                    game.getMonClientTCP(),
-                                    game.getMonServeur());
+                                    game.getURL_tir_alien_down());
                             stop();
                         }
                     }

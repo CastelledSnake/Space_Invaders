@@ -133,7 +133,7 @@ public class End_of_game {
     public static void endOfGameSelection(MouseEvent e, Stage stage, MediaPlayer player,int niveau,String URL_vaisseau1,
                                           String URL_vaisseau2, String URL_tir_1, String URL_tir_2, String URL_alien,
                                           String URL_alien_r, String URL_tir_alien_up,String URL_tir_alien_down,
-                                          int reason,int nbjoueurs,boolean network, ClientTCP client, ServeurTCP serveur) throws IOException {
+                                          int reason,int nbjoueurs) throws IOException {
 
         if (e.getSceneX()>400 && e.getSceneX()<625 && e.getSceneY()>400 && e.getSceneY()<450) {
             if (player!=null) player.stop();
@@ -151,7 +151,7 @@ public class End_of_game {
                 game.setURL_tir_vaisseau(URL_tir_1);
                 game.setURL_tir_alien(URL_tir_alien_up);
                 game.setDifficulte(niveau+1);
-                game.setNetwork(network);
+                game.setNetwork(false);
                 gameGUI.game_1_joueur(stage);
             }
             if (nbjoueurs == 2) {
@@ -166,13 +166,8 @@ public class End_of_game {
                 game.setURL_tir1(URL_tir_1);
                 game.setURL_tir2(URL_tir_2);
                 game.setDifficulte(niveau+1);
-                game.setNetwork(network);
+                game.setNetwork(false);
                 gameGUI.game_2_joueurs(stage);
-                if (network){
-                    game.setMonClientTCP(client);
-                    game.setMonServeur(serveur);
-                    game.getMonClientTCP().connecterAuServeur();
-                }
             }
         }
     }
@@ -227,7 +222,7 @@ public class End_of_game {
                 try{
                     endOfGameSelection(e, stage, player, niveau, URLvaisseau, null,
                             URL_tir_vaisseau, null, URL_alien, null, URL_tir_alien,
-                            null, reason, 1, false, null, null);
+                            null, reason, 1);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();
@@ -263,8 +258,7 @@ public class End_of_game {
                                            int niveau,
                                            String URL_vaisseau1, String URL_vaisseau2, String URL_alien, String URL_alien_r,
                                            String URL_tir_vaisseau_1, String URL_tir_vaisseau_2,
-                                           String URL_tir_alien_up, String URL_tir_alien_down, Boolean network,
-                                           ClientTCP client, ServeurTCP serveur) {
+                                           String URL_tir_alien_up, String URL_tir_alien_down) {
 
         BorderPane root0 = new BorderPane();
         Image main_background = new Image(MainBackgroundURL,screen0_width,screen0_height,false,false);
@@ -297,7 +291,7 @@ public class End_of_game {
                 try{
                     endOfGameSelection(e, stage, player, niveau,URL_vaisseau1,URL_vaisseau2,
                             URL_tir_vaisseau_1,URL_tir_vaisseau_2,URL_alien, URL_alien_r,
-                            URL_tir_alien_up,URL_tir_alien_down,reason,2, network, client, serveur);
+                            URL_tir_alien_up,URL_tir_alien_down,reason,2);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();

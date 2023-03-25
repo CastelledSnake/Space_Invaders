@@ -319,7 +319,7 @@ public class MenuGUI implements PropertyChangeListener {
             game.setURL_tir_alien_down("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getAlienTirSelector_2J()+"_d.png");
             game.setURL_tir1("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getPlayerTirSelector_2J_1()+"_u.png");
             game.setURL_tir2("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getPlayerTirSelector_2J_2()+"_d.png");
-            game.setNetwork(false);
+            game.setNetwork(menu.getNetwork());
             gameGUI.game_2_joueurs(stage);
             if (menu.getNetwork()==true){
                 game.setMonClientTCP(menu.getMonClientTCP());

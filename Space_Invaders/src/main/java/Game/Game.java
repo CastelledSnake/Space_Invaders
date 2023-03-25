@@ -127,28 +127,6 @@ public class Game {
 
     public void depPlayer2() {
         double ancien = player2.getX();
-        /*
-        if (network){
-            try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(
-                        monServeur.getClientSocket().getInputStream()));
-                String order = br.readLine();
-                if (order.equals("RIGHT")) {
-                    dir_p2=1;
-                    player2.dep_joueur(dir_p2, difficulte);
-                    dir_p2=0;
-                } else if (order.equals("LEFT")) {
-                    dir_p2=-1;
-                    player2.dep_joueur(dir_p2, difficulte);
-                    dir_p2=0;
-                }
-            } catch (Exception e) {}
-        }
-        else {player2.dep_joueur(dir_p2, difficulte);}*/
-        /*
-        if (System.console().readLine().equals("RIGHT")){
-            System.out.println("I detected the RIGHT in the console");
-        }*/
         player2.dep_joueur(dir_p2, difficulte);
         player2_x = player2.getX();
         pcSupport.firePropertyChange("player2_x", ancien, player2_x);
