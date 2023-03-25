@@ -69,7 +69,7 @@ public class Alien {
         Random r = new Random();
         return (int) ((r.nextDouble() * (max - min)) + min);
     }
-    public static int[] depalien(Group aliens, int pos_gr_alien, int deplacement, String direction, int difficulté) {
+    public static int[] depalien(Group aliens, int pos_gr_alien, int deplacement, String direction, int difficulte) {
         int n_alien = aliens.getChildren().size();
         if ((pos_gr_alien < 0 && deplacement == -1) || (pos_gr_alien > 800 && deplacement == 1)) {
             deplacement = -deplacement;
@@ -84,14 +84,14 @@ public class Alien {
             }
         } else if (deplacement == 1) {
             for (int i = 0; i < n_alien; i++) {
-                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 2d + difficulté/5);
+                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 2d + difficulte/5);
             }
-            pos_gr_alien=pos_gr_alien+2+difficulté/5;
+            pos_gr_alien=pos_gr_alien+2+difficulte/5;
         } else if (deplacement == -1) {
             for (int i = 0; i < n_alien; i++) {
-                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 2d -difficulté/5);
+                aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 2d -difficulte/5);
             }
-            pos_gr_alien=pos_gr_alien-2-difficulté/5;
+            pos_gr_alien=pos_gr_alien-2-difficulte/5;
         }
         int ret[]=new int[2];
         ret[0]=pos_gr_alien;
@@ -99,31 +99,28 @@ public class Alien {
         return(ret);
     }
 
-    public static int[] depalien2(ArrayList<Alien> aliens, int pos_gr_alien, int deplacement, String direction, int difficulte) {
+    public static int[] depalien2(ArrayList<Alien> aliens, int pos_gr_alien, int deplacement,
+                                  String direction, int difficulte) {
         int n_alien = aliens.size();
         if ((pos_gr_alien < 0 && deplacement == -1) || (pos_gr_alien > 800 && deplacement == 1)) {
             deplacement = -deplacement;
             if (direction.equals("DOWN")) {
                 for (int i = 0; i < n_alien; i++) {
                     aliens.get(i).setY(aliens.get(i).getY()+10d);
-                    //aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() + 10d);
                 }
             } else if (direction.equals("UP")) {
                 for (int i = 0; i < n_alien; i++) {
                     aliens.get(i).setY(aliens.get(i).getY()-10d);
-                    //aliens.getChildren().get(i).setLayoutY(aliens.getChildren().get(i).getLayoutY() - 10d);
                 }
             }
         } else if (deplacement == 1) {
             for (int i = 0; i < n_alien; i++) {
                 aliens.get(i).setX(aliens.get(i).getX()+ 2d + difficulte/5);
-                //aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() + 2d + difficulte/5);
             }
             pos_gr_alien=pos_gr_alien+2+difficulte/5;
         } else if (deplacement == -1) {
             for (int i = 0; i < n_alien; i++) {
                 aliens.get(i).setX(aliens.get(i).getX()- 2d - difficulte/5);
-                //aliens.getChildren().get(i).setLayoutX(aliens.getChildren().get(i).getLayoutX() - 2d -difficulte/5);
             }
             pos_gr_alien=pos_gr_alien-2-difficulte/5;
         }
@@ -137,7 +134,8 @@ public class Alien {
         if (proba>0) {
             if (getRandomNumber(0, proba) == 0) {
                 int a = getRandomNumber(0, aliens.getChildren().size());
-                Tir tira = new Tir(aliens.getChildren().get(a).getLayoutX(), aliens.getChildren().get(a).getLayoutY(), Color.RED, URL);
+                Tir tira = new Tir(aliens.getChildren().get(a).getLayoutX(), aliens.getChildren().get(a).getLayoutY(),
+                        Color.RED, URL);
                 tirs_aliens.getChildren().add(tira.getRepresentation());
             }
         }

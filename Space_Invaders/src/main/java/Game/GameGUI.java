@@ -29,8 +29,10 @@ import java.nio.file.Paths;
  */
 public class GameGUI implements PropertyChangeListener {
     // Adresses relatives du fond et de la musique
-    private static final String fond_url = "file:Space_Invaders\\src\\main\\resources\\Image_fond\\Image_fond_1.jpg";
-    private static final String MusiqueUrl = "Space_Invaders\\src\\main\\resources\\Musique\\Musique_1.mp3";
+    private static final String fond_url =
+            "file:Space_Invaders\\src\\main\\resources\\Image_fond\\Image_fond_1.jpg";
+    private static final String MusiqueUrl =
+            "Space_Invaders\\src\\main\\resources\\Musique\\Musique_1.mp3";
 
     static MediaPlayer player;
     private Game game;
@@ -100,7 +102,6 @@ public class GameGUI implements PropertyChangeListener {
         // Initialisation des différents Objets
         Group tirs_joueurs = new Group();
         Group tirs_aliens = new Group();
-        //Group aliens = new Group();
         Group blocks = new Group();
         Group vie_blocks = new Group();
 
@@ -144,7 +145,6 @@ public class GameGUI implements PropertyChangeListener {
         text_pause.setY(350);
 
         // Texte de niveau
-        //Text niveau = new Text("Niveau " +Integer.toString(difficulte));
         Text niveau = new Text("Niveau " +Integer.toString(game.getDifficulte()));
         niveau.setFont(Font.font("Verdana", 20));
         niveau.setFill(Color.WHITE);
@@ -173,26 +173,21 @@ public class GameGUI implements PropertyChangeListener {
                 }
                 //changer la direction du joueur
                 if ((e.getCode() == KeyCode.LEFT)) {
-                    //dir_p1 = -1;
                     game.setDir_p1(-1);
                 }
                 else if (e.getCode() == KeyCode.RIGHT) {
-                    //dir_p1=1;
                     game.setDir_p1(1);
                 }
                     //activer/désactiver l'écran de pause
                 else if (e.getCode() == KeyCode.SPACE) {
                     if (game.getPause()) {
-                        //pause = false;
                         game.setPause(false);
-                        //tempause = tempause + (System.currentTimeMillis() - tpa);
                         game.setTempause(game.getTempause()+(System.currentTimeMillis() - game.getTpa()));
                         root.getChildren().remove(text_pause);
-                        root.getChildren().addAll(aliens, player1, tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks, temps, niveau);
+                        root.getChildren().addAll(aliens, player1, tirs_joueurs, tirs_aliens, blocks,
+                                vie_joueur, vie_blocks, temps, niveau);
                     } else if (!game.getPause()) {
-                        //pause = true;
                         game.setPause(true);
-                        //tpa = System.currentTimeMillis();
                         game.setTpa(System.currentTimeMillis());
                         root.getChildren().clear();
                         root.getChildren().add(text_pause);
@@ -207,11 +202,9 @@ public class GameGUI implements PropertyChangeListener {
             public void handle(KeyEvent e) {
                 // mettre à jour le sens de déplacement du joueur
                 if ((e.getCode() == KeyCode.LEFT)) {
-                    //dir_p1 = 0;
                     game.setDir_p1(0);
                 }
                 else if (e.getCode() == KeyCode.RIGHT) {
-                    //dir_p1=0;
                     game.setDir_p1(0);
                 }
             }
@@ -230,26 +223,20 @@ public class GameGUI implements PropertyChangeListener {
                     // pos_gr_alien : position sur l'écran, pour savoir quand faire demi-tour
                     // deplacement : sens de déplacement des aliens
                     int ret[];
-                    ret = Alien.depalien(aliens, game.getPos_gr_alien(), game.getDeplacement(), "DOWN", game.getDifficulte());
+                    ret = Alien.depalien(aliens, game.getPos_gr_alien(), game.getDeplacement(),
+                            "DOWN", game.getDifficulte());
                     game.setPos_gr_alien(ret[0]);
                     game.setDeplacement(ret[1]);
-                    //game.depAliens_1J();
 
                     // Tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    //t = Player1.tir_joueur(Math.max(30,100-5*difficulte), t, tirs_joueurs, URL_tir_vaisseau);
-                    //game.setT(game.getPlayer1().tir_joueur(Math.max(30,100-5*game.getDifficulte()), game.getT(),
-                            //tirs_joueurs, game.getURL_tir_vaisseau()));
-                    game.setT(game.getPlayer1().getModeTir().tir_joueur(Math.max(30,100-5*game.getDifficulte()), game.getT(),
-                            tirs_joueurs, game.getURL_tir_vaisseau(), game.getPlayer1()));
+                    game.setT(game.getPlayer1().getModeTir().tir_joueur(Math.max(30,100-5*game.getDifficulte()),
+                            game.getT(), tirs_joueurs, game.getURL_tir_vaisseau(), game.getPlayer1()));
 
                     // Tir des aliens
-                    //Alien.tir_alien(aliens, tirs_aliens, URL_tir_alien,Math.max(10,50-5*difficulte));
                     Alien.tir_alien(aliens, tirs_aliens, game.getURL_tir_alien(),Math.max(10,50-5*game.getDifficulte()));
 
                     // Déplacement des tirs
-                    //Tir.dep(tirs_joueurs, "UP",difficulte);
                     Tir.dep(tirs_joueurs, "UP",game.getDifficulte());
-                    //Tir.dep(tirs_aliens, "DOWN",difficulte);
                     Tir.dep(tirs_aliens, "DOWN",game.getDifficulte());
 
                     // Enlever les tirs en dehors
@@ -277,12 +264,11 @@ public class GameGUI implements PropertyChangeListener {
                     Block.vie_blocks(blocks, vie_blocks);
 
                     // MAJ du chrono
-                    //temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
-                    temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - game.getTempause()) / 1000F));
+                    temps.setText(Float.toString((
+                            System.currentTimeMillis() - temps_debut - game.getTempause()) / 1000F));
 
                     // S'il n'y a plus d'aliens -> Victoire
                     if (aliens.getChildren().isEmpty()) {   // GAGNE
-                        //if (true) {
                         End_of_game.endOfGame_1_joueur(stage, 0,
                                 (System.currentTimeMillis() - temps_debut-game.getTempause()) / 1000F,
                                 0,
@@ -294,7 +280,8 @@ public class GameGUI implements PropertyChangeListener {
                                 game.getURL_tir_alien());
                         stop();
                     }
-                    else if (Integer.valueOf(player1.getAccessibleText())<=0) {  // PERDU : le joueur est mort.
+                    else if (Integer.valueOf(player1.getAccessibleText())<=0) {
+                        // PERDU : le joueur est mort.
                         End_of_game.endOfGame_1_joueur(stage, 1,
                                 (System.currentTimeMillis() - temps_debut-game.getTempause()) / 1000F,
                                 aliens.getChildren().size(),
@@ -306,7 +293,8 @@ public class GameGUI implements PropertyChangeListener {
                                 game.getURL_tir_alien());
                         stop();
                     }
-                    else if (Alien.test_fin_alien(aliens,500, "DOWN")) {    // PERDU : les aliens ont atteint la Terre.
+                    else if (Alien.test_fin_alien(aliens,500, "DOWN")) {
+                        // PERDU : les aliens ont atteint la Terre.
                         End_of_game.endOfGame_1_joueur(stage, 3,
                                 (System.currentTimeMillis() - temps_debut-game.getTempause()) / 1000F,
                                 aliens.getChildren().size(),
@@ -325,7 +313,8 @@ public class GameGUI implements PropertyChangeListener {
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListenerPressed);
         scene.addEventHandler(KeyEvent.KEY_RELEASED, keyListenerReleased);
-        root.getChildren().addAll(aliens, player1, tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks, temps, niveau);
+        root.getChildren().addAll(aliens, player1, tirs_joueurs, tirs_aliens, blocks, vie_joueur, vie_blocks,
+                temps, niveau);
         loop.start();
         stage.setTitle("Space Invaders");
         stage.setResizable(false);
@@ -375,10 +364,6 @@ public class GameGUI implements PropertyChangeListener {
         Group tirs_joueurs_2 = new Group();
         Group tirs_aliens_1 = new Group();
         Group tirs_aliens_2 = new Group();
-        //les aliens_1 vont vers le bas
-        //Group aliens_1 = new Group();
-        //les aliens_2 vont vers le haut
-        //Group aliens_2 = new Group();
         Group blocks = new Group();
         Group vie_blocks = new Group();
 
@@ -484,28 +469,22 @@ public class GameGUI implements PropertyChangeListener {
                         game.getMonClientTCP().transmettreChaine("RIGHT");
                 }
                 else if (e.getCode() == KeyCode.Q) {
-                    //dir_p2=-1;
                     game.setDir_p2(-1);
                 }
                 else if (e.getCode() == KeyCode.D) {
-                    //dir_p2=1;
                     game.setDir_p2(1);
                 }
                     //Activer / désactiver l'écran Pause
                 else if (e.getCode() == KeyCode.SPACE) {
                     if (game.getPause()) {
-                        //pause = false;
                         game.setPause(false);
-                        //tempause = tempause + (System.currentTimeMillis() - tpa);
                         game.setTempause(game.getTempause() + (System.currentTimeMillis() - game.getTpa()));
                         root.getChildren().remove(text_pause);
                         root.getChildren().addAll(player1, player2,
                                 tirs_joueurs_1, tirs_joueurs_2, tirs_aliens_1, tirs_aliens_2, aliens_1, aliens_2,
                                 blocks, vie_blocks,temps,vie_joueur_1,vie_joueur_2, niveau);
                     } else if (!game.getPause()) {
-                        //pause = true;
                         game.setPause(true);
-                        //tpa = System.currentTimeMillis();
                         game.setTpa(System.currentTimeMillis());
                         root.getChildren().clear();
                         root.getChildren().add(text_pause);
@@ -519,19 +498,15 @@ public class GameGUI implements PropertyChangeListener {
             public void handle(KeyEvent e) {
                 //Mise à jour du sens de déplacement
                 if ((e.getCode() == KeyCode.LEFT)) {
-                    //dir_p1 = 0;
                     game.setDir_p1(0);
                 }
                 else if (e.getCode() == KeyCode.RIGHT) {
-                    //dir_p1=0;
                     game.setDir_p1(0);
                 }
                 else if (e.getCode() == KeyCode.Q) {
-                    //dir_p2=0;
                     game.setDir_p2(0);
                 }
                 else if (e.getCode() == KeyCode.D) {
-                    //dir_p2=0;
                     game.setDir_p2(0);
                 }
             }
@@ -548,40 +523,40 @@ public class GameGUI implements PropertyChangeListener {
                     int ret[];
                     int ret2[];
                     if (!aliens_1.getChildren().isEmpty()) {
-                        ret = Alien.depalien(aliens_1, game.getPos_gr_alien(), game.getDeplacement(), "DOWN", game.getDifficulte());
+                        ret = Alien.depalien(aliens_1, game.getPos_gr_alien(), game.getDeplacement(), "DOWN",
+                                game.getDifficulte());
                         game.setPos_gr_alien(ret[0]);
                         game.setDeplacement(ret[1]);
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        ret2 = Alien.depalien(aliens_2, game.getPos_gr_alien2(), game.getDeplacement2(), "UP", game.getDifficulte());
+                        ret2 = Alien.depalien(aliens_2, game.getPos_gr_alien2(), game.getDeplacement2(), "UP",
+                                game.getDifficulte());
                         game.setPos_gr_alien2(ret2[0]);
                         game.setDeplacement2(ret2[1]);
                     }
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    game.setT(game.getPlayer1().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
-                            tirs_joueurs_1, game.getURL_tir2(), game.getPlayer1()));
-                    game.setT2(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT2(),
-                            tirs_joueurs_2, game.getURL_tir1(), game.getPlayer2()));
+                    game.setT(game.getPlayer1().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()),
+                            game.getT(), tirs_joueurs_1, game.getURL_tir2(), game.getPlayer1()));
+                    game.setT2(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()),
+                            game.getT2(), tirs_joueurs_2, game.getURL_tir1(), game.getPlayer2()));
 
 
 
                     //tir des aliens
                     if (!aliens_1.getChildren().isEmpty()) {
-                        Alien.tir_alien(aliens_1, tirs_aliens_1, game.getURL_tir_alien_down(), Math.max(10,50-5*game.getDifficulte()));
+                        Alien.tir_alien(aliens_1, tirs_aliens_1, game.getURL_tir_alien_down(),
+                                Math.max(10,50-5*game.getDifficulte()));
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        Alien.tir_alien(aliens_2, tirs_aliens_2, game.getURL_tir_alien_up(), Math.max(10,50-5*game.getDifficulte()));
+                        Alien.tir_alien(aliens_2, tirs_aliens_2, game.getURL_tir_alien_up(),
+                                Math.max(10,50-5*game.getDifficulte()));
                     }
 
                     //déplacement des tirs
-                    //Tir.dep(tirs_joueurs_1, "DOWN", difficulte);
                     Tir.dep(tirs_joueurs_1, "DOWN", game.getDifficulte());
-                    //Tir.dep(tirs_joueurs_2, "UP", difficulte);
                     Tir.dep(tirs_joueurs_2, "UP", game.getDifficulte());
-                    //Tir.dep(tirs_aliens_1, "DOWN", difficulte);
                     Tir.dep(tirs_aliens_1, "DOWN", game.getDifficulte());
-                    //Tir.dep(tirs_aliens_2, "UP", difficulte);
                     Tir.dep(tirs_aliens_2, "UP", game.getDifficulte());
 
 
@@ -592,11 +567,7 @@ public class GameGUI implements PropertyChangeListener {
                     tirs_aliens_2.getChildren().removeIf(elem -> elem.getLayoutY() < 0);
 
                     //Déplacer les joueurs
-                    //player1.dep_joueur(dir_p1, difficulte);
-                    //game.getPlayer1().dep_joueur(game.getDir_p1(), game.getDifficulte());
                     game.depPlayer1();
-                    //player2.dep_joueur(dir_p2, difficulte);
-                    //game.getPlayer2().dep_joueur(game.getDir_p2(), game.getDifficulte());
                     game.depPlayer2();
 
                     //gestion des collisions
@@ -639,11 +610,12 @@ public class GameGUI implements PropertyChangeListener {
                     Block.vie_blocks(blocks, vie_blocks);
 
                     // Affichage du chrono
-                    //temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - tempause) / 1000F));
-                    temps.setText(Float.toString((System.currentTimeMillis() - temps_debut - game.getTempause()) / 1000F));
+                    temps.setText(Float.toString((
+                            System.currentTimeMillis() - temps_debut - game.getTempause()) / 1000F));
 
                     // Conditions de victoire
-                    if (aliens_1.getChildren().isEmpty() && aliens_2.getChildren().isEmpty()) {   // GAGNE : Il n'y a plus d'aliens
+                    if (aliens_1.getChildren().isEmpty() && aliens_2.getChildren().isEmpty()) {
+                        // GAGNE : Il n'y a plus d'aliens
                         End_of_game.endOfGame_2_joueurs(stage, 0,
                                 (System.currentTimeMillis() - temps_debut - game.getTempause()) / 1000F,
                                 0,
@@ -690,7 +662,8 @@ public class GameGUI implements PropertyChangeListener {
                         stop();
                     }
                     if (!aliens_1.getChildren().isEmpty()) {
-                        if (Alien.test_fin_alien(aliens_1, 500, "DOWN")) {    // PERDU : les aliens du J1 ont atteint la Terre.
+                        if (Alien.test_fin_alien(aliens_1, 500, "DOWN")) {
+                            // PERDU : les aliens du J1 ont atteint la Terre.
                             End_of_game.endOfGame_2_joueurs(stage, 3,
                                     (System.currentTimeMillis() - temps_debut - game.getTempause()) / 1000F,
                                     aliens_1.getChildren().size()+aliens_2.getChildren().size(),
@@ -709,7 +682,8 @@ public class GameGUI implements PropertyChangeListener {
                         }
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        if (Alien.test_fin_alien(aliens_2, 180, "UP")) {    // PERDU : les aliens du J2 ont atteint la Terre.
+                        if (Alien.test_fin_alien(aliens_2, 180, "UP")) {
+                            // PERDU : les aliens du J2 ont atteint la Terre.
                             End_of_game.endOfGame_2_joueurs(stage, 4,
                                     (System.currentTimeMillis() - temps_debut - game.getTempause()) / 1000F,
                                     aliens_1.getChildren().size()+aliens_2.getChildren().size(),
@@ -731,7 +705,8 @@ public class GameGUI implements PropertyChangeListener {
         };
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyListener);
         scene.addEventHandler(KeyEvent.KEY_RELEASED, keyListener2);
-        root.getChildren().addAll(player1, player2, tirs_joueurs_1, tirs_joueurs_2, tirs_aliens_1, tirs_aliens_2, aliens_1, aliens_2, blocks, vie_blocks,temps,vie_joueur_1,vie_joueur_2, niveau);
+        root.getChildren().addAll(player1, player2, tirs_joueurs_1, tirs_joueurs_2, tirs_aliens_1, tirs_aliens_2,
+                aliens_1, aliens_2, blocks, vie_blocks,temps,vie_joueur_1,vie_joueur_2, niveau);
         loop.start();
         stage.setTitle("Space Invaders");
         stage.setResizable(false);
@@ -743,10 +718,5 @@ public class GameGUI implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         player1.setLayoutX(game.getPlayer1_x() + game.getDir_p1() * (2d+game.getDifficulte()/5));
         player2.setLayoutX(game.getPlayer2_x() + game.getDir_p1() * (2d+game.getDifficulte()/5));
-        /*
-        for (int i = 0; i < aliens.getChildren().size(); i++) {
-            aliens.getChildren().get(i).setLayoutX(game.getAliens1J_x().get(i));
-            aliens.getChildren().get(i).setLayoutY(game.getAliens1J_y().get(i));
-        }*/
     }
 }

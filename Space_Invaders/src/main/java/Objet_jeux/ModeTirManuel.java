@@ -12,7 +12,6 @@ public class ModeTirManuel implements IModeTir {
             tirs_joueurs.getChildren().add(tirj.getRepresentation());
             t = 0;
             canon.setFire(false);
-            System.out.println(canon+" "+t);
         } else t++;
         return(t);
     }

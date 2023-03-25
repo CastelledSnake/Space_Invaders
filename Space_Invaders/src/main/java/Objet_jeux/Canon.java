@@ -46,15 +46,6 @@ public class Canon {
             setX(getX()+dep1 * (2d+difficulte/5));
         }
     }
-    /*
-    public int tir_joueur(int n, int t, Group tirs_joueurs, String URL) {
-        if (t == n) {
-            Tir tirj = new Tir(this.representation.getLayoutX() + 25d, this.representation.getLayoutY(), Color.GREEN, URL);
-            tirs_joueurs.getChildren().add(tirj.getRepresentation());
-            t = 0;
-        } else t++;
-        return(t);
-    }*/
 
     public double getX() {return x;}
 

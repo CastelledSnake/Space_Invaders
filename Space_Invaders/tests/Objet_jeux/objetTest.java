@@ -61,11 +61,11 @@ public class objetTest extends ApplicationTest {
     @Test
     @DisplayName("tir_joueur gère les tirs des joueurs")
     public void tir_joueur() {
-        Canon Player1=new Canon(0d,0d,"NULL");
+        Canon player1=new Canon(0d,0d,"NULL");
         Group tir1=new Group();
         Group tir2=new Group();
-        Player1.tir_joueur(50,40,tir1,"NULL");
-        Player1.tir_joueur(50,50,tir2,"NULL");
+        player1.getModeTir().tir_joueur(50,40,tir1,"NULL", player1);
+        player1.getModeTir().tir_joueur(50,50,tir2,"NULL", player1);
         assertEquals(0,tir1.getChildren().size());
         assertEquals(1,tir2.getChildren().size());
     }
@@ -157,7 +157,7 @@ public class objetTest extends ApplicationTest {
         Tir.Collision_joueur(player,gr,-10,10,-10,10);
         assertEquals("0",alien1.getRepresentation().getAccessibleText());
         assertEquals("1",alien2.getRepresentation().getAccessibleText());
-        assertEquals("0",player.getRepresentation().getAccessibleText());
+        assertEquals("2",player.getRepresentation().getAccessibleText());
     }
 
     @Test
@@ -186,7 +186,7 @@ public class objetTest extends ApplicationTest {
         Canon player2=new Canon(100,500,"NULL");
         player1.dep_joueur(-1,1);
         player2.dep_joueur(1,2);
-        assertTrue(player1.getRepresentation().getLayoutX()<100);
-        assertTrue(player2.getRepresentation().getLayoutX()>100);
+        assertTrue(player1.getX()<100);
+        assertTrue(player2.getX()>100);
     }
 }

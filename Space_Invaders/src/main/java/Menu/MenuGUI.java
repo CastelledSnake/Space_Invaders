@@ -183,7 +183,8 @@ public class MenuGUI implements PropertyChangeListener {
      * @param scene4 Selection multijoueur
      * @throws IOException
      */
-    public static void mainMenuSelection(MouseEvent e, Stage stage, Scene scene1, Scene scene3, Scene scene4) throws IOException {
+    public static void mainMenuSelection(MouseEvent e, Stage stage, Scene scene1, Scene scene3, Scene scene4)
+            throws IOException {
         if (e.getSceneX()>530 && e.getSceneX()<710 && e.getSceneY()>420 && e.getSceneY()<450) {
             stage.setScene(scene1);
         }
@@ -214,15 +215,9 @@ public class MenuGUI implements PropertyChangeListener {
      * @param e MouseEvent
      * @param stage Stage
      * @param scene0 Page d'accueil
-     * @param disp_alien_shot Image du tir alien modifiable
-     * @param disp_player_shot Image du tir du joueur modifiable
-     * @param disp_alien Image de l'alien modifiable
-     * @param disp_ship Image du vaisseau modifiable
      * @throws IOException
      */
-    public void P1optionsMenuSelection(MouseEvent e, Stage stage, Scene scene0,
-                                              ImageView disp_alien_shot, ImageView disp_player_shot,
-                                              ImageView disp_alien, ImageView disp_ship) throws IOException {
+    public void P1optionsMenuSelection(MouseEvent e, Stage stage, Scene scene0) throws IOException {
 
         ArrayList<Integer> alien_tir_gauche=new ArrayList<>(List.of(-80,-60,-20,0));
         ArrayList<Integer> alien_tir_droite=new ArrayList<>(List.of(110,130,-20,0));
@@ -268,18 +263,9 @@ public class MenuGUI implements PropertyChangeListener {
      * @param e MouseEvent
      * @param stage Stage
      * @param scene0 Page d'accueil
-     * @param disp_alien_shot Image du tir d'aliens modifiable
-     * @param disp_player_shot_1 Image du tir du joueur 1 modifiable
-     * @param disp_player_shot_2 Image du tir du joueur 2 modifiable
-     * @param disp_alien Image de l'alien modifiable
-     * @param disp_ship1 Image du vaisseau 1 modifiable
-     * @param disp_ship2 Image du vaisseau 2 modifiable
      * @throws IOException
      */
-    public void P2optionsMenuSelection(MouseEvent e, Stage stage, Scene scene0,
-                                              ImageView disp_alien_shot, ImageView disp_player_shot_1,
-                                              ImageView disp_player_shot_2, ImageView disp_alien,
-                                              ImageView disp_ship1, ImageView disp_ship2) throws IOException {
+    public void P2optionsMenuSelection(MouseEvent e, Stage stage, Scene scene0) throws IOException {
 
         ArrayList<Integer> alien_tir_gauche=new ArrayList<>(List.of(-90,-70,-205,-190));
         ArrayList<Integer> alien_tir_droite=new ArrayList<>(List.of(120,140,-205,-190));
@@ -311,14 +297,22 @@ public class MenuGUI implements PropertyChangeListener {
                 && e.getSceneY()>230d+screen_height/2 && e.getSceneY()<260d+screen_height/2) {
             Game game = new Game();
             GameGUI gameGUI = new GameGUI(game);
-            game.setURL_vaisseau("file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+menu.getShipSelector_2J_1()+".png");
-            game.setURL_vaisseau_rev("file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"+menu.getShipSelector_2J_2()+"_r.png");
-            game.setURL_alien("file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+menu.getAlienSelector_2J()+".png");
-            game.setURL_alien_r("file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"+menu.getAlienSelector_2J()+"_r.png");
-            game.setURL_tir_alien_up("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getAlienTirSelector_2J()+"_u.png");
-            game.setURL_tir_alien_down("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getAlienTirSelector_2J()+"_d.png");
-            game.setURL_tir1("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getPlayerTirSelector_2J_1()+"_u.png");
-            game.setURL_tir2("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"+menu.getPlayerTirSelector_2J_2()+"_d.png");
+            game.setURL_vaisseau("file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"
+                    +menu.getShipSelector_2J_1()+".png");
+            game.setURL_vaisseau_rev("file:Space_Invaders/src/main/resources/Image_vaisseau/Image_vaisseau_"
+                    +menu.getShipSelector_2J_2()+"_r.png");
+            game.setURL_alien("file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"
+                    +menu.getAlienSelector_2J()+".png");
+            game.setURL_alien_r("file:Space_Invaders/src/main/resources/Image_alien/Image_alien_"
+                    +menu.getAlienSelector_2J()+"_r.png");
+            game.setURL_tir_alien_up("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"
+                    +menu.getAlienTirSelector_2J()+"_u.png");
+            game.setURL_tir_alien_down("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"
+                    +menu.getAlienTirSelector_2J()+"_d.png");
+            game.setURL_tir1("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"
+                    +menu.getPlayerTirSelector_2J_1()+"_u.png");
+            game.setURL_tir2("file:Space_Invaders/src/main/resources/Image_tir/Image_tir_"
+                    +menu.getPlayerTirSelector_2J_2()+"_d.png");
             game.setNetwork(menu.getNetwork());
             gameGUI.game_2_joueurs(stage);
             if (menu.getNetwork()==true){
@@ -336,7 +330,6 @@ public class MenuGUI implements PropertyChangeListener {
     }
 
     public void multimodeSelection(MouseEvent e, Stage stage, Scene scene0, Scene scene2) throws IOException {
-        //System.out.println("("+e.getSceneX()+", "+e.getSceneY()+")");
         if (e.getSceneX()>-100d+screen_width && e.getSceneX()<-15d+screen_width
                 && e.getSceneY()>-40d+screen_height && e.getSceneY()<-20d+screen_height) {
             stage.setScene(scene0);
@@ -489,8 +482,8 @@ public class MenuGUI implements PropertyChangeListener {
         GroupArrow_1J.getChildren().add(Arrow(screen_width,screen_height,-60,200,"L"));
         GroupArrow_1J.getChildren().add(Arrow(screen_width,screen_height,110,200,"R"));
 
-        root1.getChildren().addAll(options_title_1J,options_return_1J,selection_fields_1J, disp_alien_shot_1J,disp_player_shot_1J,
-                disp_aliens_1J,disp_ship_1J,GroupArrow_1J);
+        root1.getChildren().addAll(options_title_1J,options_return_1J,selection_fields_1J,
+                disp_alien_shot_1J,disp_player_shot_1J, disp_aliens_1J,disp_ship_1J,GroupArrow_1J);
 
 
 
@@ -605,8 +598,9 @@ public class MenuGUI implements PropertyChangeListener {
         GroupArrow_2J.getChildren().add(Arrow(screen_width,screen_height,120,160,"R"));
 
 
-        root2.getChildren().addAll(options_title_2J,options_return_2J,selection_fields_2J,disp_alien_shot_2J,disp_player_shot_2J_1,
-                disp_player_shot_2J_2,disp_aliens_2J,disp_ship_2J_1,disp_ship_2J_2,GroupArrow_2J);
+        root2.getChildren().addAll(options_title_2J,options_return_2J,selection_fields_2J,disp_alien_shot_2J,
+                disp_player_shot_2J_1, disp_player_shot_2J_2,disp_aliens_2J,disp_ship_2J_1,disp_ship_2J_2,
+                GroupArrow_2J);
 
 
 
@@ -738,7 +732,7 @@ public class MenuGUI implements PropertyChangeListener {
             public void handle(MouseEvent e) {
                 try
                 {
-                    P1optionsMenuSelection(e,stage,scene0,disp_alien_shot_1J,disp_player_shot_1J,disp_aliens_1J,disp_ship_1J);
+                    P1optionsMenuSelection(e,stage,scene0);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();
@@ -752,9 +746,7 @@ public class MenuGUI implements PropertyChangeListener {
             public void handle(MouseEvent e) {
                 try
                 {
-                    P2optionsMenuSelection(e,stage,scene0,
-                            disp_alien_shot_2J,disp_player_shot_2J_1,disp_player_shot_2J_2,
-                            disp_aliens_2J,disp_ship_2J_1,disp_ship_2J_2);
+                    P2optionsMenuSelection(e,stage,scene0);
                 }
                 catch (IOException ie) {
                     ie.printStackTrace();
