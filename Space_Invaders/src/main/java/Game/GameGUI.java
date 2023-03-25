@@ -548,43 +548,29 @@ public class GameGUI implements PropertyChangeListener {
                     int ret[];
                     int ret2[];
                     if (!aliens_1.getChildren().isEmpty()) {
-                        //ret = Alien.depalien(aliens_1, pos_gr_alien, deplacement, "DOWN", difficulte);
                         ret = Alien.depalien(aliens_1, game.getPos_gr_alien(), game.getDeplacement(), "DOWN", game.getDifficulte());
-                        //pos_gr_alien = ret[0];
                         game.setPos_gr_alien(ret[0]);
-                        //deplacement = ret[1];
                         game.setDeplacement(ret[1]);
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        //ret2 = Alien.depalien(aliens_2, pos_gr_alien2, deplacement2, "UP", difficulte);
                         ret2 = Alien.depalien(aliens_2, game.getPos_gr_alien2(), game.getDeplacement2(), "UP", game.getDifficulte());
-                        //pos_gr_alien2 = ret2[0];
                         game.setPos_gr_alien2(ret2[0]);
-                        //deplacement2 = ret2[1];
                         game.setDeplacement2(ret2[1]);
                     }
 
                     //tir du joueur tous les max(30,100-5*difficulté) mouvements
-                    //t = player1.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_1, URL_tir2);
-                    //game.setT(game.getPlayer1().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
-                            //tirs_joueurs_1, game.getURL_tir2()));
                     game.setT(game.getPlayer1().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
                             tirs_joueurs_1, game.getURL_tir2(), game.getPlayer1()));
-                    //t2 = player2.tir_joueur(Math.max(20,60-5*difficulte), t, tirs_joueurs_2, URL_tir1);
-                    //game.setT2(game.getPlayer2().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
-                            //tirs_joueurs_2, game.getURL_tir1()));
-                    game.setT2(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT(),
+                    game.setT2(game.getPlayer2().getModeTir().tir_joueur(Math.max(20,60-5*game.getDifficulte()), game.getT2(),
                             tirs_joueurs_2, game.getURL_tir1(), game.getPlayer2()));
 
 
 
                     //tir des aliens
                     if (!aliens_1.getChildren().isEmpty()) {
-                        //Alien.tir_alien(aliens_1, tirs_aliens_1, URL_tir_alien_down, Math.max(10,50-5*difficulte));
                         Alien.tir_alien(aliens_1, tirs_aliens_1, game.getURL_tir_alien_down(), Math.max(10,50-5*game.getDifficulte()));
                     }
                     if (!aliens_2.getChildren().isEmpty()) {
-                        //Alien.tir_alien(aliens_2, tirs_aliens_2, URL_tir_alien_up, Math.max(10,50-5*difficulte));
                         Alien.tir_alien(aliens_2, tirs_aliens_2, game.getURL_tir_alien_up(), Math.max(10,50-5*game.getDifficulte()));
                     }
 
