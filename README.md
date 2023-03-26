@@ -25,12 +25,13 @@ Afin de lancer l'application, il faut lancer la classe HelloApplication situé :
 
 Une fois cela fait, on arrive à l'écran d'accueil du jeu.     
 De là, il est possible:     
--De personnaliser en cliquant sur les flèches, puis de jouer une partie à un joueur en utilisant les touches directionnelles du clavier.      
--De personnaliser en cliquant sur les flèches, puis de jouer une partie à deux joueurs en utilisant les touches directionnelles du clavier pour le premier joueur,
-et les touches "q" et "d" pour le deuxième joueur.
+-De personnaliser en cliquant sur les flèches, puis de jouer une partie à un joueur en utilisant les touches directionnelles du clavier. En appuyant sur la flèche du bas on alterne entre deux modes de tir: automatique et manuel, et en mode manuel on peut tirer en appuyant sur la flèche du haut.      
+-De personnaliser en cliquant sur les flèches, puis de jouer une partie à deux joueurs en utilisant les touches directionnelles du clavier pour le premier joueur, et les touches "q" et "d" pour le deuxième joueur. Pour tirer, même principe qu'en 1 joueur, et pour le joueur 2 ce sont les touches S pour changer de mode, et Z pour tirer.
 
 Il est possible de mettre PAUSE en appuyant sur la barre d'espace, ainsi que de continuer à joueur en ré-appuyant sur la barre d'espace.
 Il est à noter que le jeu propose un fond sonore.
 Les parties s'enchaînent par niveau de difficulté croissantes tant que le/les joueur(s) gagnent, et il est possible de revenir à l'écran d'accueil à la fin de chaque niveau.
 
 Il est possible de tester les fonctions de manipulation des objets en lançant tests/Objet/objetTest.java
+
+Pour la partie "Network play" en multijoueur, il est nécessaire de modifier les adresses IP et ports dans la classe Menu en fonction de l'ordinateur avec lequel on souhaite se connecter.
